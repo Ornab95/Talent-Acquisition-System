@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Details</title>
+    <link rel="icon" type="image/x-icon" href="seu.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-sans bg-gray-900 text-gray-300 m-0 p-0 mt-10">
+    <div class="max-w-2xl mx-auto p-6 bg-white dark:bg-zinc-800 rounded-lg shadow-md">
+        <!-- Top Form Name and Number -->
+        <div class="flex items-center justify-between mb-4">
+            <h1 class="text-2xl font-bold text-blue-400">Your Personal Details</h1>
+        </div>
+
+        <!-- Address Section -->
+        <div id="section-address" class="section">
+            <h2 class="text-xl font-semibold text-blue-400 mb-4">Your Present Address</h2>
+            <div class="mb-4">
+                <label for="district" class="block mb-2">District</label>
+                <input type="text" id="district" name="district" required placeholder="District" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+                <label for="thana" class="block mb-2">Thana/ Upazila</label>
+                <input type="text" id="thana" name="thana" required class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500" placeholder="Thana/ Upazila">
+            </div>
+            <div class="mb-4">
+                <label for="post-office" class="block mb-2">Post Office</label>
+                <input type="text" id="post-office" name="post-office" required class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500" placeholder="Post Office">
+            </div>
+            <div class="mb-4">
+                <label for="house-road-village" class="block mb-2">House No./ Road/ Village</label>
+                <input type="text" id="house-road-village" name="house-road-village" required class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500" placeholder="Type House No./ Road/ Village">
+            </div>
+            <div class="mb-4">
+                <label for="alternate-mobile" class="block mb-2">Alternate Mobile number</label>
+                <input type="text" id="alternate-mobile" name="alternate-mobile" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500" placeholder="Enter Mobile Number">
+            </div>
+            <div class="flex justify-end">
+                <button onclick="nextSection('section-age')" class="bg-green-600 text-white py-2 px-4 rounded-md">Next</button>
+            </div>
+        </div>
+
+        <!-- Age Section -->
+        <div id="section-age" class="section hidden">
+            <h2 class="text-xl font-semibold text-blue-400 mb-4">Age</h2>
+            <div class="mb-4">
+                <label for="date-of-birth" class="block mb-2">Date of Birth</label>
+                <div class="flex space-x-2">
+                    <select id="day" name="day" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500">
+                        <option>Day</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                        <option>13</option>
+                        <option>14</option>
+                        <option>15</option>
+                        <option>16</option>
+                        <option>17</option>
+                        <option>18</option>
+                        <option>19</option>
+                        <option>20</option>
+                        <option>21</option>
+                        <option>22</option>
+                        <option>23</option>
+                        <option>24</option>
+                        <option>25</option>
+                        <option>26</option>
+                        <option>27</option>
+                        <option>28</option>
+                        <option>29</option>
+                        <option>30</option>
+                        <option>31</option>
+                    </select>
+                    <select id="month" name="month" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500">
+                        <option>Month</option>
+                        <option>January</option>
+                        <option>February</option>
+                        <option>March</option>
+                        <option>April</option>
+                        <option>May</option>
+                        <option>June</option>
+                        <option>July</option>
+                        <option>August</option>
+                        <option>September</option>
+                        <option>October</option>
+                        <option>November</option>
+                        <option>December</option>
+                    </select>
+                    <select id="year" name="year" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500">
+                        <option>Year</option>
+                        <option>2010</option>
+                        <option>2009</option>
+                        <option>2008</option>
+                        <option>2007</option>
+                        <option>2006</option>
+                        <option>2005</option>
+                        <option>2004</option>
+                        <option>2003</option>
+                        <option>2002</option>
+                        <option>2001</option>
+                        <option>2000</option>
+                        <option>1999</option>
+                        <option>1998</option>
+                        <option>1997</option>
+                        <option>1996</option>
+                        <option>1995</option>
+                        <option>1994</option>
+                        <option>1993</option>
+                        <option>1992</option>
+                        <option>1991</option>
+                        <option>1990</option>
+                        <option>1989</option>
+                        <option>1988</option>
+                        <option>1987</option>
+                        <option>1986</option>
+                        <option>1985</option>
+                        <option>1984</option>
+                        <option>1983</option>
+                        <option>1982</option>
+                        <option>1980</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="age" class="block mb-2">Age()</label>
+                <input type="text" id="age" name="age" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500" placeholder="Enter Age">
+            </div>
+            <div class="flex justify-end">
+                <button onclick="prevSection('section-address')" class="bg-gray-600 text-white py-2 px-4 rounded-md mr-2">Back</button>
+                <button onclick="nextSection('section-skills')" class="bg-green-600 text-white py-2 px-4 rounded-md">Next</button>
+            </div>
+        </div>
+
+        <!-- Skills Section -->
+        <div id="section-skills" class="section hidden">
+            <h2 class="text-xl font-semibold text-blue-400 mb-4">Select Your Job Type</h2>
+            <div class="mb-4">
+                <label for="category" class="block mb-2">Select Category</label>
+                <select id="category" name="category" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500">
+                    <option>IT/Telecommunication</option>
+                    <option>Accounting/Finance</option>
+                    <option>Education/Teacher</option>
+                    <option>Security Guard</option>
+                    <option>Network</option>
+                    <option>Software Testing</option>
+                    <option>Programming Assistant</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="work-skill" class="block mb-2">Select Work type/ Working Skills</label>
+                <select id="work-skill" name="work-skill" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500">
+                    <option>Select Skill</option>
+                    <!-- Add skills dynamically if needed -->
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="experience" class="block mb-2">Do you have any experience?</label>
+                <div class="flex space-x-4">
+                    <label class="inline-flex items-center">
+                        <input type="radio" id="experience-yes" name="experience" value="yes" class="form-radio" checked onclick="toggleExperience()">
+                        <span class="ml-2">Yes</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" id="experience-no" name="experience" value="no" class="form-radio" onclick="toggleExperience()">
+                        <span class="ml-2">No</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="experience-content mb-4">
+                <div class="mb-4">
+                    <label for="company-name" class="block mb-2">Latest Company Name</label>
+                    <input type="text" id="company-name" name="company-name" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500" placeholder="Enter Company Name">
+                </div>
+                <div class="mb-4">
+                    <label for="designation" class="block mb-2">Latest Designation</label>
+                    <input type="text" id="designation" name="designation" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500" placeholder="Enter Designation">
+                </div>
+                <div class="mb-4">
+                    <label for="join-date" class="block mb-2">Employment Period</label>
+                    <div class="flex space-x-2">
+                        <input type="date" id="join-date" name="join-date" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500" required>
+                        <input type="date" id="exit-date" name="exit-date" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div class="mt-2">
+                        <label for="currently-working" class="inline-flex items-center">
+                            <input type="checkbox" id="currently-working" class="form-checkbox">
+                            <span class="ml-2">I am currently working here</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end">
+                <button onclick="prevSection('section-age')" class="bg-gray-600 text-white py-2 px-4 rounded-md mr-2">Back</button>
+                <button onclick="nextSection('section-education')" class="bg-green-600 text-white py-2 px-4 rounded-md">Next</button>
+            </div>
+        </div>
+
+        <!-- Education Section -->
+        <div id="section-education" class="section hidden">
+            <h2 class="text-xl font-semibold text-blue-400 mb-4">Educational Qualifications</h2>
+            <div class="mb-4">
+                <label for="education-level" class="block mb-2">Stage of Education (Last Education Level)</label>
+                <select id="education-level" name="education-level" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500">
+                    <option>JSC</option>
+                    <option>SSC</option>
+                    <option>HSC</option>
+                    <option>Undergraduate</option>
+                    <option>Post Graduate</option>
+                    <!-- Add more education stages here -->
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="degree-name" class="block mb-2">Degree Name</label>
+                <input type="text" id="degree-name" name="degree-name" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500" placeholder="Enter Degree Name">
+            </div>
+            <div class="mb-4">
+                <label for="institute-name" class="block mb-2">Institute Name</label>
+                <input type="text" id="institute-name" name="institute-name" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500" placeholder="Enter Institute Name">
+            </div>
+            <div class="mb-4">
+                <label for="passing-year" class="block mb-2">Passing Year</label>
+                <input type="date" id="passing-year" name="passing-year" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="flex justify-end">
+                <button onclick="prevSection('section-skills')" class="bg-gray-600 text-white py-2 px-4 rounded-md mr-2">Back</button>
+                <button onclick="nextSection('section-photo')" class="bg-green-600 text-white py-2 px-4 rounded-md">Next</button>
+            </div>
+        </div>
+
+        <!-- Photo Section -->
+        <div id="section-photo" class="section hidden">
+            <h2 class="text-xl font-semibold text-blue-400 mb-4">Photograph</h2>
+            <div class="mb-8">
+                <label for="photo-upload" class="block mb-2 cursor-pointer bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300 transition duration-300 ease-in-out">
+                    Choose a Photo
+                </label>
+                <input type="file" id="photo-upload" class="hidden w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500" onchange="handlePhotoUpload(this)">
+                <span id="photo-name" class="block mt-2 text-sm text-gray-500"></span>
+            </div>
+            <div class="flex justify-end">
+                <button onclick="prevSection('section-education')" class="bg-gray-600 text-white py-2 px-4 rounded-md mr-2">Back</button>
+                <button onclick="submitForm()" class="bg-green-600 text-white py-2 px-4 rounded-md">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function nextSection(next) {
+            document.querySelectorAll('.section').forEach(section => section.classList.add('hidden'));
+            document.getElementById(next).classList.remove('hidden');
+        }
+
+        function prevSection(prev) {
+            document.querySelectorAll('.section').forEach(section => section.classList.add('hidden'));
+            document.getElementById(prev).classList.remove('hidden');
+        }
+
+        function handlePhotoUpload(input) {
+            const photoName = document.getElementById('photo-name');
+            if (input.files.length > 0) {
+                photoName.textContent = input.files[0].name;
+            } else {
+                photoName.textContent = '';
+            }
+        }
+
+        function toggleExperience() {
+            const experienceContent = document.querySelector('.experience-content');
+            const selectedExperience = document.querySelector('input[name="experience"]:checked').value;
+
+            if (selectedExperience === 'yes') {
+                experienceContent.style.display = 'block';
+            } else {
+                experienceContent.style.display = 'none';
+            }
+        }
+
+        document.getElementById('currently-working').addEventListener('change', function () {
+            var exitDateContainer = document.getElementById('exit-date-container');
+            if (this.checked) {
+                exitDateContainer.style.display = 'none';
+                document.getElementById('exit-date').value = ''; // Clear the exit date value
+            } else {
+                exitDateContainer.style.display = 'block';
+            }
+        });
+
+        function submitForm() {
+            // Implement form submission logic here
+            alert('Form submitted successfully!');
+            // Example: You can redirect or perform other actions after form submission
+            // window.location.href = 'success.html';
+        }
+    </script>
+</body>
+</html>
