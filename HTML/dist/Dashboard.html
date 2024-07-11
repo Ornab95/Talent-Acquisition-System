@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talent Acquisition System - Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="seu.png">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrj/k7ujTTXNE6h4aqmFHP7xlaNj9mCk8i4x6L1vUo4tMy7x8iVf4T3+l0nK9tNfqO7H4HJo7GFN/d1Tg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="font-sans bg-gray-900 text-gray-300 m-0 p-0 flex flex-col min-h-screen">
+    <!-- Top Navigation Bar -->
+    <nav class="bg-gray-800 p-4 shadow-lg fixed w-full z-10 top-0">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="https://seu.edu.bd" target="_blank">
+                    <img src="seu.png" alt="SEU Logo" class="h-8">
+                </a>
+                <h1 class="text-white text-sm md:text-xl font-bold align-middle">Talent Acquisition System</h1>
+            </div>
+            <div class="flex space-x-4 items-center">
+                <div class="hidden md:flex md:justify-end md:flex-1 space-x-5">
+                    <a href="Dashboard.html" class="text-gray-300 hover:text-blue-400 transition duration-300">Dashboard</a>
+                    <a href="aboutseu.html" class="text-gray-300 hover:text-blue-400 transition duration-300">About SEU</a>
+                    <a href="HowtoApply.html" class="text-gray-300 hover:text-blue-400 transition duration-300">How to Apply</a>
+                    <a href="Sign-in.html" class="text-gray-300 hover:text-blue-400 transition duration-300">Sign In</a>
+                    <a href="index.html" class="text-gray-300 hover:text-blue-400 transition duration-300">Sign Up</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="p-2 focus:outline-none">
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-800 rounded-2xl p-4 absolute top-15 left-0 w-full shadow-lg text-center">
+            <a href="Dashboard.html" class="block text-gray-300 hover:text-white transition duration-300 py-2">Dashboard</a>
+            <a href="#" class="block text-gray-300 hover:text-white transition duration-300 py-2">About SEU</a>
+            <a href="HowtoApply.html" class="block text-gray-300 hover:text-white transition duration-300 py-2">How to Apply</a>
+            <a href="Sign-in.html" class="block text-gray-300 hover:text-white transition duration-300 py-2">Sign In</a>
+            <a href="index.html" class="block text-gray-300 hover:text-white transition duration-300 py-2">Sign Up</a>
+        </div>
+    </nav>
+    <!-- Main Content -->
+    <div class="flex-grow flex items-center justify-center p-8">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold text-white mb-6 text-center">Available Jobs</h2>
+            <div id="job-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Job Cards will be dynamically populated here -->
+                <!-- Example Job Card (replace with dynamic content) -->
+                <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold text-white mb-2">Job Title</h3>
+                    <p class="text-gray-400 text-sm mb-2">Location: Dhaka, Bangladesh</p>
+                    <p class="text-gray-400 text-sm mb-2">Posted on: January 1, 2024</p>
+                    <a href="#" class="text-blue-400 hover:text-blue-300 transition duration-300">View Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-4">
+        <div class="container mx-auto text-center text-gray-300">
+            
+            <p>Copyright 2024 SEU ISDT, All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script>
+        // Toggle mobile menu
+        document.getElementById('menu-toggle').addEventListener('click', function () {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Example of dynamically populating job cards (replace with actual data from backend)
+        document.addEventListener('DOMContentLoaded', function () {
+            const jobList = document.getElementById('job-list');
+
+            // Example job data (replace with actual fetched data from backend)
+            const jobs = [
+                { title: 'Job Title 1', location: 'Dhaka, Bangladesh', datePosted: 'January 1, 2024' },
+                { title: 'Job Title 2', location: 'Chittagong, Bangladesh', datePosted: 'January 2, 2024' },
+                { title: 'Job Title 3', location: 'Sylhet, Bangladesh', datePosted: 'January 3, 2024' }
+            ];
+
+            jobs.forEach(job => {
+                const jobCard = document.createElement('div');
+                jobCard.classList.add('bg-gray-800', 'p-4', 'rounded-lg', 'shadow-lg');
+                jobCard.innerHTML = `
+                    <h3 class="text-xl font-semibold text-white mb-2">${job.title}</h3>
+                    <p class="text-gray-400 text-sm mb-2">Location: ${job.location}</p>
+                    <p class="text-gray-400 text-sm mb-2">Posted on: ${job.datePosted}</p>
+                    <a href="#" class="text-blue-400 hover:text-blue-300 transition duration-300">View Details</a>
+                `;
+                jobList.appendChild(jobCard
+                .appendChild(jobCard);
+            });
+        });
+    </script>
+</body>
+</html>

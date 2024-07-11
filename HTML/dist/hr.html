@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR - Post Job - Talent Acquisition System</title>
+    <link rel="icon" type="image/x-icon" href="seu.png">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="font-sans bg-gray-900 text-gray-300 m-0 p-0 flex flex-col min-h-screen">
+    <!-- Top Navigation Bar -->
+    <nav class="bg-gray-800 p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="https://seu.edu.bd" target="_blank">
+                    <img src="seu.png" alt="SEU Logo" class="h-8">
+                </a>
+                <h1 class="text-white text-sm md:text-xl font-bold align-middle">Talent Acquisition System</h1>
+            </div>
+            <div class="flex space-x-4 items-center">
+                <div class="hidden md:flex md:justify-end md:flex-1 space-x-6">
+                    <a href="Dashboard.html" class="text-gray-300 hover:text-blue-500 transition duration-300" aria-label="Dashboard">Dashboard</a>
+                    <a href="aboutseu.html" class="text-gray-300 hover:text-blue-500 transition duration-300" aria-label="About SEU">About SEU</a>
+                    <a href="HowtoApply.html" class="text-gray-300 hover:text-blue-500 transition duration-300" aria-label="How to Apply">How to Apply</a>
+                    <a href="index.html" class="text-gray-300 hover:text-blue-500 transition duration-300" aria-label="Sign Up">Sign Up</a>
+                    <a href="Sign-in.html" class="text-gray-300 hover:text-blue-500 transition duration-300" aria-label="Sign Up">Sign In</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="p-2 focus:outline-none" aria-label="Toggle menu">
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-800 rounded-2xl p-4 absolute top-15 left-0 w-full shadow-lg text-center">
+            <a href="#" class="block text-gray-300 hover:text-blue-500 transition duration-300 py-2" aria-label="About SEU">About SEU</a>
+            <a href="#" class="block text-gray-300 hover:text-white transition duration-300 py-2" aria-label="Dashboard">Dashboard</a>
+            <a href="#" class="block text-gray-300 hover:text-white transition duration-300 py-2" aria-label="How to Apply">How to Apply</a>
+            <a href="https://ums.seu.edu.bd/" class="block text-gray-300 hover:text-white transition duration-300 py-2" aria-label="Sign In">Sign In</a>
+            <a href="#" class="block text-gray-300 hover:text-white transition duration-300 py-2" aria-label="Sign Up">Sign Up</a>
+        </div>
+    </nav>
+    <!-- Main Content -->
+    <div class="flex-grow flex items-center justify-center p-8">
+        <div class="w-full max-w-lg bg-gray-800 p-8 rounded-lg shadow-lg">
+            <h2 class="text-3xl font-bold text-white mb-6 text-center">Post New Job</h2>
+            <form id="post-job-form" class="space-y-4">
+                <div>
+                    <label for="job-title" class="block text-gray-400 mb-2">Job Title</label>
+                    <input type="text" id="job-title" name="job-title" required placeholder="Enter job title" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="job-description" class="block text-gray-400 mb-2">Job Description</label>
+                    <textarea id="job-description" name="job-description" rows="4" required placeholder="Enter job description" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500"></textarea>
+                </div>
+                <div>
+                    <label for="job-location" class="block text-gray-400 mb-2">Job Location</label>
+                    <input type="text" id="job-location" name="job-location" required placeholder="Enter job location" class="w-full p-3 border border-gray-600 rounded bg-gray-700 text-gray-300 focus:outline-none focus:border-blue-500">
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-blue-400 hover:bg-white text-gray-900 py-3 px-6 rounded-md font-semibold transition duration-300">Post Job</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-4">
+        <div class="container mx-auto text-center text-gray-300">
+            
+            <p>Copyright 2024 SEU ISDT, All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script>
+        // Toggle mobile menu
+        document.getElementById('menu-toggle').addEventListener('click', function () {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Post job form submission
+        document.getElementById('post-job-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const jobData = {
+                title: formData.get('job-title'),
+                description: formData.get('job-description'),
+                location: formData.get('job-location'),
+                // Add additional fields as needed
+            };
+            console.log('Job data to post:', jobData);
+
+            // Replace with actual API call to post job data
+            // Example: fetch('https://api.example.com/jobs', {
+            //     method: 'POST',
+            //     body: JSON.stringify(jobData),
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     }
+            // })
+            // .then(response => {
+            //     if (!response.ok) {
+            //         throw new Error('Failed to post job');
+            //     }
+            //     return response.json();
+            // })
+            // .then(data => {
+            //
+            // .then(data => {
+            //     console.log('Job posted successfully:', data);
+            //     // Optionally, redirect or show success message
+            // })
+            // .catch(error => {
+            //     console.error('Error posting job:', error);
+            //     // Handle error, show error message
+            // });
+
+            // For demonstration purposes, log success message
+            console.log('Simulated job posting success');
+            alert('Job posted successfully!');
+            // Reset form after posting
+            event.target.reset();
+        });
+    </script>
+</body>
+</html>
