@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Job } from '../models/job.model';
 import { AuthService } from './auth.service';
 
@@ -13,7 +14,6 @@ export class JobService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   getAllJobs(): Observable<Job[]> {
-    console.log('Fetching jobs from:', `${this.apiUrl}/public`);
     return this.http.get<Job[]>(`${this.apiUrl}/public`);
   }
 

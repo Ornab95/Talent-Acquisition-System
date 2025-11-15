@@ -22,4 +22,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
     List<Object[]> getApplicationsBySource();
     
     Long countByStatus(ApplicationStatus status);
+    
+    @Query("SELECT COUNT(DISTINCT a.candidate.id) FROM Application a")
+    Long countDistinctCandidates();
 }

@@ -226,8 +226,9 @@ export class HrDashboardComponent implements OnInit {
         this.applications = applications;
         this.selectedJobTitle = job.title;
         this.selectedJobId = job.id;
-        this.router.navigate(['/hr-dashboard/applications']);
+        this.currentView = 'applications';
         this.showPipeline = false;
+        this.router.navigate(['/hr-dashboard/applications']);
       },
       error: (error) => console.error('Error loading applications:', error)
     });
@@ -319,9 +320,11 @@ export class HrDashboardComponent implements OnInit {
   }
 
   backToJobs() {
-    this.router.navigate(['/hr-dashboard/jobs']);
+    this.currentView = 'jobs';
     this.applications = [];
     this.selectedJobTitle = '';
+    this.selectedJobId = 0;
+    this.router.navigate(['/hr-dashboard/jobs']);
   }
 
   viewCoverLetter(application: any) {
@@ -383,22 +386,8 @@ export class HrDashboardComponent implements OnInit {
 
   downloadResume(filename: string) {
     const token = this.authService.getToken();
-    
-    this.http.get(`http://localhost:8080/api/files/resume/${filename}`, {
-      headers: { 'Authorization': `Bearer ${token}` },
-      responseType: 'blob'
-    }).subscribe({
-      next: (blob) => {
-        const url = window.URL.createObjectURL(blob);
-        window.open(url, '_blank');
-      },
-      error: (error) => {
-        this.snackBar.open('Error viewing resume', 'Close', {
-          duration: 3000,
-          panelClass: ['error-snackbar']
-        });
-      }
-    });
+    const url = `http://localhost:8080/api/files/resume/${filename}?Authorization=Bearer ${token}`;
+    window.open(url, '_blank');
   }
 
   logout() {

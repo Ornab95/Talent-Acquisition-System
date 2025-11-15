@@ -191,11 +191,20 @@
 
       <div class="relative z-10">
         <!-- Jobs Header -->
-        <div class="mb-8">
-          <h2 [class]="isDarkMode 
-            ? 'text-3xl font-bold text-white mb-2' 
-            : 'text-3xl font-bold text-orange-900 mb-2'">Available Job Opportunities</h2>
-          <p [class]="isDarkMode ? 'text-gray-400' : 'text-orange-600'">{{filteredJobs.length}} jobs found</p>
+        <div class="mb-8 flex justify-between items-center">
+          <div>
+            <h2 [class]="isDarkMode 
+              ? 'text-3xl font-bold text-white mb-2' 
+              : 'text-3xl font-bold text-orange-900 mb-2'">Available Job Opportunities</h2>
+            <p [class]="isDarkMode ? 'text-gray-400' : 'text-orange-600'">{{filteredJobs.length}} jobs found</p>
+          </div>
+          <button (click)="showMyApplicationsView()" 
+            [class]="isDarkMode 
+              ? 'px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all flex items-center space-x-2' 
+              : 'px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-lg font-medium transition-all flex items-center space-x-2'">
+            <i class="fas fa-file-alt"></i>
+            <span>My Applications</span>
+          </button>
         </div>
 
         <!-- Profile Modal -->
@@ -263,31 +272,40 @@
               </div>
             </div>
             
-            <div class="flex justify-end space-x-3 mt-6">
-              <button *ngIf="!editMode" (click)="enableEditMode()" 
+            <div class="flex justify-between items-center mt-6">
+              <button *ngIf="!editMode" (click)="showMyApplicationsView(); closeProfile()" 
                 [class]="isDarkMode 
-                  ? 'px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-all' 
-                  : 'px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-all'">
-                Edit Profile
+                  ? 'px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all flex items-center space-x-2' 
+                  : 'px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all flex items-center space-x-2'">
+                <i class="fas fa-file-alt"></i>
+                <span>My Applications</span>
               </button>
-              <button *ngIf="editMode" (click)="cancelEdit()" 
-                [class]="isDarkMode 
-                  ? 'px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-all' 
-                  : 'px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-all'">
-                Cancel
-              </button>
-              <button *ngIf="editMode" (click)="saveProfile()" 
-                [class]="isDarkMode 
-                  ? 'px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-all' 
-                  : 'px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-all'">
-                Save Changes
-              </button>
-              <button *ngIf="!editMode" (click)="closeProfile()" 
-                [class]="isDarkMode 
-                  ? 'px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-all' 
-                  : 'px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-all'">
-                Close
-              </button>
+              <div class="flex space-x-3">
+                <button *ngIf="!editMode" (click)="enableEditMode()" 
+                  [class]="isDarkMode 
+                    ? 'px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-all' 
+                    : 'px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-all'">
+                  Edit Profile
+                </button>
+                <button *ngIf="editMode" (click)="cancelEdit()" 
+                  [class]="isDarkMode 
+                    ? 'px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-all' 
+                    : 'px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-all'">
+                  Cancel
+                </button>
+                <button *ngIf="editMode" (click)="saveProfile()" 
+                  [class]="isDarkMode 
+                    ? 'px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-all' 
+                    : 'px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-all'">
+                  Save Changes
+                </button>
+                <button *ngIf="!editMode" (click)="closeProfile()" 
+                  [class]="isDarkMode 
+                    ? 'px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-all' 
+                    : 'px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-all'">
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -377,6 +395,81 @@
                   ? 'px-6 py-2 rounded-md text-white font-medium border-2 border-blue-500 bg-gray-700 hover:bg-gray-600 transition-all text-sm' 
                   : 'px-6 py-2 rounded-md text-orange-900 font-medium border-2 border-orange-500 bg-orange-100 hover:bg-orange-300 hover:text-white transition-all text-sm'">
                 Apply Now
+              </button>
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- My Applications Modal -->
+        @if (showMyApplications) {
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50 p-4 pt-20">
+          <div [class]="isDarkMode 
+            ? 'bg-gray-800 rounded-2xl w-full max-w-6xl max-h-[80vh] shadow-2xl flex flex-col' 
+            : 'bg-orange-50 rounded-2xl w-full max-w-6xl max-h-[80vh] shadow-2xl flex flex-col'">
+            <!-- Fixed Header -->
+            <div [class]="isDarkMode 
+              ? 'flex justify-between items-center p-8 pb-4 border-b border-gray-700' 
+              : 'flex justify-between items-center p-8 pb-4 border-b border-orange-200'">
+              <h3 [class]="isDarkMode 
+                ? 'text-2xl font-bold text-white' 
+                : 'text-2xl font-bold text-orange-900'">My Applications ({{myApplications.length}})</h3>
+              <button (click)="closeMyApplications()" 
+                [class]="isDarkMode 
+                  ? 'text-gray-400 hover:text-white text-2xl w-10 h-10 rounded-full hover:bg-gray-700 flex items-center justify-center transition-all' 
+                  : 'text-orange-600 hover:text-orange-900 text-2xl w-10 h-10 rounded-full hover:bg-orange-200 flex items-center justify-center transition-all'">&times;</button>
+            </div>
+            
+            <!-- Scrollable Content -->
+            <div class="overflow-y-auto p-8 pt-4 flex-1">
+              <div *ngIf="myApplications.length === 0" class="text-center py-16">
+                <div class="text-6xl mb-4">📄</div>
+                <h3 [class]="isDarkMode ? 'text-xl font-bold text-white mb-2' : 'text-xl font-bold text-orange-900 mb-2'">No Applications Yet</h3>
+                <p [class]="isDarkMode ? 'text-gray-400' : 'text-orange-700'">You haven't applied to any jobs yet.</p>
+              </div>
+              
+              <div *ngIf="myApplications.length > 0" class="overflow-x-auto">
+                <table class="w-full table-auto">
+                  <thead>
+                    <tr [class]="isDarkMode ? 'bg-gray-700' : 'bg-orange-200'">
+                      <th [class]="isDarkMode ? 'px-4 py-3 text-left text-white font-medium' : 'px-4 py-3 text-left text-orange-900 font-medium'">Job Title</th>
+                      <th [class]="isDarkMode ? 'px-4 py-3 text-left text-white font-medium' : 'px-4 py-3 text-left text-orange-900 font-medium'">Company</th>
+                      <th [class]="isDarkMode ? 'px-4 py-3 text-left text-white font-medium' : 'px-4 py-3 text-left text-orange-900 font-medium'">Applied Date</th>
+                      <th [class]="isDarkMode ? 'px-4 py-3 text-left text-white font-medium' : 'px-4 py-3 text-left text-orange-900 font-medium'">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let app of myApplications" [class]="isDarkMode ? 'border-b border-gray-600 hover:bg-gray-700' : 'border-b border-orange-200 hover:bg-orange-50'">
+                      <td [class]="isDarkMode ? 'px-4 py-3 text-white font-medium' : 'px-4 py-3 text-orange-900 font-medium'">{{app.job?.title}}</td>
+                      <td [class]="isDarkMode ? 'px-4 py-3 text-blue-300' : 'px-4 py-3 text-blue-600'">{{app.job?.companyName}}</td>
+                      <td [class]="isDarkMode ? 'px-4 py-3 text-gray-300' : 'px-4 py-3 text-orange-800'">{{app.appliedAt | date:'short'}}</td>
+                      <td class="px-4 py-3">
+                        <span class="px-3 py-1 rounded-lg text-sm font-medium"
+                          [class]="
+                            app.status === 'APPLIED' ? (isDarkMode ? 'bg-blue-900 text-blue-200' : 'bg-blue-100 text-blue-800') :
+                            app.status === 'REVIEWED' ? (isDarkMode ? 'bg-yellow-900 text-yellow-200' : 'bg-yellow-100 text-yellow-800') :
+                            app.status === 'SHORTLISTED' ? (isDarkMode ? 'bg-green-900 text-green-200' : 'bg-green-100 text-green-800') :
+                            app.status === 'REJECTED' ? (isDarkMode ? 'bg-red-900 text-red-200' : 'bg-red-100 text-red-800') :
+                            (isDarkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-100 text-gray-800')
+                          ">
+                          {{app.status}}
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <!-- Fixed Footer -->
+            <div [class]="isDarkMode 
+              ? 'flex justify-end p-8 pt-4 border-t border-gray-700' 
+              : 'flex justify-end p-8 pt-4 border-t border-orange-200'">
+              <button (click)="closeMyApplications()" 
+                [class]="isDarkMode 
+                  ? 'px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-all' 
+                  : 'px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-all'">
+                Close
               </button>
             </div>
           </div>

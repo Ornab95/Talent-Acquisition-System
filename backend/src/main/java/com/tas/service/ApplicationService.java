@@ -129,4 +129,21 @@ public class ApplicationService {
             throw new RuntimeException("Invalid status provided");
         }
     }
+    
+    public Long getTotalApplicationsCount() {
+        return applicationRepository.count();
+    }
+    
+    public Long getTotalCandidatesCount() {
+        return applicationRepository.countDistinctCandidates();
+    }
+    
+    public Long getApplicationsCountByStatus(String status) {
+        try {
+            ApplicationStatus appStatus = ApplicationStatus.valueOf(status.toUpperCase());
+            return applicationRepository.countByStatus(appStatus);
+        } catch (IllegalArgumentException e) {
+            return 0L;
+        }
+    }
 }

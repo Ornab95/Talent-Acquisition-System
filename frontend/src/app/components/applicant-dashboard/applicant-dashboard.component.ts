@@ -30,6 +30,8 @@ export class ApplicantDashboardComponent implements OnInit {
   applicationForm = {
     coverLetter: ''
   };
+  showMyApplications = false;
+  myApplications: any[] = [];
   editMode = false;
   editForm = {
     firstName: '',
@@ -137,13 +139,20 @@ export class ApplicantDashboardComponent implements OnInit {
   }
 
   loadJobs() {
+    console.log('Loading jobs from applicant dashboard...');
     this.jobService.getAllJobs().subscribe({
       next: (jobs) => {
+        console.log('Jobs received:', jobs);
         this.jobs = jobs.filter(job => job.active);
         this.filteredJobs = [...this.jobs];
+        console.log('Filtered jobs:', this.filteredJobs);
         this.extractFilterOptions();
       },
-      error: (error) => console.error('Error loading jobs:', error)
+      error: (error) => {
+        console.error('Error loading jobs:', error);
+        this.jobs = [];
+        this.filteredJobs = [];
+      }
     });
   }
 
@@ -293,6 +302,26 @@ export class ApplicantDashboardComponent implements OnInit {
     this.showApplicationForm = false;
     this.selectedFile = null;
     this.applicationForm.coverLetter = '';
+  }
+
+  showMyApplicationsView() {
+    this.showMyApplications = true;
+    this.loadMyApplications();
+  }
+
+  closeMyApplications() {
+    this.showMyApplications = false;
+  }
+
+  loadMyApplications() {
+    this.applicationService.getMyApplications().subscribe({
+      next: (applications) => {
+        this.myApplications = applications;
+      },
+      error: (error) => {
+        console.error('Error loading my applications:', error);
+      }
+    });
   }
 
   logout() {

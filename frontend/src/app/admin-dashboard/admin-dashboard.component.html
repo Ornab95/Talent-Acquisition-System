@@ -278,10 +278,12 @@
                 [class]="isDarkMode ? 'hover:bg-gray-700 transition-colors duration-150' : 'hover:bg-gray-50 transition-colors duration-150'">
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
-                    <div
-                      class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-                      <span
-                        class="text-white font-medium text-sm">{{user.firstName?.charAt(0)}}{{user.lastName?.charAt(0)}}</span>
+                    <div class="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
+                      <img *ngIf="user.profilePictureFilePath" [src]="'http://localhost:8080/api/files/profile-pictures/' + user.profilePictureFileName" 
+                           alt="Profile" class="w-full h-full object-cover">
+                      <span *ngIf="!user.profilePictureFilePath" class="text-white font-medium text-sm">
+                        {{user.firstName?.charAt(0)}}{{user.lastName?.charAt(0)}}
+                      </span>
                     </div>
                     <div class="ml-4">
                       <div

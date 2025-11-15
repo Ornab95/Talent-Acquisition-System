@@ -1,11 +1,9 @@
 package com.tas.controller;
 
-import com.tas.dto.AnalyticsResponse;
 import com.tas.entity.User;
 import com.tas.entity.Application;
 import com.tas.entity.SiteSetting;
 import com.tas.service.AdminService;
-import com.tas.service.AnalyticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,9 +24,6 @@ public class AdminController {
     
     @Autowired
     private AdminService adminService;
-    
-    @Autowired
-    private AnalyticsService analyticsService;
     
     // User Management
     @GetMapping("/users")
@@ -155,16 +150,5 @@ public class AdminController {
         }
     }
     
-    @GetMapping("/analytics")
-    @PreAuthorize("hasRole('HR_ADMIN') or hasRole('RECRUITER') or hasRole('HIRING_MANAGER') or hasRole('SYSTEM_ADMIN')")
-    public ResponseEntity<AnalyticsResponse> getAnalytics() {
-        try {
-            logger.info("Fetching analytics data");
-            AnalyticsResponse analytics = analyticsService.getAnalytics();
-            return ResponseEntity.ok(analytics);
-        } catch (Exception e) {
-            logger.error("Error fetching analytics: {}", e.getMessage());
-            return ResponseEntity.badRequest().build();
-        }
-    }
+
 }

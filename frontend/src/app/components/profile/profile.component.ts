@@ -30,6 +30,8 @@ export class ProfileComponent implements OnInit {
     department: ''
   };
   selectedFile: File | null = null;
+  showApplicationDetails = false;
+  selectedApplication: any = null;
 
   constructor(
     private authService: AuthService,
@@ -78,7 +80,7 @@ export class ProfileComponent implements OnInit {
   }
 
   loadApplications() {
-    this.applicationService.getApplicationsByCandidate(this.userDetails.id).subscribe({
+    this.applicationService.getMyApplications().subscribe({
       next: (applications) => this.applications = applications,
       error: (error) => console.error('Error loading applications:', error)
     });
@@ -246,5 +248,14 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  viewApplicationDetails(application: any) {
+    this.selectedApplication = application;
+    this.showApplicationDetails = true;
+  }
+
+  closeApplicationDetails() {
+    this.showApplicationDetails = false;
+    this.selectedApplication = null;
+  }
 
 }

@@ -125,4 +125,12 @@ public class JobService {
         job.setActive(false);
         jobRepository.save(job);
     }
+    
+    public Long getTotalJobsCount() {
+        return jobRepository.count();
+    }
+    
+    public Long getActiveJobsCount() {
+        return jobRepository.countByActiveTrue();
+    }
 }

@@ -15,9 +15,10 @@ export class ApplicationService {
   submitApplication(jobId: number, candidateId: number, coverLetter: string, resume: File): Observable<any> {
     const formData = new FormData();
     formData.append('jobId', jobId.toString());
-    formData.append('candidateId', candidateId.toString());
     formData.append('coverLetter', coverLetter);
-    formData.append('resume', resume);
+    if (resume) {
+      formData.append('resume', resume);
+    }
 
     const token = this.authService.getToken();
     const headers = new HttpHeaders({
@@ -40,6 +41,22 @@ export class ApplicationService {
       'Authorization': `Bearer ${token}`
     });
     return this.http.get<Application[]>(`${this.apiUrl}/job/${jobId}`, { headers });
+  }
+
+  getAllApplications(): Observable<Application[]> {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<Application[]>(this.apiUrl, { headers });
+  }
+
+  getMyApplications(): Observable<Application[]> {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<Application[]>(`${this.apiUrl}/my-applications`, { headers });
   }
 
   updateApplicationStatus(applicationId: number, status: string): Observable<any> {

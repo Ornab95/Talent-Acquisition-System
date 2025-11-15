@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "jobs")
@@ -52,6 +53,7 @@ public class Job {
     
     @ManyToOne
     @JoinColumn(name = "company_id")
+    @JsonIgnore
     private Company company;
     
     private LocalDateTime postedAt = LocalDateTime.now();
