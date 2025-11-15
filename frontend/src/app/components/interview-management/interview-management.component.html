@@ -1,0 +1,144 @@
+<div [class]="isDarkMode ? 'interview-management dark-theme' : 'interview-management'">
+  <div class="header">
+    <h3 [class]="isDarkMode ? 'text-white' : 'text-gray-900'">Interviews</h3>
+    <button (click)="openScheduleForm()" [class]="isDarkMode ? 'btn btn-primary-dark' : 'btn btn-primary'">
+      <i class="fas fa-calendar-plus"></i> Schedule Interview
+    </button>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+
+  <!-- Interviews List -->
+  <div class="interviews-list">
+    <div *ngIf="interviews.length === 0" class="no-interviews">
+      No interviews scheduled yet.
+    </div>
+
+    <div *ngFor="let interview of interviews" class="interview-card">
+      <div class="interview-header">
+        <div class="interview-info">
+          <h4>{{ interview.interviewer.firstName }} {{ interview.interviewer.lastName }}</h4>
+          <span class="interview-type">{{ interview.interviewType }}</span>
+          <span class="interview-status" [class]="'status-' + interview.status.toLowerCase()">
+            {{ interview.status }}
+          </span>
+        </div>
+        <div class="interview-actions">
+          <button *ngIf="interview.status === 'SCHEDULED'" (click)="openFeedbackModal(interview)"
+            class="btn btn-sm btn-secondary">
+            Add Feedback
+          </button>
+          <button *ngIf="interview.status === 'SCHEDULED'" (click)="updateStatus(interview, 'CANCELED')"
+            class="btn btn-sm btn-danger">
+            Cancel
+          </button>
+        </div>
+      </div>
+
+      <div class="interview-details">
+        <p><i class="fas fa-clock"></i> {{ formatDate(interview.scheduledAt) }}</p>
+        <p *ngIf="interview.meetingLink">
+          <i class="fas fa-link"></i>
+          <a [href]="interview.meetingLink" target="_blank">Join Meeting</a>
+        </p>
+        <p *ngIf="interview.feedback" class="feedback">
+          <i class="fas fa-comment"></i> {{ interview.feedback }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Schedule Interview Modal -->
+  <div *ngIf="showScheduleForm" class="modal-overlay" (click)="closeScheduleForm()">
+    <div [class]="isDarkMode ? 'modal-content dark-modal' : 'modal-content'" (click)="$event.stopPropagation()">
+      <div [class]="isDarkMode ? 'modal-header dark-header' : 'modal-header'">
+        <h3 [class]="isDarkMode ? 'text-white' : 'text-gray-900'">Schedule Interview</h3>
+        <button (click)="closeScheduleForm()"
+          [class]="isDarkMode ? 'close-btn dark-close' : 'close-btn'">&times;</button>
+      </div>
+
+      <form (ngSubmit)="scheduleInterview()" class="schedule-form">
+        <div class="form-group">
+          <label [class]="isDarkMode ? 'text-gray-300' : 'text-gray-700'">Interviewer *</label>
+          <div [class]="isDarkMode ? 'form-input-dark readonly-field' : 'form-input readonly-field'">
+            <i class="fas fa-user mr-2"></i>
+            {{ getCurrentUserName() }}
+          </div>
+          <input type="hidden" [(ngModel)]="scheduleForm.interviewerId" name="interviewer">
+        </div>
+
+        <div class="form-group">
+          <label [class]="isDarkMode ? 'text-gray-300' : 'text-gray-700'">Interview Type *</label>
+          <select [(ngModel)]="scheduleForm.interviewType" name="type" required
+            [class]="isDarkMode ? 'form-input-dark' : 'form-input'">
+            <option value="PHONE">Phone</option>
+            <option value="VIDEO">Video</option>
+            <option value="ONSITE">On-site</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label [class]="isDarkMode ? 'text-gray-300 font-semibold' : 'text-gray-700 font-semibold'">
+            <i class="fas fa-calendar-check mr-2 text-blue-500"></i>
+            Interview Date & Time *
+          </label>
+
+          <div class="card flex justify-center">
+            <p-datepicker [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" dateFormat="yy-mm-dd"
+              showIcon="true" inputId="interview-date" appendTo="body" [showTime]="true" hourFormat="24"
+              [class]="isDarkMode ? 'dark-datepicker' : ''"></p-datepicker>
+          </div>
+
+          <div *ngIf="rangeDates && rangeDates.length === 2" class="selected-datetime"
+            [class]="isDarkMode ? 'text-gray-300' : 'text-gray-600'">
+            <i class="fas fa-check-circle mr-2 text-green-500"></i>
+            <strong>
+              {{ rangeDates[0] | date:'medium' }} - {{ rangeDates[1] | date:'medium' }}
+            </strong>
+          </div>
+        </div>
+
+
+        <div class="form-group" *ngIf="scheduleForm.interviewType === 'VIDEO'">
+          <label [class]="isDarkMode ? 'text-gray-300' : 'text-gray-700'">Meeting Link</label>
+          <input type="url" [(ngModel)]="scheduleForm.meetingLink" name="link" placeholder="https://meet.google.com/..."
+            [class]="isDarkMode ? 'form-input-dark' : 'form-input'">
+        </div>
+
+        <div [class]="isDarkMode ? 'modal-actions dark-actions bg-gray-600' : 'modal-actions'">
+          <button type="button" (click)="closeScheduleForm()"
+            [class]="isDarkMode ? 'btn btn-secondary-dark' : 'btn btn-secondary'">Cancel</button>
+          <button type="submit" [disabled]="loading" [class]="isDarkMode ? 'btn btn-primary-dark' : 'btn btn-primary'">
+            {{ loading ? 'Scheduling...' : 'Schedule Interview' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Feedback Modal -->
+  <div *ngIf="showFeedbackModal" class="modal-overlay" (click)="closeFeedbackModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Interview Feedback</h3>
+        <button (click)="closeFeedbackModal()" class="close-btn">&times;</button>
+      </div>
+
+      <form (ngSubmit)="submitFeedback()" class="feedback-form">
+        <div class="form-group">
+          <label>Feedback</label>
+          <textarea [(ngModel)]="feedbackText" name="feedback" rows="6"
+            placeholder="Enter your interview feedback here..." required></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" (click)="closeFeedbackModal()" class="btn btn-secondary">Cancel</button>
+          <button type="submit" [disabled]="loading" class="btn btn-primary">
+            {{ loading ? 'Saving...' : 'Save Feedback' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

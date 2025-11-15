@@ -1,0 +1,268 @@
+.pipeline-container {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.pipeline-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.pipeline-board {
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.stages-container {
+  display: flex;
+  gap: 16px;
+  min-width: 1200px;
+  padding: 10px;
+}
+
+.pipeline-stage {
+  flex: 1;
+  min-width: 280px;
+  border: 2px dashed;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: white;
+}
+
+.stage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.stage-title {
+  font-weight: 600;
+  color: #374151;
+  font-size: 14px;
+}
+
+.stage-count {
+  background-color: #6b7280;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.stage-content {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.application-card {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 12px;
+  cursor: move;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.application-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.application-card.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.drag-handle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+  cursor: grab;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.candidate-info {
+  margin-bottom: 8px;
+}
+
+.candidate-name {
+  font-weight: 600;
+  color: #111827;
+  font-size: 14px;
+  margin: 0;
+}
+
+.candidate-email {
+  color: #6b7280;
+  font-size: 12px;
+  margin: 2px 0 0 0;
+}
+
+.application-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.applied-date {
+  display: flex;
+  align-items: center;
+}
+
+.application-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.action-btn {
+  padding: 4px 6px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s;
+}
+
+.resume-btn {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.resume-btn:hover {
+  background-color: #bfdbfe;
+}
+
+.cover-btn {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.cover-btn:hover {
+  background-color: #bbf7d0;
+}
+
+.progress-indicator {
+  width: 100%;
+  height: 3px;
+  background-color: #e5e7eb;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #10b981);
+  transition: width 0.3s ease;
+}
+
+.empty-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  border: 2px dashed #d1d5db;
+  border-radius: 6px;
+  background-color: #f9fafb;
+}
+
+.drag-preview {
+  display: none;
+}
+
+.preview-card {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 12px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  max-width: 200px;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 6px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.4;
+  border: 2px dashed #cbd5e1;
+  background-color: #f1f5f9;
+}
+
+.cdk-drop-list-receiving .cdk-drag-placeholder {
+  border-color: #3b82f6;
+  background-color: #dbeafe;
+}
+
+.pipeline-stats {
+  margin-top: 20px;
+  padding: 16px;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+
+.stat-label {
+  display: block;
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stages-container {
+    flex-direction: column;
+    min-width: auto;
+  }
+  
+  .pipeline-stage {
+    min-width: auto;
+  }
+  
+  .stage-content {
+    min-height: 200px;
+  }
+}

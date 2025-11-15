@@ -1,0 +1,50 @@
+/* HR Dashboard specific styles */
+.modal-overlay {
+  backdrop-filter: blur(2px);
+}
+
+.table-container {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.btn-primary {
+  background-color: #3b82f6;
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+}
+
+.btn-danger {
+  background-color: #ef4444;
+  transition: background-color 0.2s;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+}
+::ng-deep .success-snackbar {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+::ng-deep .success-snackbar .mat-mdc-button {
+  color: white !important;
+}
+/* Ensure buttons are clickable */
+button {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+/* Fix for table buttons */
+td button {
+  position: relative;
+  z-index: 10;
+}

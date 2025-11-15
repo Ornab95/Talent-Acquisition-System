@@ -1,0 +1,67 @@
+<nav [class]="isDarkMode 
+  ? 'fixed top-0 left-0 right-0 z-[100] bg-gray-900 bg-opacity-90 backdrop-blur-sm' 
+  : 'fixed top-0 left-0 right-0 z-[100] bg-orange-100 bg-opacity-90 backdrop-blur-sm'">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo/Brand -->
+      <div class="flex items-center">
+        <button (click)="goHome()" [class]="isDarkMode 
+          ? 'text-xl font-bold text-white hover:text-gray-300 transition-all' 
+          : 'text-xl font-bold text-orange-900 hover:text-orange-700 transition-all'">
+          <i class="fas fa-home mr-2"></i>Talent Acquisition System
+        </button>
+      </div>
+
+      <!-- Right Side -->
+      <div class="flex items-center space-x-4">
+        <!-- User Profile (when authenticated) -->
+        @if (isAuthenticated) {
+          <div class="relative">
+            <button (click)="toggleProfileMenu()" 
+              [class]="isDarkMode 
+                ? 'flex items-center space-x-2 px-3 py-2 rounded-md text-white hover:bg-gray-700 transition-all' 
+                : 'flex items-center space-x-2 px-3 py-2 rounded-md text-orange-900 hover:bg-orange-200 transition-all'">
+              <div class="w-8 h-8 rounded-full overflow-hidden bg-orange-500 flex items-center justify-center">
+                <img *ngIf="userProfilePicture" [src]="userProfilePicture" alt="Profile" class="w-full h-full object-cover">
+                <i *ngIf="!userProfilePicture" class="fas fa-user text-white text-sm"></i>
+              </div>
+              <span class="text-sm font-medium">{{ userName }}</span>
+              <i [class]="showProfileMenu ? 'fas fa-chevron-up text-xs' : 'fas fa-chevron-down text-xs'"></i>
+            </button>
+            
+            <!-- Profile Dropdown -->
+            @if (showProfileMenu) {
+              <div [class]="isDarkMode 
+                ? 'absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-[110]' 
+                : 'absolute right-0 mt-2 w-48 bg-orange-50 rounded-md shadow-lg py-1 z-[110]'">
+                <a routerLink="/profile" (click)="showProfileMenu = false" [class]="isDarkMode 
+                  ? 'w-full text-left block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white' 
+                  : 'w-full text-left block px-4 py-2 text-sm text-orange-800 hover:bg-orange-100'">
+                  <i class="fas fa-user mr-2"></i>Profile
+                </a>
+                <a routerLink="/settings" (click)="showProfileMenu = false" [class]="isDarkMode 
+                  ? 'w-full text-left block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white' 
+                  : 'w-full text-left block px-4 py-2 text-sm text-orange-800 hover:bg-orange-100'">
+                  <i class="fas fa-cog mr-2"></i>Settings
+                </a>
+                <button (click)="logout()" [class]="isDarkMode 
+                  ? 'w-full text-left block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white' 
+                  : 'w-full text-left block px-4 py-2 text-sm text-orange-800 hover:bg-orange-100'">
+                  <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                </button>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- Dark Mode Toggle -->
+        <button (click)="toggleTheme()" 
+          [class]="isDarkMode 
+            ? 'p-2 rounded-md text-white hover:bg-gray-700 transition-all' 
+            : 'p-2 rounded-md text-orange-900 hover:bg-orange-200 transition-all'">
+          <i [class]="isDarkMode ? 'fas fa-sun' : 'fas fa-moon'"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>

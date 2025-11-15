@@ -1,0 +1,122 @@
+<div class="offer-management">
+  <div class="header">
+    <h3>Job Offers</h3>
+    <button (click)="openCreateForm()" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Create Offer
+    </button>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+
+  <!-- Offers List -->
+  <div class="offers-list">
+    <div *ngIf="offers.length === 0" class="no-offers">
+      No offers created yet.
+    </div>
+
+    <div *ngFor="let offer of offers" class="offer-card">
+      <div class="offer-header">
+        <div class="offer-info">
+          <h4>{{ offer.positionTitle }}</h4>
+          <span class="offer-salary">{{ formatCurrency(offer.salary) }}</span>
+          <span class="offer-status" [class]="getStatusColor(offer.status)">
+            {{ offer.status }}
+          </span>
+        </div>
+        <div class="offer-actions" *ngIf="offer.status === 'PENDING'">
+          <button (click)="deleteOffer(offer.id!)" class="btn btn-sm btn-danger">
+            Delete
+          </button>
+        </div>
+      </div>
+      
+      <div class="offer-details">
+        <div class="detail-row">
+          <span class="label">Start Date:</span>
+          <span class="value">{{ formatDate(offer.startDate) }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Offer Expires:</span>
+          <span class="value">{{ formatDate(offer.offerExpiryDate) }}</span>
+        </div>
+        <div class="detail-row" *ngIf="offer.benefits">
+          <span class="label">Benefits:</span>
+          <span class="value">{{ offer.benefits }}</span>
+        </div>
+        <div class="detail-row" *ngIf="offer.terms">
+          <span class="label">Terms:</span>
+          <span class="value">{{ offer.terms }}</span>
+        </div>
+        <div class="detail-row" *ngIf="offer.respondedAt">
+          <span class="label">Responded:</span>
+          <span class="value">{{ formatDate(offer.respondedAt) }}</span>
+        </div>
+      </div>
+
+      <!-- Status Actions for HR -->
+      <div class="status-actions" *ngIf="offer.status === 'PENDING'">
+        <button (click)="updateOfferStatus(offer, 'EXPIRED')" class="btn btn-sm btn-secondary">
+          Mark Expired
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Offer Modal -->
+  <div *ngIf="showCreateForm" class="modal-overlay" (click)="closeCreateForm()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Create Job Offer</h3>
+        <button (click)="closeCreateForm()" class="close-btn">&times;</button>
+      </div>
+      
+      <form (ngSubmit)="createOffer()" class="offer-form">
+        <div class="candidate-info">
+          <p><strong>Candidate:</strong> {{ candidateName }}</p>
+          <p><strong>Position:</strong> {{ jobTitle }}</p>
+        </div>
+
+        <div class="form-group">
+          <label>Position Title *</label>
+          <input type="text" [(ngModel)]="offerForm.positionTitle" name="positionTitle" required>
+        </div>
+
+        <div class="form-group">
+          <label>Annual Salary (USD) *</label>
+          <input type="number" [(ngModel)]="offerForm.salary" name="salary" required min="0" step="1000">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Start Date *</label>
+            <input type="date" [(ngModel)]="offerForm.startDate" name="startDate" required>
+          </div>
+          <div class="form-group">
+            <label>Offer Expires *</label>
+            <input type="date" [(ngModel)]="offerForm.offerExpiryDate" name="offerExpiryDate" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Benefits Package</label>
+          <textarea [(ngModel)]="offerForm.benefits" name="benefits" rows="3" 
+                    placeholder="Health insurance, 401k, vacation days, etc."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Terms & Conditions</label>
+          <textarea [(ngModel)]="offerForm.terms" name="terms" rows="4" 
+                    placeholder="Employment terms, conditions, and other details..."></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" (click)="closeCreateForm()" class="btn btn-secondary">Cancel</button>
+          <button type="submit" [disabled]="loading" class="btn btn-primary">
+            {{ loading ? 'Creating...' : 'Create Offer' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

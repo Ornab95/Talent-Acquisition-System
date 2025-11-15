@@ -1,0 +1,401 @@
+<app-navbar></app-navbar>
+
+<div
+  [class]="isDarkMode 
+  ? 'flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black pt-20' 
+  : 'flex items-center justify-center min-h-screen bg-gradient-to-br from-pink-500 via-orange-400 to-purple-600 pt-18'">
+
+  <div class="max-w-6xl mx-auto px-4 w-full">
+    <!-- Toggle Buttons -->
+    <div class="flex justify-center mb-2">
+      <div [class]="isDarkMode ? 'bg-gray-800 rounded-full p-2 shadow-lg' : 'bg-orange-200 rounded-full p-2 shadow-lg'">
+        <button (click)="switchRegistrationType('applicant')" [class]="'px-6 py-2 rounded-full font-medium transition-all duration-500 text-sm ' + 
+            (registrationType === 'applicant' 
+              ? (isDarkMode ? 'bg-blue-600 text-white' : 'bg-orange-600 text-white')
+              : (isDarkMode ? 'text-gray-300 hover:text-blue-400' : 'text-orange-800 hover:text-orange-600'))">
+          <i class="fas fa-user-graduate mr-2"></i>
+          Applicant
+        </button>
+        <button (click)="switchRegistrationType('recruiter')" [class]="'px-6 py-2 rounded-full font-medium transition-all duration-500 text-sm ' + 
+            (registrationType === 'recruiter' 
+              ? (isDarkMode ? 'bg-blue-600 text-white' : 'bg-orange-600 text-white')
+              : (isDarkMode ? 'text-gray-300 hover:text-blue-400' : 'text-orange-800 hover:text-orange-600'))">
+          <i class="fas fa-building mr-2"></i>
+          Recruiter
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Container -->
+    <div [class]="isDarkMode 
+      ? 'bg-gray-800 shadow-2xl rounded-2xl overflow-hidden mb-4' 
+      : 'bg-orange-100 shadow-2xl rounded-2xl overflow-hidden mb-4'">
+      <div class="grid grid-cols-1 lg:grid-cols-2 min-h-[600px] content-transition">
+
+        <!-- Applicant: Description Left, Form Right -->
+        @if (registrationType === 'applicant') {
+        <!-- Description Side -->
+        <div [class]="isDarkMode 
+            ? 'p-8 flex flex-col justify-center bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 animate-slide-left' 
+            : 'p-8 flex flex-col justify-center bg-orange-200 animate-slide-left'">
+
+          <div [class]="isDarkMode ? 'text-white text-center' : 'text-black text-center'">
+            <i class="fas fa-user-graduate text-5xl mb-4"></i>
+            <h2 class="text-3xl font-bold mb-4">Join as Applicant</h2>
+            <p class="text-lg mb-6 opacity-90">
+              Find your dream job and build your career with top companies. Create your profile and start applying
+              today.
+            </p>
+            <div class="flex items-center justify-center">
+              <div class="space-y-3 text-left">
+                <div class="flex items-center justify-start">
+                  <i class="fas fa-check-circle mr-3"></i>
+                  <span>Browse thousands of jobs</span>
+                </div>
+                <div class="flex items-center justify-start">
+                  <i class="fas fa-check-circle mr-3"></i>
+                  <span>Easy application process</span>
+                </div>
+                <div class="flex items-center justify-start">
+                  <i class="fas fa-check-circle mr-3"></i>
+                  <span>Track application status</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Form Side -->
+        <div class="p-8 flex flex-col justify-center animate-slide-right">
+          <div class="max-w-md mx-auto w-full">
+            <h3 [class]="isDarkMode ? 'text-2xl font-bold text-white mb-6' : 'text-2xl font-bold text-orange-900 mb-6'">
+              Create Account
+            </h3>
+
+            <form (ngSubmit)="onSubmit()" class="space-y-4">
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <input type="text" placeholder="First Name" [(ngModel)]="user.firstName" name="firstName" required
+                    #firstName="ngModel" (keydown.enter)="onSubmit()"
+                    [class]="isDarkMode 
+                        ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                        : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
+                  @if (firstName.invalid && firstName.touched) {
+                    <div class="text-red-500 text-xs mt-1">First name is required</div>
+                  }
+                </div>
+                <div>
+                  <input type="text" placeholder="Last Name" [(ngModel)]="user.lastName" name="lastName" required
+                    #lastName="ngModel" (keydown.enter)="onSubmit()"
+                    [class]="isDarkMode 
+                        ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                        : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
+                  @if (lastName.invalid && lastName.touched) {
+                    <div class="text-red-500 text-xs mt-1">Last name is required</div>
+                  }
+                </div>
+              </div>
+
+              <div>
+                <input type="email" placeholder="Email" [(ngModel)]="user.email" name="email" required email
+                  #email="ngModel" (keydown.enter)="onSubmit()"
+                  [class]="isDarkMode 
+                      ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                      : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
+                @if (email.invalid && email.touched) {
+                  <div class="text-red-500 text-xs mt-1">
+                    @if (email.errors?.['required']) { Email is required }
+                    @if (email.errors?.['email']) { Please enter a valid email }
+                  </div>
+                }
+              </div>
+
+              <div>
+                <input type="tel" placeholder="Phone" [(ngModel)]="user.phone" name="phone" required
+                  #phone="ngModel" (keydown.enter)="onSubmit()"
+                  [class]="isDarkMode 
+                      ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                      : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
+                @if (phone.invalid && phone.touched) {
+                  <div class="text-red-500 text-xs mt-1">Phone number is required</div>
+                }
+              </div>
+
+              <div>
+                <select [(ngModel)]="user.department" name="department" required
+                  #department="ngModel" (keydown.enter)="onSubmit()"
+                  [class]="isDarkMode 
+                      ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                      : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'">
+                  <option value="">Select Department</option>
+                  <option value="IT & Engineering">IT & Engineering</option>
+                  <option value="Human Resources">Human Resources</option>
+                  <option value="Marketing">Marketing</option>
+                  <option value="Finance">Finance</option>
+                  <option value="Operations">Operations</option>
+                </select>
+                @if (department.invalid && department.touched) {
+                  <div class="text-red-500 text-xs mt-1">Please select a department</div>
+                }
+              </div>
+
+              <div>
+                <div class="relative">
+                  <input [type]="showPassword ? 'text' : 'password'" placeholder="Password" [(ngModel)]="password" name="password" required
+                    minlength="6" #passwordField="ngModel" (keydown.enter)="onSubmit()"
+                    [class]="isDarkMode 
+                        ? 'w-full p-3 pr-10 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                        : 'w-full p-3 pr-10 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
+                  <button type="button" (click)="togglePasswordVisibility()" 
+                    [class]="isDarkMode 
+                      ? 'absolute right-3 top-3 bottom-3 flex items-center text-blue-400 hover:text-blue-300' 
+                      : 'absolute right-3 top-3 bottom-3 flex items-center text-orange-500 hover:text-orange-600'">
+                    <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                  </button>
+                </div>
+                @if (passwordField.invalid && passwordField.touched) {
+                  <div class="text-red-500 text-xs mt-1">
+                    @if (passwordField.errors?.['required']) { Password is required }
+                    @if (passwordField.errors?.['minlength']) { Password must be at least 6 characters }
+                  </div>
+                }
+              </div>
+
+              <button type="submit" [disabled]="loading"
+                [class]="isDarkMode 
+                    ? 'w-full py-2 rounded-md text-white font-medium border-2 border-blue-500 bg-gray-700 hover:bg-gray-600 transition-all text-sm' 
+                    : 'w-full py-2 rounded-md text-orange-900 font-medium border-2 border-orange-500 bg-orange-100 hover:bg-orange-300 hover:text-white transition-all text-sm'">
+                <span *ngIf="!loading">CREATE ACCOUNT</span>
+                <span *ngIf="loading">Loading...</span>
+              </button>
+
+              @if (success) {
+              <div class="text-green-500 text-sm mt-2 text-center font-medium">
+                {{ success }}
+              </div>
+              }
+
+              @if (error) {
+              <div class="text-red-500 text-sm mt-2 text-center">
+                {{ error }}
+              </div>
+              }
+
+              <div [class]="isDarkMode 
+                  ? 'text-center text-sm text-gray-300 mt-4' 
+                  : 'text-center text-sm text-orange-900 mt-4'">
+                <span>Already have an account?</span>
+                <a routerLink="/login" [class]="isDarkMode 
+                    ? 'text-red-400 font-medium hover:underline ml-1' 
+                    : 'text-red-500 font-medium hover:underline ml-1'">Sign In →</a>
+              </div>
+            </form>
+          </div>
+        </div>
+        }
+
+        <!-- Recruiter: Form Left, Description Right -->
+        @if (registrationType === 'recruiter') {
+        <!-- Form Side -->
+        <div class="p-8 flex flex-col justify-center animate-slide-left">
+          <div class="max-w-md mx-auto w-full">
+            <h3 [class]="isDarkMode ? 'text-2xl font-bold text-white mb-6' : 'text-2xl font-bold text-orange-900 mb-6'">
+              Recruiter Registration
+            </h3>
+
+            <form (ngSubmit)="onSubmit()" class="space-y-4">
+              <h4
+                [class]="isDarkMode ? 'text-lg font-medium text-white mb-3' : 'text-lg font-medium text-orange-900 mb-3'">
+                Company Information</h4>
+
+              <div>
+                <input type="text" placeholder="Company Name" [(ngModel)]="companyData.companyName" name="companyName"
+                  required #companyName="ngModel" (keydown.enter)="onSubmit()"
+                  [class]="isDarkMode 
+                      ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                      : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
+                @if (companyName.invalid && companyName.touched) {
+                  <div class="text-red-500 text-xs mt-1">Company name is required</div>
+                }
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <input type="email" placeholder="Company Email" [(ngModel)]="companyData.companyEmail"
+                    name="companyEmail" required email #companyEmail="ngModel"
+                    [class]="isDarkMode 
+                        ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                        : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
+                  @if (companyEmail.invalid && companyEmail.touched) {
+                    <div class="text-red-500 text-xs mt-1">
+                      @if (companyEmail.errors?.['required']) { Email is required }
+                      @if (companyEmail.errors?.['email']) { Invalid email format }
+                    </div>
+                  }
+                </div>
+                <div>
+                  <input type="text" placeholder="Location" [(ngModel)]="companyData.location" name="location" required
+                    #location="ngModel"
+                    [class]="isDarkMode 
+                        ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                        : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
+                  @if (location.invalid && location.touched) {
+                    <div class="text-red-500 text-xs mt-1">Location is required</div>
+                  }
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <input type="url" placeholder="Website" [(ngModel)]="companyData.website" name="website"
+                  [class]="isDarkMode 
+                      ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                      : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
+                <div>
+                  <select [(ngModel)]="companyData.industry" name="industry" required #industry="ngModel"
+                    [class]="isDarkMode 
+                        ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                        : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'">
+                    <option value="">Select Industry</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Education">Education</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  @if (industry.invalid && industry.touched) {
+                    <div class="text-red-500 text-xs mt-1">Please select an industry</div>
+                  }
+                </div>
+              </div>
+
+              <h4
+                [class]="isDarkMode ? 'text-lg font-medium text-white mb-3 mt-4' : 'text-lg font-medium text-orange-900 mb-3 mt-4'">
+                Admin User</h4>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <input type="text" placeholder="First Name" [(ngModel)]="companyData.adminFirstName"
+                    name="adminFirstName" required #adminFirstName="ngModel"
+                    [class]="isDarkMode 
+                        ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                        : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
+                  @if (adminFirstName.invalid && adminFirstName.touched) {
+                    <div class="text-red-500 text-xs mt-1">First name is required</div>
+                  }
+                </div>
+                <div>
+                  <input type="text" placeholder="Last Name" [(ngModel)]="companyData.adminLastName" name="adminLastName"
+                    required #adminLastName="ngModel"
+                    [class]="isDarkMode 
+                        ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                        : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
+                  @if (adminLastName.invalid && adminLastName.touched) {
+                    <div class="text-red-500 text-xs mt-1">Last name is required</div>
+                  }
+                </div>
+              </div>
+
+              <div>
+                <input type="email" placeholder="Admin Email" [(ngModel)]="companyData.adminEmail" name="adminEmail"
+                  required email #adminEmail="ngModel"
+                  [class]="isDarkMode 
+                      ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                      : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
+                @if (adminEmail.invalid && adminEmail.touched) {
+                  <div class="text-red-500 text-xs mt-1">
+                    @if (adminEmail.errors?.['required']) { Admin email is required }
+                    @if (adminEmail.errors?.['email']) { Invalid email format }
+                  </div>
+                }
+              </div>
+
+              <div>
+                <div class="relative">
+                  <input [type]="showAdminPassword ? 'text' : 'password'" placeholder="Admin Password" [(ngModel)]="companyData.adminPassword"
+                    name="adminPassword" required minlength="6" #adminPassword="ngModel"
+                    [class]="isDarkMode 
+                        ? 'w-full p-3 pr-10 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                        : 'w-full p-3 pr-10 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
+                  <button type="button" (click)="toggleAdminPasswordVisibility()" 
+                    [class]="isDarkMode 
+                      ? 'absolute right-3 top-3 bottom-3 flex items-center text-blue-400 hover:text-blue-300' 
+                      : 'absolute right-3 top-3 bottom-3 flex items-center text-orange-500 hover:text-orange-600'">
+                    <i [class]="showAdminPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                  </button>
+                </div>
+                @if (adminPassword.invalid && adminPassword.touched) {
+                  <div class="text-red-500 text-xs mt-1">
+                    @if (adminPassword.errors?.['required']) { Password is required }
+                    @if (adminPassword.errors?.['minlength']) { Password must be at least 6 characters }
+                  </div>
+                }
+              </div>
+
+              <button type="submit" [disabled]="loading || !isRecruiterFormValid()"
+                [class]="isDarkMode 
+                    ? 'w-full py-2 rounded-md text-white font-medium border-2 border-blue-500 bg-gray-700 hover:bg-gray-600 transition-all text-sm disabled:opacity-50' 
+                    : 'w-full py-2 rounded-md text-orange-900 font-medium border-2 border-orange-500 bg-orange-100 hover:bg-orange-300 hover:text-white transition-all text-sm disabled:opacity-50'">
+                <span *ngIf="!loading">REGISTER COMPANY</span>
+                <span *ngIf="loading">Loading...</span>
+              </button>
+
+              @if (success) {
+              <div class="text-green-500 text-sm mt-2 text-center font-medium">
+                {{ success }}
+              </div>
+              }
+
+              @if (error) {
+              <div class="text-red-500 text-sm mt-2 text-center">
+                {{ error }}
+              </div>
+              }
+
+              <div [class]="isDarkMode 
+                  ? 'text-center text-sm text-gray-300 mt-4' 
+                  : 'text-center text-sm text-orange-900 mt-4'">
+                <span>Already have an account?</span>
+                <a routerLink="/login" [class]="isDarkMode 
+                    ? 'text-red-400 font-medium hover:underline ml-1' 
+                    : 'text-red-500 font-medium hover:underline ml-1'">Sign In →</a>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Description Side -->
+        <div [class]="isDarkMode 
+            ? 'p-8 flex flex-col justify-center bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 animate-slide-right' 
+            : 'p-8 flex flex-col justify-center bg-orange-200 animate-slide-right'">
+
+          <div [class]="isDarkMode ? 'text-white text-center' : 'text-black text-center'">
+            <i class="fas fa-building text-5xl mb-4"></i>
+            <h2 class="text-3xl font-bold mb-4">Join as Recruiter</h2>
+            <p class="text-lg mb-6 opacity-90">
+              Find the best talent for your company. Post jobs, manage applications, and build your dream team.
+            </p>
+            <div class="flex items-center justify-center ">
+              <div class="space-y-3 text-left">
+                <div class="flex items-center justify-start">
+                  <i class="fas fa-check-circle mr-3 text-black"></i>
+                  <span>Post unlimited jobs</span>
+                </div>
+                <div class="flex items-center justify-start">
+                  <i class="fas fa-check-circle mr-3 text-black"></i>
+                  <span>Advanced candidate filtering</span>
+                </div>
+                <div class="flex items-center justify-start">
+                  <i class="fas fa-check-circle mr-3 text-black"></i>
+                  <span>Company branding tools</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

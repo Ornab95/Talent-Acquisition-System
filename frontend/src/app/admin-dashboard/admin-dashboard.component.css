@@ -1,0 +1,36 @@
+/* Admin Dashboard specific styles */
+.modal-overlay {
+  backdrop-filter: blur(2px);
+}
+
+.table-container {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.stats-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stats-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+  background-color: #3b82f6;
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+}
+
+.btn-danger {
+  background-color: #ef4444;
+  transition: background-color 0.2s;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+}

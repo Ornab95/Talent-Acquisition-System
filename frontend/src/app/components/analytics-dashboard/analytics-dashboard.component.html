@@ -1,0 +1,176 @@
+<div class="analytics-dashboard">
+  <div class="dashboard-header">
+    <h2 class="text-2xl font-bold text-gray-800 mb-2">Analytics Dashboard</h2>
+    <p class="text-gray-600">Hiring metrics and key performance indicators</p>
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <div class="flex items-center justify-center py-12">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      <span class="ml-3 text-gray-600">Loading analytics...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="error-state">
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+      {{ error }}
+    </div>
+  </div>
+
+  <div *ngIf="analytics && !loading" class="analytics-content">
+    
+    <!-- Key Metrics Cards -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-icon bg-blue-100">
+          <i class="fas fa-briefcase text-blue-600"></i>
+        </div>
+        <div class="metric-content">
+          <h3 class="metric-value">{{ analytics.totalJobs }}</h3>
+          <p class="metric-label">Total Jobs</p>
+          <span class="metric-sublabel">{{ analytics.activeJobs }} active</span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon bg-green-100">
+          <i class="fas fa-file-alt text-green-600"></i>
+        </div>
+        <div class="metric-content">
+          <h3 class="metric-value">{{ analytics.totalApplications }}</h3>
+          <p class="metric-label">Applications</p>
+          <span class="metric-sublabel">All time</span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon bg-purple-100">
+          <i class="fas fa-users text-purple-600"></i>
+        </div>
+        <div class="metric-content">
+          <h3 class="metric-value">{{ analytics.totalCandidates }}</h3>
+          <p class="metric-label">Candidates</p>
+          <span class="metric-sublabel">Registered</span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon bg-orange-100">
+          <i class="fas fa-clock text-orange-600"></i>
+        </div>
+        <div class="metric-content">
+          <h3 class="metric-value">{{ analytics.averageTimeToFill }}d</h3>
+          <p class="metric-label">Avg. Time to Fill</p>
+          <span class="metric-sublabel">Days</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="charts-grid">
+      
+      <!-- Application Status Chart -->
+      <div class="chart-card">
+        <h3 class="chart-title">Applications by Status</h3>
+        <div class="chart-content">
+          <div *ngFor="let status of getObjectKeys(analytics.applicationsByStatus)" class="status-bar">
+            <div class="status-info">
+              <span class="status-label">{{ status }}</span>
+              <span class="status-value">{{ analytics.applicationsByStatus[status] }}</span>
+            </div>
+            <div class="progress-bar-container">
+              <div class="progress-bar" 
+                   [class]="getStatusColor(status)"
+                   [style.width.%]="getPercentage(analytics.applicationsByStatus[status], getMaxValue(analytics.applicationsByStatus))">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Department Distribution -->
+      <div class="chart-card">
+        <h3 class="chart-title">Applications by Department</h3>
+        <div class="chart-content">
+          <div *ngFor="let dept of getObjectKeys(analytics.applicationsByDepartment)" class="dept-bar">
+            <div class="dept-info">
+              <span class="dept-label">{{ dept }}</span>
+              <span class="dept-value">{{ analytics.applicationsByDepartment[dept] }}</span>
+            </div>
+            <div class="progress-bar-container">
+              <div class="progress-bar bg-indigo-500"
+                   [style.width.%]="getPercentage(analytics.applicationsByDepartment[dept], getMaxValue(analytics.applicationsByDepartment))">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Monthly Trend -->
+      <div class="chart-card">
+        <h3 class="chart-title">Applications by Month</h3>
+        <div class="chart-content">
+          <div class="month-chart">
+            <div *ngFor="let month of getObjectKeys(analytics.applicationsByMonth)" class="month-bar">
+              <div class="month-value">{{ analytics.applicationsByMonth[month] }}</div>
+              <div class="bar-container">
+                <div class="bar bg-gradient-to-t from-blue-400 to-blue-600"
+                     [style.height.%]="getPercentage(analytics.applicationsByMonth[month], getMaxValue(analytics.applicationsByMonth))">
+                </div>
+              </div>
+              <div class="month-label">{{ month }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Source Channels -->
+      <div class="chart-card">
+        <h3 class="chart-title">Top Source Channels</h3>
+        <div class="chart-content">
+          <div *ngFor="let source of getObjectKeys(analytics.topSourceChannels)" class="source-item">
+            <div class="source-info">
+              <div class="source-icon">
+                <i class="fas fa-external-link-alt text-gray-500"></i>
+              </div>
+              <div class="source-details">
+                <span class="source-name">{{ source }}</span>
+                <div class="source-progress">
+                  <div class="progress-bar-container">
+                    <div class="progress-bar bg-teal-500"
+                         [style.width.%]="getPercentage(analytics.topSourceChannels[source], getMaxValue(analytics.topSourceChannels))">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span class="source-count">{{ analytics.topSourceChannels[source] }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="summary-section">
+      <div class="summary-card">
+        <h3 class="summary-title">Hiring Funnel</h3>
+        <div class="funnel-stats">
+          <div class="funnel-stage">
+            <span class="funnel-label">Applied</span>
+            <span class="funnel-value">{{ analytics.applicationsByStatus['APPLIED'] || 0 }}</span>
+          </div>
+          <div class="funnel-arrow">→</div>
+          <div class="funnel-stage">
+            <span class="funnel-label">Reviewed</span>
+            <span class="funnel-value">{{ analytics.applicationsByStatus['REVIEWED'] || 0 }}</span>
+          </div>
+          <div class="funnel-arrow">→</div>
+          <div class="funnel-stage">
+            <span class="funnel-label">Shortlisted</span>
+            <span class="funnel-value">{{ analytics.applicationsByStatus['SHORTLISTED'] || 0 }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

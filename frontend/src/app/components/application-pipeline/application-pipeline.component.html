@@ -1,0 +1,127 @@
+<div class="pipeline-container">
+  <div class="pipeline-header">
+    <h3 class="text-xl font-bold text-gray-800 mb-2">Application Pipeline</h3>
+    <p class="text-gray-600">{{ jobTitle }}</p>
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <div class="flex items-center justify-center py-8">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+      <span class="ml-2 text-gray-600">Loading applications...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="error-state">
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+      {{ error }}
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !error" class="pipeline-board">
+    <div class="stages-container">
+      <div *ngFor="let stage of stages; let i = index" 
+           class="pipeline-stage"
+           [class]="stage.color">
+        
+        <!-- Stage Header -->
+        <div class="stage-header">
+          <h4 class="stage-title">{{ stage.title }}</h4>
+          <span class="stage-count">{{ stage.applications.length }}</span>
+        </div>
+
+        <!-- Drop Zone -->
+        <div class="stage-content"
+             cdkDropList
+             [id]="'stage-' + i"
+             [cdkDropListData]="stage.applications"
+             [cdkDropListConnectedTo]="getConnectedLists()"
+             (cdkDropListDropped)="onDrop($event)">
+          
+          <!-- Application Cards -->
+          <div *ngFor="let app of stage.applications" 
+               class="application-card"
+               cdkDrag>
+            
+            <!-- Drag Handle -->
+            <div class="drag-handle" cdkDragHandle>
+              <i class="fas fa-grip-vertical text-gray-400"></i>
+            </div>
+
+            <!-- Application Content -->
+            <div class="card-content">
+              <div class="candidate-info">
+                <h5 class="candidate-name">
+                  {{ app.candidate?.firstName }} {{ app.candidate?.lastName }}
+                </h5>
+                <p class="candidate-email">{{ app.candidate?.email }}</p>
+              </div>
+
+              <div class="application-meta">
+                <div class="applied-date">
+                  <i class="fas fa-calendar-alt text-gray-400 mr-1"></i>
+                  <span class="text-xs text-gray-500">{{ formatDate(app.appliedAt) }}</span>
+                </div>
+                
+                <div class="application-actions">
+                  <button *ngIf="app.resumeFilePath" 
+                          class="action-btn resume-btn"
+                          title="View Resume">
+                    <i class="fas fa-file-alt"></i>
+                  </button>
+                  
+                  <button *ngIf="app.coverLetter" 
+                          class="action-btn cover-btn"
+                          title="View Cover Letter">
+                    <i class="fas fa-envelope"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Progress Indicator -->
+              <div class="progress-indicator">
+                <div class="progress-bar" [style.width.%]="getProgressPercentage(stage.id)"></div>
+              </div>
+            </div>
+
+            <!-- Drag Preview -->
+            <div class="drag-preview" *cdkDragPreview>
+              <div class="preview-card">
+                <strong>{{ app.candidate?.firstName }} {{ app.candidate?.lastName }}</strong>
+                <br>
+                <small>{{ app.candidate?.email }}</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <div *ngIf="stage.applications.length === 0" class="empty-stage">
+            <i class="fas fa-inbox text-gray-300 text-2xl mb-2"></i>
+            <p class="text-gray-400 text-sm">No applications</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pipeline Stats -->
+  <div class="pipeline-stats">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="stat-label">Total Applications</span>
+        <span class="stat-value">{{ getTotalApplications() }}</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">In Review</span>
+        <span class="stat-value">{{ getApplicationCount('REVIEWED') }}</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Shortlisted</span>
+        <span class="stat-value">{{ getApplicationCount('SHORTLISTED') }}</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Interviews</span>
+        <span class="stat-value">{{ getApplicationCount('INTERVIEW') }}</span>
+      </div>
+    </div>
+  </div>
+</div>

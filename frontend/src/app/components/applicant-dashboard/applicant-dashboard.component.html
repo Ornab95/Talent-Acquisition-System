@@ -1,0 +1,511 @@
+<div [class]="isDarkMode 
+  ? 'min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black' 
+  : 'min-h-screen bg-gradient-to-br from-pink-500 via-orange-400 to-purple-600'">
+  <!-- Navbar -->
+  <app-navbar></app-navbar>
+
+  <!-- Main Content -->
+  <div class="container mx-auto p-6 pt-20">
+    <div class="flex gap-6">
+      <!-- Sidebar Filters -->
+      <div [class]="isDarkMode 
+        ? 'w-80 bg-gray-800 shadow-2xl rounded-2xl h-fit sticky top-20' 
+        : 'w-80 bg-orange-100 shadow-2xl rounded-2xl h-fit sticky top-20'">
+        
+        <!-- Sidebar Header -->
+        <div class="p-8 pb-6">
+          <h3 [class]="isDarkMode ? 'text-3xl font-bold text-white mb-2' : 'text-3xl font-bold text-orange-900 mb-2'">Filter Jobs</h3>
+          <p [class]="isDarkMode ? 'text-gray-400' : 'text-orange-600'">Find your perfect match</p>
+        </div>
+        
+        <!-- Filter Content -->
+        <div class="px-8 pb-8">
+        
+          <!-- Search Bar -->
+          <div class="mb-6">
+          <input type="text" [(ngModel)]="filters.search" (input)="applyFilters()" placeholder="Search jobs..."
+            [class]="isDarkMode 
+              ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500' 
+              : 'w-full p-3 border border-orange-300 bg-white text-orange-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500'">
+        </div>
+
+        <!-- Quick Filters
+        <div class="mb-6">
+          <button (click)="toggleSection('quickFilter')" 
+            [class]="isDarkMode 
+              ? 'w-full flex justify-between items-center p-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-all' 
+              : 'w-full flex justify-between items-center p-3 bg-orange-200 hover:bg-orange-300 text-orange-900 rounded-lg transition-all'">
+            <span class="font-medium">Quick Filters</span>
+            <span [class]="expandedSections.quickFilter ? 'transform rotate-180' : ''">▼</span>
+          </button>
+          <div *ngIf="expandedSections.quickFilter" [class]="isDarkMode ? 'mt-3 p-3 bg-gray-700 rounded-lg' : 'mt-3 p-3 bg-orange-50 rounded-lg'">
+            <label class="flex items-center mb-2">
+              <input type="checkbox" [(ngModel)]="filters.fresher" (change)="applyFilters()" class="mr-2">
+              <span [class]="isDarkMode ? 'text-white' : 'text-orange-900'">Fresher Positions</span>
+            </label>
+          </div>
+        </div> -->
+
+        <!-- Salary Range -->
+        <div class="mb-6">
+          <button (click)="toggleSection('salary')" 
+            [class]="isDarkMode 
+              ? 'w-full flex justify-between items-center p-4 bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl group border-2 border-gray-500 hover:border-gray-400' 
+              : 'w-full flex justify-between items-center p-4 bg-gradient-to-r from-orange-200 to-orange-300 hover:from-orange-300 hover:to-orange-400 text-orange-900 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl group border-2 border-orange-400 hover:border-orange-500'">
+            <div class="flex items-center space-x-3">
+              <div [class]="isDarkMode ? 'w-8 h-8 rounded-lg bg-gradient-to-r from-yellow-500 to-orange-600 flex items-center justify-center' : 'w-8 h-8 rounded-lg bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center'">
+                <svg [class]="isDarkMode ? 'w-5 h-5 text-white' : 'w-5 h-5 text-gray-800'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                </svg>
+              </div>
+              <span class="font-semibold">Salary Range</span>
+            </div>
+            <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110" [class]="expandedSections.salary ? 'transform rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div *ngIf="expandedSections.salary" [class]="isDarkMode ? 'mt-4 p-4 bg-gray-800/80 backdrop-blur-sm rounded-xl border-2 border-gray-500 space-y-4' : 'mt-4 p-4 bg-white/90 backdrop-blur-sm rounded-xl border-2 border-orange-400 space-y-4'" style="animation: slideDown 0.3s ease-out;">
+            <div class="mb-3">
+              <label [class]="isDarkMode ? 'text-sm text-gray-300' : 'text-sm text-orange-800'">Min: ৳{{filters.salaryRange.min}}</label>
+              <input type="range" [(ngModel)]="filters.salaryRange.min" (input)="applyFilters()" min="0" max="200000" step="5000" class="w-full mt-1">
+            </div>
+            <div>
+              <label [class]="isDarkMode ? 'text-sm text-gray-300' : 'text-sm text-orange-800'">Max: ৳{{filters.salaryRange.max}}</label>
+              <input type="range" [(ngModel)]="filters.salaryRange.max" (input)="applyFilters()" min="0" max="200000" step="5000" class="w-full mt-1">
+            </div>
+          </div>
+        </div>
+
+        <!-- Experience Range -->
+        <div class="mb-6">
+          <button (click)="toggleSection('experience')" 
+            [class]="isDarkMode 
+              ? 'w-full flex justify-between items-center p-4 bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl group border-2 border-gray-500 hover:border-gray-400' 
+              : 'w-full flex justify-between items-center p-4 bg-gradient-to-r from-orange-200 to-orange-300 hover:from-orange-300 hover:to-orange-400 text-orange-900 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl group border-2 border-orange-400 hover:border-orange-500'">
+            <div class="flex items-center space-x-3">
+              <div [class]="isDarkMode ? 'w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center' : 'w-8 h-8 rounded-lg bg-gradient-to-r from-purple-400 to-pink-500 flex items-center justify-center'">
+                <svg [class]="isDarkMode ? 'w-5 h-5 text-white' : 'w-5 h-5 text-gray-800'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                </svg>
+              </div>
+              <span class="font-semibold">Experience</span>
+            </div>
+            <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110" [class]="expandedSections.experience ? 'transform rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div *ngIf="expandedSections.experience" [class]="isDarkMode ? 'mt-4 p-4 bg-gray-800/80 backdrop-blur-sm rounded-xl border-2 border-gray-500 space-y-4' : 'mt-4 p-4 bg-white/90 backdrop-blur-sm rounded-xl border-2 border-orange-400 space-y-4'" style="animation: slideDown 0.3s ease-out;">
+            <div class="mb-3">
+              <label [class]="isDarkMode ? 'text-sm text-gray-300' : 'text-sm text-orange-800'">Min: {{filters.experienceRange.min}} years</label>
+              <input type="range" [(ngModel)]="filters.experienceRange.min" (input)="applyFilters()" min="0" max="20" step="1" class="w-full mt-1">
+            </div>
+            <div>
+              <label [class]="isDarkMode ? 'text-sm text-gray-300' : 'text-sm text-orange-800'">Max: {{filters.experienceRange.max}} years</label>
+              <input type="range" [(ngModel)]="filters.experienceRange.max" (input)="applyFilters()" min="0" max="20" step="1" class="w-full mt-1">
+            </div>
+          </div>
+        </div>
+
+        <!-- Department/Category -->
+        <div class="mb-6">
+          <button (click)="toggleSection('department')" 
+            [class]="isDarkMode 
+              ? 'w-full flex justify-between items-center p-4 bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl group border-2 border-gray-500 hover:border-gray-400' 
+              : 'w-full flex justify-between items-center p-4 bg-gradient-to-r from-orange-200 to-orange-300 hover:from-orange-300 hover:to-orange-400 text-orange-900 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl group border-2 border-orange-400 hover:border-orange-500'">
+            <div class="flex items-center space-x-3">
+              <div [class]="isDarkMode ? 'w-8 h-8 rounded-lg bg-gradient-to-r from-indigo-500 to-blue-600 flex items-center justify-center' : 'w-8 h-8 rounded-lg bg-gradient-to-r from-indigo-400 to-blue-500 flex items-center justify-center'">
+                <svg [class]="isDarkMode ? 'w-5 h-5 text-white' : 'w-5 h-5 text-gray-800'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                </svg>
+              </div>
+              <span class="font-semibold">Department</span>
+            </div>
+            <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110" [class]="expandedSections.department ? 'transform rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div *ngIf="expandedSections.department" [class]="isDarkMode ? 'mt-4 p-4 bg-gray-800/80 backdrop-blur-sm rounded-xl border-2 border-gray-500 space-y-3 max-h-48 overflow-y-auto' : 'mt-4 p-4 bg-white/90 backdrop-blur-sm rounded-xl border-2 border-orange-400 space-y-3 max-h-48 overflow-y-auto'" style="animation: slideDown 0.3s ease-out;">
+            <div *ngFor="let dept of departments" class="mb-2">
+              <label class="flex items-center">
+                <input type="checkbox" [checked]="filters.departments.includes(dept)" (change)="toggleDepartment(dept)" class="mr-2">
+                <span [class]="isDarkMode ? 'text-white' : 'text-orange-900'">{{dept}}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="mb-6">
+          <button (click)="toggleSection('location')" 
+            [class]="isDarkMode 
+              ? 'w-full flex justify-between items-center p-4 bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl group border-2 border-gray-500 hover:border-gray-400' 
+              : 'w-full flex justify-between items-center p-4 bg-gradient-to-r from-orange-200 to-orange-300 hover:from-orange-300 hover:to-orange-400 text-orange-900 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl group border-2 border-orange-400 hover:border-orange-500'">
+            <div class="flex items-center space-x-3">
+              <div [class]="isDarkMode ? 'w-8 h-8 rounded-lg bg-gradient-to-r from-red-500 to-pink-600 flex items-center justify-center' : 'w-8 h-8 rounded-lg bg-gradient-to-r from-red-400 to-pink-500 flex items-center justify-center'">
+                <svg [class]="isDarkMode ? 'w-5 h-5 text-white' : 'w-5 h-5 text-gray-800'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+              </div>
+              <span class="font-semibold">Location</span>
+            </div>
+            <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110" [class]="expandedSections.location ? 'transform rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div *ngIf="expandedSections.location" [class]="isDarkMode ? 'mt-4 p-4 bg-gray-800/80 backdrop-blur-sm rounded-xl border-2 border-gray-500 space-y-3 max-h-48 overflow-y-auto' : 'mt-4 p-4 bg-white/90 backdrop-blur-sm rounded-xl border-2 border-orange-400 space-y-3 max-h-48 overflow-y-auto'" style="animation: slideDown 0.3s ease-out;">
+            <div *ngFor="let loc of locations" class="mb-2">
+              <label class="flex items-center">
+                <input type="checkbox" [checked]="filters.locations.includes(loc)" (change)="toggleLocation(loc)" class="mr-2">
+                <span [class]="isDarkMode ? 'text-white' : 'text-orange-900'">{{loc}}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+          <!-- Clear All Button -->
+          <button (click)="clearAllFilters()" 
+            [class]="isDarkMode 
+              ? 'w-full py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all font-medium' 
+              : 'w-full py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all font-medium'">
+            Clear All Filters
+          </button>
+        </div>
+      </div>
+
+      <!-- Jobs Section -->
+      <div class="flex-1">
+        <div [class]="isDarkMode 
+          ? 'bg-gray-800 shadow-2xl rounded-2xl p-8 relative overflow-hidden' 
+          : 'bg-orange-100 shadow-2xl rounded-2xl p-8 relative overflow-hidden'">
+      
+      <!-- Decorative background shapes -->
+      <div [class]="isDarkMode 
+        ? 'absolute top-0 left-0 w-60 h-60 bg-gradient-to-br from-blue-600 to-purple-400 rounded-full blur-3xl opacity-20 -translate-x-20 -translate-y-20' 
+        : 'absolute top-0 left-0 w-60 h-60 bg-gradient-to-br from-orange-400 to-pink-400 rounded-full blur-3xl opacity-30 -translate-x-20 -translate-y-20'">
+      </div>
+      <div [class]="isDarkMode 
+        ? 'absolute bottom-0 right-0 w-60 h-60 bg-gradient-to-tr from-purple-600 to-blue-400 rounded-full blur-3xl opacity-20 translate-x-20 translate-y-20' 
+        : 'absolute bottom-0 right-0 w-60 h-60 bg-gradient-to-tr from-orange-500 to-red-400 rounded-full blur-3xl opacity-30 translate-x-20 translate-y-20'">
+      </div>
+
+      <div class="relative z-10">
+        <!-- Jobs Header -->
+        <div class="mb-8">
+          <h2 [class]="isDarkMode 
+            ? 'text-3xl font-bold text-white mb-2' 
+            : 'text-3xl font-bold text-orange-900 mb-2'">Available Job Opportunities</h2>
+          <p [class]="isDarkMode ? 'text-gray-400' : 'text-orange-600'">{{filteredJobs.length}} jobs found</p>
+        </div>
+
+        <!-- Profile Modal -->
+        @if (showProfile) {
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div [class]="isDarkMode 
+            ? 'bg-gray-800 p-8 rounded-2xl w-full max-w-md shadow-2xl border border-gray-700' 
+            : 'bg-white p-8 rounded-2xl w-full max-w-md shadow-2xl border-2 border-orange-300'">
+            <div class="flex justify-between items-center mb-6">
+              <h3 [class]="isDarkMode 
+                ? 'text-2xl font-bold text-white' 
+                : 'text-2xl font-bold text-orange-900'">{{editMode ? 'Edit Profile' : 'Profile Details'}}</h3>
+              <button (click)="closeProfile()" 
+                [class]="isDarkMode 
+                  ? 'text-gray-400 hover:text-white text-2xl' 
+                  : 'text-orange-600 hover:text-orange-900 text-2xl'">&times;</button>
+            </div>
+            
+            <div class="space-y-4">
+              <div>
+                <label [class]="isDarkMode 
+                  ? 'block text-sm font-medium text-gray-300 mb-2' 
+                  : 'block text-sm font-medium text-orange-800 mb-2'">First Name:</label>
+                <input *ngIf="editMode" [(ngModel)]="editForm.firstName" 
+                  [class]="isDarkMode 
+                    ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500' 
+                    : 'w-full p-3 border border-orange-300 bg-orange-50 text-orange-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500'">
+                <p *ngIf="!editMode" [class]="isDarkMode ? 'text-white' : 'text-orange-900'">{{userDetails.firstName}}</p>
+              </div>
+              
+              <div>
+                <label [class]="isDarkMode 
+                  ? 'block text-sm font-medium text-gray-300 mb-2' 
+                  : 'block text-sm font-medium text-orange-800 mb-2'">Last Name:</label>
+                <input *ngIf="editMode" [(ngModel)]="editForm.lastName" 
+                  [class]="isDarkMode 
+                    ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500' 
+                    : 'w-full p-3 border border-orange-300 bg-orange-50 text-orange-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500'">
+                <p *ngIf="!editMode" [class]="isDarkMode ? 'text-white' : 'text-orange-900'">{{userDetails.lastName}}</p>
+              </div>
+              
+              <div>
+                <label [class]="isDarkMode 
+                  ? 'block text-sm font-medium text-gray-300 mb-2' 
+                  : 'block text-sm font-medium text-orange-800 mb-2'">Email:</label>
+                <p [class]="isDarkMode ? 'text-white' : 'text-orange-900'">{{userDetails.email}}</p>
+              </div>
+              
+              <div>
+                <label [class]="isDarkMode 
+                  ? 'block text-sm font-medium text-gray-300 mb-2' 
+                  : 'block text-sm font-medium text-orange-800 mb-2'">Phone:</label>
+                <input *ngIf="editMode" [(ngModel)]="editForm.phone" 
+                  [class]="isDarkMode 
+                    ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500' 
+                    : 'w-full p-3 border border-orange-300 bg-orange-50 text-orange-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500'">
+                <p *ngIf="!editMode" [class]="isDarkMode ? 'text-white' : 'text-orange-900'">{{userDetails.phone || 'Not provided'}}</p>
+              </div>
+              
+              <div>
+                <label [class]="isDarkMode 
+                  ? 'block text-sm font-medium text-gray-300 mb-2' 
+                  : 'block text-sm font-medium text-orange-800 mb-2'">Role:</label>
+                <p [class]="isDarkMode ? 'text-white' : 'text-orange-900'">{{userDetails.role}}</p>
+              </div>
+            </div>
+            
+            <div class="flex justify-end space-x-3 mt-6">
+              <button *ngIf="!editMode" (click)="enableEditMode()" 
+                [class]="isDarkMode 
+                  ? 'px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-all' 
+                  : 'px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-all'">
+                Edit Profile
+              </button>
+              <button *ngIf="editMode" (click)="cancelEdit()" 
+                [class]="isDarkMode 
+                  ? 'px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-all' 
+                  : 'px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-all'">
+                Cancel
+              </button>
+              <button *ngIf="editMode" (click)="saveProfile()" 
+                [class]="isDarkMode 
+                  ? 'px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-all' 
+                  : 'px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-all'">
+                Save Changes
+              </button>
+              <button *ngIf="!editMode" (click)="closeProfile()" 
+                [class]="isDarkMode 
+                  ? 'px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-all' 
+                  : 'px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-all'">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- Job Details Modal -->
+        @if (showJobDetails && selectedJob && !showApplicationForm) {
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div [class]="isDarkMode 
+            ? 'bg-gray-800 rounded-2xl w-full max-w-5xl max-h-[80vh] shadow-2xl flex flex-col' 
+            : 'bg-orange-50 rounded-2xl w-full max-w-5xl max-h-[80vh] shadow-2xl flex flex-col'">
+            <!-- Fixed Header -->
+            <div [class]="isDarkMode 
+              ? 'flex justify-between items-center p-8 pb-4 border-b border-gray-700' 
+              : 'flex justify-between items-center p-8 pb-4 border-b border-orange-200'">
+              <h3 [class]="isDarkMode 
+                ? 'text-3xl font-bold text-white' 
+                : 'text-3xl font-bold text-orange-900'">{{selectedJob.title}}</h3>
+              <button (click)="closeJobDetails()" 
+                [class]="isDarkMode 
+                  ? 'text-gray-400 hover:text-white text-3xl w-10 h-10 rounded-full hover:bg-gray-700 flex items-center justify-center transition-all' 
+                  : 'text-orange-600 hover:text-orange-900 text-3xl w-10 h-10 rounded-full hover:bg-orange-200 flex items-center justify-center transition-all'">&times;</button>
+            </div>
+            
+            <!-- Scrollable Content -->
+            <div class="overflow-y-auto p-8 pt-4 flex-1">
+
+              <div class="space-y-6">
+                <div>
+                  <h4 [class]="isDarkMode 
+                    ? 'font-bold text-gray-300 text-lg mb-2' 
+                    : 'font-bold text-orange-800 text-lg mb-2'">Department:</h4>
+                  <p [class]="isDarkMode ? 'text-gray-400' : 'text-orange-700'">{{selectedJob.department}}</p>
+                </div>
+
+                <div>
+                  <h4 [class]="isDarkMode 
+                    ? 'font-bold text-gray-300 text-lg mb-2' 
+                    : 'font-bold text-orange-800 text-lg mb-2'">Location:</h4>
+                  <p [class]="isDarkMode ? 'text-gray-400' : 'text-orange-700'">{{selectedJob.location}}</p>
+                </div>
+
+                <div>
+                  <h4 [class]="isDarkMode 
+                    ? 'font-bold text-gray-300 text-lg mb-2' 
+                    : 'font-bold text-orange-800 text-lg mb-2'">Salary Range:</h4>
+                  <p [class]="isDarkMode ? 'text-green-400 font-bold' : 'text-green-600 font-bold'">৳{{selectedJob.minSalary}} - ৳{{selectedJob.maxSalary}}</p>
+                </div>
+
+                @if (selectedJob.deadline) {
+                <div>
+                  <h4 [class]="isDarkMode 
+                    ? 'font-bold text-gray-300 text-lg mb-2' 
+                    : 'font-bold text-orange-800 text-lg mb-2'">Application Deadline:</h4>
+                  <p class="text-red-500 font-bold">{{selectedJob.deadline}}</p>
+                </div>
+                }
+
+                <div>
+                  <h4 [class]="isDarkMode 
+                    ? 'font-bold text-gray-300 text-lg mb-2' 
+                    : 'font-bold text-orange-800 text-lg mb-2'">Job Description:</h4>
+                  <p [class]="isDarkMode ? 'text-gray-400 whitespace-pre-line' : 'text-orange-700 whitespace-pre-line'">{{selectedJob.description}}</p>
+                </div>
+
+                <div>
+                  <h4 [class]="isDarkMode 
+                    ? 'font-bold text-gray-300 text-lg mb-2' 
+                    : 'font-bold text-orange-800 text-lg mb-2'">Requirements:</h4>
+                  <p [class]="isDarkMode ? 'text-gray-400 whitespace-pre-line' : 'text-orange-700 whitespace-pre-line'">{{selectedJob.requirements}}</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Fixed Footer -->
+            <div [class]="isDarkMode 
+              ? 'flex justify-end space-x-3 p-8 pt-4 border-t border-gray-700' 
+              : 'flex justify-end space-x-3 p-8 pt-4 border-t border-orange-200'">
+              <button (click)="closeJobDetails()" 
+                [class]="isDarkMode 
+                  ? 'px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-all' 
+                  : 'px-6 py-3 bg-orange-300 hover:bg-orange-400 text-orange-900 rounded-lg transition-all'">
+                Close
+              </button>
+              <button (click)="applyForJob(selectedJob.id)"
+                [class]="isDarkMode 
+                  ? 'px-6 py-2 rounded-md text-white font-medium border-2 border-blue-500 bg-gray-700 hover:bg-gray-600 transition-all text-sm' 
+                  : 'px-6 py-2 rounded-md text-orange-900 font-medium border-2 border-orange-500 bg-orange-100 hover:bg-orange-300 hover:text-white transition-all text-sm'">
+                Apply Now
+              </button>
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- Application Form Modal -->
+        @if (showApplicationForm && selectedJob) {
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50 p-4 pt-20">
+          <div [class]="isDarkMode 
+            ? 'bg-gray-800 p-8 rounded-2xl w-full max-w-2xl max-h-[80vh] overflow-y-auto shadow-2xl' 
+            : 'bg-orange-50 p-8 rounded-2xl w-full max-w-2xl max-h-[80vh] overflow-y-auto shadow-2xl'">
+            <div class="flex justify-between items-start mb-6">
+              <h3 [class]="isDarkMode 
+                ? 'text-2xl font-bold text-white' 
+                : 'text-2xl font-bold text-orange-900'">Apply for {{selectedJob.title}}</h3>
+              <button (click)="closeApplicationForm()" 
+                [class]="isDarkMode 
+                  ? 'text-gray-400 hover:text-white text-3xl' 
+                  : 'text-orange-600 hover:text-orange-900 text-3xl'">&times;</button>
+            </div>
+
+            <form (ngSubmit)="submitApplication()">
+              <div class="mb-6">
+                <label [class]="isDarkMode 
+                  ? 'block text-sm font-medium text-gray-300 mb-2' 
+                  : 'block text-sm font-medium text-orange-800 mb-2'">Cover Letter *</label>
+                <textarea [(ngModel)]="applicationForm.coverLetter" name="coverLetter" required rows="6"
+                  placeholder="Tell us why you're interested in this position and what makes you a great fit..."
+                  [class]="isDarkMode 
+                    ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                    : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500'"></textarea>
+              </div>
+
+              <div class="mb-6">
+                <label [class]="isDarkMode 
+                  ? 'block text-sm font-medium text-gray-300 mb-2' 
+                  : 'block text-sm font-medium text-orange-800 mb-2'">Resume (PDF) *</label>
+                <input type="file" (change)="onFileSelected($event)" accept=".pdf" required
+                  [class]="isDarkMode 
+                    ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                    : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500'">
+                <p class="text-sm text-gray-500 mt-1">Please upload your resume in PDF format (max 10MB)</p>
+              </div>
+
+              <div class="flex justify-end space-x-3">
+                <button type="button" (click)="closeApplicationForm()" 
+                  [class]="isDarkMode 
+                    ? 'px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-all' 
+                    : 'px-6 py-3 bg-orange-300 hover:bg-orange-400 text-orange-900 rounded-lg transition-all'">
+                  Cancel
+                </button>
+                <button type="submit" 
+                  [class]="isDarkMode 
+                    ? 'px-6 py-2 rounded-md text-white font-medium border-2 border-blue-500 bg-gray-700 hover:bg-gray-600 transition-all text-sm' 
+                    : 'px-6 py-2 rounded-md text-orange-900 font-medium border-2 border-orange-500 bg-orange-100 hover:bg-orange-300 hover:text-white transition-all text-sm'">
+                  Submit Application
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        }
+
+          <!-- Jobs Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @for (job of filteredJobs; track job.id) {
+            <div
+              [class]="isDarkMode 
+                ? 'bg-gray-700/50 backdrop-blur-sm border border-gray-600 rounded-2xl p-6 hover:shadow-2xl hover:bg-gray-700 transition-all cursor-pointer flex flex-col' 
+                : 'bg-white/80 backdrop-blur-sm border border-gray-200 rounded-2xl p-6 hover:shadow-2xl hover:bg-white transition-all cursor-pointer flex flex-col'"
+              (click)="viewJobDetails(job)">
+
+            <div>
+              <h3 [class]="isDarkMode 
+                ? 'text-xl font-bold text-white mb-3' 
+                : 'text-xl font-bold text-orange-900 mb-3'">{{job.title}}</h3>
+              <p [class]="isDarkMode 
+                ? 'text-gray-300 mb-2' 
+                : 'text-orange-700 mb-2'">{{job.department}}</p>
+              <p [class]="isDarkMode 
+                ? 'text-gray-300 mb-2' 
+                : 'text-orange-700 mb-2'">📍 {{job.location}}</p>
+              <p class="text-green-600 font-bold mb-2">৳{{job.minSalary}} - ৳{{job.maxSalary}}</p>
+              @if (job.deadline) {
+              <p class="text-red-500 text-sm mb-3 font-medium">⏰ Deadline: {{job.deadline}}</p>
+              }
+              <p [class]="isDarkMode 
+                ? 'text-gray-400 text-sm line-clamp-3' 
+                : 'text-orange-600 text-sm line-clamp-3'">{{job.description}}</p>
+            </div>
+
+            <div class="mt-auto pt-4">
+              <button [class]="isDarkMode 
+                ? 'w-full py-2 rounded-md text-white font-medium border-2 border-blue-500 bg-gray-700 hover:bg-gray-600 transition-all text-sm' 
+                : 'w-full py-2 rounded-md text-orange-900 font-medium border-2 border-orange-500 bg-orange-100 hover:bg-orange-300 hover:text-white transition-all text-sm'">
+                View Details
+              </button>
+            </div>
+          </div>
+          }
+        </div>
+
+        @if (filteredJobs.length === 0 && jobs.length > 0) {
+        <div class="text-center py-16">
+          <div class="text-8xl mb-6">🔍</div>
+          <h3 [class]="isDarkMode 
+            ? 'text-2xl font-bold text-white mb-4' 
+            : 'text-2xl font-bold text-orange-900 mb-4'">No Jobs Match Your Filters</h3>
+          <p [class]="isDarkMode 
+            ? 'text-gray-400 text-lg' 
+            : 'text-orange-700 text-lg'">Try adjusting your search criteria.</p>
+        </div>
+        }
+
+        @if (jobs.length === 0) {
+        <div class="text-center py-16">
+          <div class="text-8xl mb-6">💼</div>
+          <h3 [class]="isDarkMode 
+            ? 'text-2xl font-bold text-white mb-4' 
+            : 'text-2xl font-bold text-orange-900 mb-4'">No Jobs Available</h3>
+          <p [class]="isDarkMode 
+            ? 'text-gray-400 text-lg' 
+            : 'text-orange-700 text-lg'">Check back later for new job opportunities.</p>
+        </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
