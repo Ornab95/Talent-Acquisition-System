@@ -18,6 +18,7 @@ export class AdminDashboardComponent implements OnInit {
   isDarkMode = false;
   currentView = 'dashboard';
   showUserProfile = false;
+  showMobileMenu = false;
   selectedUserProfile: any = null;
   userApplications: any[] = [];
   jobs: any[] = [];
@@ -288,5 +289,9 @@ export class AdminDashboardComponent implements OnInit {
   
   closeSettingForm() {
     this.showSettingForm = false;
+  }
+
+  toggleMobileMenu() {
+    this.showMobileMenu = !this.showMobileMenu;
   }
 }

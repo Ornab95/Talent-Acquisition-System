@@ -20,8 +20,15 @@
               system settings</p>
           </div>
         </div>
-        <div
-          [class]="isDarkMode ? 'flex items-center space-x-2 bg-gray-700 rounded-xl p-1' : 'flex items-center space-x-2 bg-gray-100 rounded-xl p-1'">
+        <!-- Mobile Menu Button -->
+        <button (click)="toggleMobileMenu()" class="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg" 
+          [class]="isDarkMode ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-gray-100 text-gray-900 hover:bg-gray-200'">
+          <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden lg:flex items-center space-x-2 rounded-xl p-1" 
+          [class]="isDarkMode ? 'bg-gray-700' : 'bg-gray-100'">
           <button (click)="switchView('dashboard')"
             [class]="currentView === 'dashboard' ? (isDarkMode ? 'bg-gray-600 text-blue-400 shadow-sm' : 'bg-white text-blue-600 shadow-sm') : (isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900')"
             class="px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2">
@@ -49,7 +56,45 @@
           <button (click)="switchView('settings')"
             [class]="currentView === 'settings' ? (isDarkMode ? 'bg-gray-600 text-blue-400 shadow-sm' : 'bg-white text-blue-600 shadow-sm') : (isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900')"
             class="px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2">
-            <i class="fas fa-cogs text-sm"></i>
+            <i [class]="currentView === 'settings' ? 'fas fa-cogs text-sm' : (isDarkMode ? 'fas fa-cogs text-sm text-gray-300' : 'fas fa-cogs text-sm text-gray-700')"></i>
+            <span>Settings</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div *ngIf="showMobileMenu" class="lg:hidden" [class]="isDarkMode ? 'bg-gray-800 border-b border-gray-700' : 'bg-white border-b border-gray-200'">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex flex-col space-y-2">
+          <button (click)="switchView('dashboard'); toggleMobileMenu()"
+            [class]="currentView === 'dashboard' ? (isDarkMode ? 'bg-gray-700 text-blue-400' : 'bg-gray-100 text-blue-600') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-700' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50')"
+            class="w-full px-4 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-3 text-left">
+            <i class="fas fa-chart-line text-sm"></i>
+            <span>Overview</span>
+          </button>
+          <button (click)="switchView('users'); toggleMobileMenu()"
+            [class]="currentView === 'users' ? (isDarkMode ? 'bg-gray-700 text-blue-400' : 'bg-gray-100 text-blue-600') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-700' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50')"
+            class="w-full px-4 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-3 text-left">
+            <i class="fas fa-users text-sm"></i>
+            <span>Users</span>
+          </button>
+          <button (click)="switchView('jobs'); toggleMobileMenu()"
+            [class]="currentView === 'jobs' ? (isDarkMode ? 'bg-gray-700 text-blue-400' : 'bg-gray-100 text-blue-600') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-700' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50')"
+            class="w-full px-4 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-3 text-left">
+            <i class="fas fa-briefcase text-sm"></i>
+            <span>Jobs</span>
+          </button>
+          <button (click)="switchView('applications'); toggleMobileMenu()"
+            [class]="currentView === 'applications' ? (isDarkMode ? 'bg-gray-700 text-blue-400' : 'bg-gray-100 text-blue-600') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-700' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50')"
+            class="w-full px-4 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-3 text-left">
+            <i class="fas fa-file-alt text-sm"></i>
+            <span>Applications</span>
+          </button>
+          <button (click)="switchView('settings'); toggleMobileMenu()"
+            [class]="currentView === 'settings' ? (isDarkMode ? 'bg-gray-700 text-blue-400' : 'bg-gray-100 text-blue-600') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-700' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50')"
+            class="w-full px-4 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-3 text-left">
+            <i [class]="currentView === 'settings' ? 'fas fa-cogs text-sm' : (isDarkMode ? 'fas fa-cogs text-sm text-gray-300' : 'fas fa-cogs text-sm text-gray-700')"></i>
             <span>Settings</span>
           </button>
         </div>
@@ -767,5 +812,4 @@
         </div>
       </div>
     </div>
-  </div>
 </div>
