@@ -401,7 +401,7 @@ Open your browser and navigate to `http://localhost:4200`
 
 ## 📸 Screenshots
 
-> **Note:** Add your application screenshots here to showcase the UI/UX
+> **Note:** Add Letter
 
 ### Login & Authentication
 🔐 Clean, modern login interface with role-based routing
