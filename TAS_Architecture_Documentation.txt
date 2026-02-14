@@ -4,9 +4,9 @@
 
 OVERVIEW
 --------
-A comprehensive talent acquisition platform built with Angular frontend and 
-Spring Boot backend, featuring job management, application tracking, interview 
-scheduling, and automated notifications.
+A comprehensive, enterprise-grade talent acquisition platform built with modern
+web technologies. Features complete recruitment workflow from job posting to
+hiring, with advanced analytics, interview management, and automated notifications.
 
 ===============================================================================
 TECHNOLOGY STACK
@@ -16,20 +16,25 @@ BACKEND
 -------
 - Framework: Spring Boot 3.4.10
 - Language: Java 21
-- Database: MySQL 8.0+
-- Security: Spring Security with JWT
+- Database: MySQL 8.0+ with JPA/Hibernate
+- Security: Spring Security with JWT (JJWT 0.12.3)
 - Email: Spring Boot Mail with Thymeleaf templates
-- Build Tool: Maven
-- ORM: Spring Data JPA with Hibernate
+- Build Tool: Maven 3.6+
+- API Documentation: SpringDoc OpenAPI 2.8.5
+- Validation: Spring Boot Validation
+- File Upload: Multipart support (10MB limit)
 
 FRONTEND
 --------
-- Framework: Angular 19
-- Language: TypeScript
-- Styling: Tailwind CSS
-- HTTP Client: Angular HttpClient
-- Routing: Angular Router
-- State Management: RxJS Observables
+- Framework: Angular 20.3.0
+- Language: TypeScript 5.9.2
+- Styling: Tailwind CSS 4.1.14
+- UI Components: PrimeNG 20.2.0, Angular Material 20.2.8
+- Icons: PrimeIcons 7.0.0
+- HTTP Client: Angular HttpClient with Interceptors
+- Routing: Angular Router with Guards
+- State Management: RxJS 7.8.0 Observables
+- Build Tool: Angular CLI 20.3.5
 
 ===============================================================================
 SYSTEM ARCHITECTURE
@@ -38,24 +43,137 @@ SYSTEM ARCHITECTURE
 BACKEND STRUCTURE
 -----------------
 src/main/java/com/tas/
-├── config/          # Security, CORS, JWT configuration
+├── config/          # Configuration classes
+│   ├── CorsFilter.java           # CORS configuration
+│   ├── DataInitializer.java      # Initial data setup
+│   ├── FileUploadConfig.java     # File upload settings
+│   ├── JwtAuthenticationFilter.java # JWT filter
+│   ├── JwtUtil.java              # JWT utilities
+│   ├── RateLimitingFilter.java   # API rate limiting
+│   ├── SecurityConfig.java       # Security configuration
+│   └── WebConfig.java            # Web configuration
 ├── controller/      # REST API endpoints
+│   ├── AdminController.java      # Admin operations
+│   ├── AnalyticsController.java  # Analytics endpoints
+│   ├── ApplicationController.java # Application management
+│   ├── AuthController.java       # Authentication
+│   ├── CompanyController.java    # Company registration
+│   ├── EmailController.java      # Email operations
+│   ├── FileController.java       # File upload/download
+│   ├── HRController.java         # HR operations
+│   ├── InterviewController.java  # Interview management
+│   ├── JobController.java        # Job management
+│   ├── NotificationController.java # Notifications
+│   ├── OfferController.java      # Offer management
+│   ├── PasswordResetController.java # Password reset
+│   └── UserController.java       # User management
 ├── dto/            # Data Transfer Objects
+│   ├── AnalyticsResponse.java    # Analytics data
+│   ├── ApplicationRequest.java   # Application requests
+│   ├── ApplicationResponse.java  # Application responses
+│   ├── AuthResponse.java         # Authentication responses
+│   ├── InterviewRequest.java     # Interview requests
+│   ├── LoginRequest.java         # Login requests
+│   ├── OfferRequest.java         # Offer requests
+│   └── PasswordResetRequest.java # Password reset requests
 ├── entity/         # JPA entities (database models)
+│   ├── Analytics.java            # Analytics data
+│   ├── Application.java          # Job applications
+│   ├── Company.java              # Company information
+│   ├── Interview.java            # Interview records
+│   ├── Job.java                  # Job postings
+│   ├── JobRequisition.java       # Job requisitions
+│   ├── Notification.java         # System notifications
+│   ├── Offer.java                # Job offers
+│   ├── PasswordResetToken.java   # Password reset tokens
+│   ├── SiteSetting.java          # Site configuration
+│   └── User.java                 # User accounts
 ├── enums/          # Enumeration types
-├── event/          # Application events for notifications
+│   ├── ApplicationStatus.java    # Application statuses
+│   ├── InterviewStatus.java      # Interview statuses
+│   ├── InterviewType.java        # Interview types
+│   ├── OfferStatus.java          # Offer statuses
+│   ├── RequisitionStatus.java    # Requisition statuses
+│   └── UserRole.java             # User roles
+├── event/          # Application events
+│   └── InterviewScheduledEvent.java # Interview events
 ├── repository/     # Data access layer
+│   ├── AnalyticsRepository.java  # Analytics data access
+│   ├── ApplicationRepository.java # Application data access
+│   ├── CompanyRepository.java    # Company data access
+│   ├── InterviewRepository.java  # Interview data access
+│   ├── JobRepository.java        # Job data access
+│   ├── JobRequisitionRepository.java # Requisition data access
+│   ├── NotificationRepository.java # Notification data access
+│   ├── OfferRepository.java      # Offer data access
+│   ├── PasswordResetTokenRepository.java # Token data access
+│   ├── SiteSettingRepository.java # Settings data access
+│   └── UserRepository.java       # User data access
 ├── service/        # Business logic layer
-└── TalentAcquisitionSystemApplication.java
+│   ├── AdminService.java         # Admin business logic
+│   ├── AnalyticsService.java     # Analytics business logic
+│   ├── ApplicationService.java   # Application business logic
+│   ├── AuthService.java          # Authentication business logic
+│   ├── CompanyService.java       # Company business logic
+│   ├── EmailService.java         # Email business logic
+│   ├── InterviewService.java     # Interview business logic
+│   ├── JobService.java           # Job business logic
+│   ├── NotificationService.java  # Notification business logic
+│   ├── OfferService.java         # Offer business logic
+│   └── PasswordResetService.java # Password reset business logic
+└── TalentAcquisitionSystemApplication.java # Main application class
 
 FRONTEND STRUCTURE
 ------------------
 src/app/
-├── components/     # Angular components
-├── services/       # HTTP services and business logic
-├── models/         # TypeScript interfaces
-├── guards/         # Route guards for authentication
-└── app.routes.ts   # Application routing
+├── admin-dashboard/         # Admin dashboard component
+├── components/             # Angular components
+│   ├── analytics-dashboard/    # Analytics and reporting
+│   ├── applicant-dashboard/    # Candidate dashboard
+│   ├── application-pipeline/   # Kanban pipeline
+│   ├── company-register/       # Company registration
+│   ├── forgot-password/        # Password recovery
+│   ├── hr-dashboard/           # HR dashboard
+│   ├── interview-management/   # Interview scheduling
+│   ├── jobs/                   # Job listings
+│   ├── login/                  # User authentication
+│   ├── main-dashboard/         # Main dashboard
+│   ├── navbar/                 # Navigation component
+│   ├── offer-management/       # Offer management
+│   ├── profile/                # User profile
+│   ├── recruiter/              # Recruiter interface
+│   ├── register/               # User registration
+│   ├── settings/               # System settings
+│   └── test/                   # Test components
+├── guards/                 # Route guards
+│   ├── auth.guard.ts           # Authentication guard
+│   ├── guest.guard.ts          # Guest access guard
+│   └── role.guard.ts           # Role-based access guard
+├── interceptors/           # HTTP interceptors
+│   └── auth.interceptor.ts     # Authentication interceptor
+├── models/                 # TypeScript interfaces
+│   ├── application.model.ts    # Application model
+│   ├── job.model.ts            # Job model
+│   └── user.model.ts           # User model
+├── services/               # Angular services
+│   ├── admin.service.ts        # Admin operations
+│   ├── analytics.service.ts    # Analytics service
+│   ├── application.service.ts  # Application service
+│   ├── auth.service.ts         # Authentication service
+│   ├── browser-detection.service.ts # Browser detection
+│   ├── cache.service.ts        # Caching service
+│   ├── interview.service.ts    # Interview service
+│   ├── job.service.ts          # Job service
+│   ├── modal.service.ts        # Modal service
+│   ├── notification.service.ts # Notification service
+│   ├── offer.service.ts        # Offer service
+│   ├── password-reset.service.ts # Password reset service
+│   ├── sanitization.service.ts # Data sanitization
+│   ├── theme.service.ts        # Theme management
+│   └── user.service.ts         # User service
+├── app.component.ts        # Root component
+├── app.config.ts           # Application configuration
+└── app.routes.ts           # Application routing
 
 ===============================================================================
 DATABASE SCHEMA
@@ -278,10 +396,14 @@ DEPLOYMENT CONFIGURATION
 
 DATABASE CONFIGURATION
 -----------------------
-spring.datasource.url=jdbc:mysql://localhost:3306/tasdb?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+spring.datasource.url=jdbc:mysql://localhost:3306/tasdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.datasource.username=root
 spring.datasource.password=2020
 spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
+spring.jpa.properties.hibernate.format_sql=true
 
 EMAIL CONFIGURATION
 -------------------
@@ -289,11 +411,33 @@ spring.mail.host=smtp.gmail.com
 spring.mail.port=587
 spring.mail.username=ornabbiswass@gmail.com
 spring.mail.password=zohh vwww oumq khvh
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.starttls.required=true
+spring.mail.properties.mail.smtp.ssl.trust=smtp.gmail.com
+spring.mail.properties.mail.debug=false
 
 JWT CONFIGURATION
 -----------------
-jwt.secret=myVerySecretKeyForTalentAcquisitionSystem2024
+jwt.secret=${JWT_SECRET:myVerySecretKeyForTalentAcquisitionSystem2026}
 jwt.expiration=86400000
+
+FILE UPLOAD CONFIGURATION
+-------------------------
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
+spring.servlet.multipart.enabled=true
+file.upload-dir=uploads/
+
+LOGGING CONFIGURATION
+---------------------
+logging.level.com.tas=DEBUG
+logging.level.org.springframework.security=DEBUG
+spring.security.user.password=disabled
+
+SERVER CONFIGURATION
+--------------------
+server.port=8080
 
 ===============================================================================
 DEVELOPMENT WORKFLOW
@@ -316,19 +460,40 @@ FRONTEND DEVELOPMENT
 5. Add form validation and error handling
 
 ===============================================================================
-FUTURE ENHANCEMENTS
+ADVANCED FEATURES IMPLEMENTED
 ===============================================================================
 
-PLANNED FEATURES
-----------------
-- Advanced application pipeline (drag-drop kanban)
-- Analytics dashboard with KPIs
-- Offer management system
+COMPLETED ENHANCEMENTS
+----------------------
+✅ Advanced application pipeline (drag-drop kanban)
+✅ Analytics dashboard with comprehensive KPIs
+✅ Complete offer management system
+✅ Interview scheduling with email notifications
+✅ File upload system (resumes, profile pictures)
+✅ Password reset functionality
+✅ Company registration system
+✅ Rate limiting for API security
+✅ Advanced search and filtering
+✅ Role-based access control
+✅ Theme management (dark/light mode)
+✅ Responsive design with Tailwind CSS
+✅ Professional email templates
+✅ Real-time notifications
+✅ Data sanitization and validation
+✅ Browser detection and compatibility
+✅ Caching mechanisms
+✅ Modal management system
+
+FUTURE ENHANCEMENTS
+-------------------
 - Integration with external job boards
 - Video interview integration
-- Advanced search and filtering
 - Bulk operations for applications
 - Automated screening workflows
+- AI-powered candidate matching
+- Advanced reporting and exports
+- Mobile application
+- Integration with HR systems
 
 TECHNICAL IMPROVEMENTS
 ----------------------
@@ -336,9 +501,10 @@ TECHNICAL IMPROVEMENTS
 - Redis caching layer
 - Message queue integration
 - Advanced logging and monitoring
-- API rate limiting
 - Enhanced security measures
 - Performance optimization
+- Docker containerization
+- Cloud deployment automation
 
 ===============================================================================
 SYSTEM REQUIREMENTS
@@ -346,11 +512,11 @@ SYSTEM REQUIREMENTS
 
 DEVELOPMENT ENVIRONMENT
 -----------------------
-- Java 17+
+- Java 21+
 - Node.js 18+
 - Maven 3.6+
 - MySQL 8.0+
-- Angular CLI 19+
+- Angular CLI 20.3.5+
 
 PRODUCTION REQUIREMENTS
 -----------------------
@@ -359,6 +525,14 @@ PRODUCTION REQUIREMENTS
 - SMTP server for email delivery
 - SSL certificates for HTTPS
 - Load balancer (for scaling)
+- File storage system for uploads
+
+FILE STORAGE
+------------
+- Resume uploads: /uploads/resumes/
+- Profile pictures: /uploads/profile-pictures/
+- Maximum file size: 10MB
+- Supported formats: PDF, PNG, JPG, JPEG
 
 ===============================================================================
 CONTACT & SUPPORT
@@ -406,5 +580,93 @@ SYSTEM STATUS: 100% COMPLETE
 The Talent Acquisition System (TAS) is now a fully functional, enterprise-grade
 recruitment platform with all major ATS features implemented.
 
-Last Updated: December 2024
-Version: 2.0 - Complete System
+Last Updated: January 2025
+Version: 3.0 - Enterprise-Grade Complete System
+
+===============================================================================
+PERFORMANCE & SCALABILITY
+===============================================================================
+
+OPTIMIZATIONS IMPLEMENTED
+-------------------------
+- Database query optimization with JPA
+- Frontend lazy loading for components
+- HTTP interceptors for request/response handling
+- Caching strategies for frequently accessed data
+- File upload optimization with size limits
+- Rate limiting to prevent API abuse
+- Efficient data transfer with DTOs
+- Responsive design for all screen sizes
+
+SCALABILITY FEATURES
+--------------------
+- Stateless JWT authentication
+- RESTful API design
+- Modular component architecture
+- Database connection pooling
+- Asynchronous email processing
+- Event-driven notification system
+- Configurable file storage paths
+- Environment-based configuration
+
+===============================================================================
+SECURITY MEASURES
+===============================================================================
+
+IMPLEMENTED SECURITY
+--------------------
+- JWT-based authentication with secure tokens
+- BCrypt password hashing
+- CORS configuration for cross-origin requests
+- Input validation on frontend and backend
+- SQL injection prevention with JPA
+- XSS protection with data sanitization
+- Rate limiting to prevent brute force attacks
+- Secure file upload with type validation
+- Role-based access control (RBAC)
+- Password reset with secure tokens
+- HTTPS enforcement in production
+- Environment variable protection for secrets
+
+===============================================================================
+MONITORING & LOGGING
+===============================================================================
+
+LOGGING CONFIGURATION
+---------------------
+- Debug level logging for development
+- Security event logging
+- Application performance monitoring
+- Error tracking and reporting
+- Database query logging
+- Email delivery tracking
+- File upload monitoring
+- User activity logging
+
+===============================================================================
+API DOCUMENTATION
+===============================================================================
+
+SWAGGER/OPENAPI INTEGRATION
+----------------------------
+- SpringDoc OpenAPI 2.8.5 integration
+- Interactive API documentation
+- Automatic endpoint discovery
+- Request/response schema documentation
+- Authentication flow documentation
+- Available at: http://localhost:8080/swagger-ui.html
+
+===============================================================================
+TESTING STRATEGY
+===============================================================================
+
+TESTING FRAMEWORKS
+------------------
+- Backend: Spring Boot Test, JUnit
+- Frontend: Jasmine, Karma
+- Integration testing capabilities
+- Security testing with Spring Security Test
+- API endpoint testing
+- Component unit testing
+- Service layer testing
+- Repository layer testing
