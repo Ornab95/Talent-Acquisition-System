@@ -32,3 +32,23 @@ logs/
 # Temporary files
 *.tmp
 *.temp
+
+# Media files (images, video, audio)
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+*.bmp
+*.tiff
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+*.mp3
+*.wav
+*.ogg
+
+# Temp git status file
+git_status_temp.txt

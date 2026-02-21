@@ -64,9 +64,10 @@ public class InterviewController {
 
     @PutMapping("/{interviewId}/status")
     @PreAuthorize("hasRole('HR_ADMIN') or hasRole('RECRUITER') or hasRole('HIRING_MANAGER') or hasRole('SYSTEM_ADMIN')")
-    public ResponseEntity<Interview> updateStatus(@PathVariable Long interviewId, @RequestBody InterviewStatus status) {
+    public ResponseEntity<Interview> updateStatus(@PathVariable Long interviewId, @RequestParam String status) {
         try {
-            Interview interview = interviewService.updateInterviewStatus(interviewId, status);
+            InterviewStatus interviewStatus = InterviewStatus.valueOf(status);
+            Interview interview = interviewService.updateInterviewStatus(interviewId, interviewStatus);
             return ResponseEntity.ok(interview);
         } catch (Exception e) {
             logger.error("Error updating interview status: {}", e.getMessage());

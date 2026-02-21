@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ThemeService } from '../../services/theme.service';
 import { AuthService } from '../../services/auth.service';
+import { NotificationService } from '../../services/notification.service';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -11,17 +13,22 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit, OnDestroy {
   isDarkMode = false;
   isAuthenticated = false;
   userName = '';
   userProfilePicture = '';
   showProfileMenu = false;
+  showNotifications = false;
+  notifications: any[] = [];
+  unreadCount = 0;
+  private notificationSubscription?: Subscription;
 
   constructor(
     private themeService: ThemeService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {
     this.themeService.isDarkMode$.subscribe(isDark => {
       this.isDarkMode = isDark;
@@ -42,8 +49,78 @@ export class NavbarComponent {
     this.themeService.toggleTheme();
   }
 
+  ngOnInit(): void {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (user.role === 'CANDIDATE') {
+      this.loadNotifications();
+      this.notificationSubscription = interval(30000).subscribe(() => {
+        this.loadNotifications();
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.notificationSubscription?.unsubscribe();
+  }
+
+  loadNotifications(): void {
+    this.notificationService.getMyNotifications().subscribe({
+      next: (notifications) => {
+        this.notifications = notifications;
+        this.unreadCount = notifications.filter(n => !n.read).length;
+      },
+      error: (error) => console.error('Error loading notifications:', error)
+    });
+  }
+
+  toggleNotifications(): void {
+    this.showNotifications = !this.showNotifications;
+    if (this.showNotifications) {
+      this.showProfileMenu = false;
+    }
+  }
+
   toggleProfileMenu(): void {
     this.showProfileMenu = !this.showProfileMenu;
+    if (this.showProfileMenu) {
+      this.showNotifications = false;
+    }
+  }
+
+  markAsRead(notification: any): void {
+    if (!notification.read) {
+      this.notificationService.markAsRead(notification.id).subscribe({
+        next: () => {
+          notification.read = true;
+          this.unreadCount = Math.max(0, this.unreadCount - 1);
+        },
+        error: (error) => console.error('Error marking notification as read:', error)
+      });
+    }
+  }
+
+  markAllAsRead(): void {
+    this.notificationService.markAllAsRead().subscribe({
+      next: () => {
+        this.notifications.forEach(n => n.read = true);
+        this.unreadCount = 0;
+      },
+      error: (error) => console.error('Error marking all as read:', error)
+    });
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    const profileButton = target.closest('.profile-dropdown');
+    const notificationButton = target.closest('.notification-dropdown');
+    
+    if (!profileButton && this.showProfileMenu) {
+      this.showProfileMenu = false;
+    }
+    if (!notificationButton && this.showNotifications) {
+      this.showNotifications = false;
+    }
   }
 
   openProfile(): void {

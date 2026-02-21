@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,38 +44,38 @@ public class JobController {
     
     @PostMapping
     @PreAuthorize("hasAnyRole('HR_ADMIN', 'RECRUITER', 'HIRING_MANAGER', 'SYSTEM_ADMIN')")
-    public ResponseEntity<Job> createJob(@Valid @RequestBody Job job) {
+    public ResponseEntity<?> createJob(@Valid @RequestBody Job job) {
         try {
             Job createdJob = jobService.createJob(job);
             logger.info("Job created successfully with ID: {}", createdJob.getId());
-            return ResponseEntity.ok(createdJob);
+            return ResponseEntity.ok(Map.of("message", "Job created successfully", "jobId", createdJob.getId()));
         } catch (Exception e) {
             logger.error("Error creating job", e);
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("error", "Failed to create job"));
         }
     }
     
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('HR_ADMIN', 'RECRUITER', 'HIRING_MANAGER', 'SYSTEM_ADMIN')")
-    public ResponseEntity<Job> updateJob(@PathVariable Long id, @Valid @RequestBody Job job) {
+    public ResponseEntity<?> updateJob(@PathVariable Long id, @Valid @RequestBody Job job) {
         try {
             logger.info("Updating job with ID: {}", id);
-            Job updatedJob = jobService.updateJob(id, job);
+            jobService.updateJob(id, job);
             logger.info("Job updated successfully with ID: {}", id);
-            return ResponseEntity.ok(updatedJob);
+            return ResponseEntity.ok(Map.of("message", "Job updated successfully"));
         } catch (Exception e) {
             logger.error("Error updating job with ID: {}", id, e);
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("error", "Failed to update job"));
         }
     }
     
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('HR_ADMIN', 'RECRUITER', 'HIRING_MANAGER', 'SYSTEM_ADMIN')")
-    public ResponseEntity<Void> deleteJob(@PathVariable Long id) {
+    public ResponseEntity<?> deleteJob(@PathVariable Long id) {
         try {
             jobService.deleteJob(id);
             logger.info("Job deleted successfully with ID: {}", id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(Map.of("message", "Job deleted successfully"));
         } catch (Exception e) {
             logger.error("Error deleting job with ID: {}", id, e);
             return ResponseEntity.notFound().build();

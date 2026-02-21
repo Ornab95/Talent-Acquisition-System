@@ -21,7 +21,7 @@ public class AnalyticsController {
     private ApplicationService applicationService;
     
     @GetMapping("/analytics")
-    @PreAuthorize("hasAnyRole('HR_ADMIN', 'RECRUITER', 'HIRING_MANAGER', 'SYSTEM_ADMIN')")
+    @PreAuthorize("hasRole('SYSTEM_ADMIN')")
     public ResponseEntity<Map<String, Object>> getAnalytics() {
         Map<String, Object> analytics = new HashMap<>();
         

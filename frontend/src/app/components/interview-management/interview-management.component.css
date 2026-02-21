@@ -1,9 +1,14 @@
 .interview-management {
-  margin-top: 20px;
+  margin-top: 16px;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .dark-theme {
   color: #e5e7eb;
+  background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%) !important;
 }
 
 .header {
@@ -15,6 +20,17 @@
 
 .header h3 {
   margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header h3::before {
+  content: '📅';
+  font-size: 24px;
 }
 
 .text-white {
@@ -47,23 +63,27 @@
 }
 
 .btn-primary {
-  background-color: #3b82f6;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
 .btn-primary:hover {
-  background-color: #2563eb;
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }
 
 .btn-primary-dark {
-  background-color: #1d4ed8;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: white;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
 .btn-primary-dark:hover {
-  background-color: #1e40af;
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
 }
 
 .btn-secondary {
@@ -100,18 +120,33 @@
 
 .no-interviews {
   text-align: center;
-  color: #666;
+  color: white;
   padding: 40px;
-  background-color: #f8f9fa;
-  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
 }
 
 .interview-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  padding: 20px;
   margin-bottom: 16px;
-  background-color: white;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.interview-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.dark-theme .interview-card {
+  background: rgba(31, 41, 55, 0.95);
+  border: 1px solid rgba(75, 85, 99, 0.5);
 }
 
 .interview-header {
@@ -122,16 +157,25 @@
 }
 
 .interview-info h4 {
-  margin: 0 0 4px 0;
-  color: #333;
+  margin: 0 0 8px 0;
+  color: #1f2937;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.dark-theme .interview-info h4 {
+  color: #f3f4f6;
 }
 
 .interview-type {
-  background-color: #e9ecef;
-  padding: 2px 8px;
-  border-radius: 12px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 16px;
   font-size: 12px;
+  font-weight: 600;
   margin-right: 8px;
+  box-shadow: 0 2px 4px rgba(139, 92, 246, 0.3);
 }
 
 .interview-status {
@@ -142,18 +186,21 @@
 }
 
 .status-scheduled {
-  background-color: #d4edda;
-  color: #155724;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
 }
 
 .status-completed {
-  background-color: #cce5ff;
-  color: #004085;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
 }
 
 .status-canceled {
-  background-color: #f8d7da;
-  color: #721c24;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
 }
 
 .interview-actions {
@@ -162,20 +209,40 @@
 }
 
 .interview-details p {
-  margin: 4px 0;
-  color: #666;
+  margin: 8px 0;
+  color: #4b5563;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.dark-theme .interview-details p {
+  color: #d1d5db;
 }
 
 .interview-details i {
-  margin-right: 8px;
-  width: 16px;
+  margin-right: 10px;
+  width: 20px;
+  color: #8b5cf6;
+}
+
+.dark-theme .interview-details i {
+  color: #a78bfa;
 }
 
 .feedback {
-  background-color: #f8f9fa;
-  padding: 8px;
-  border-radius: 4px;
-  margin-top: 8px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 12px;
+  border-left: 4px solid #f59e0b;
+  font-style: italic;
+}
+
+.dark-theme .feedback {
+  background: linear-gradient(135deg, #78350f 0%, #92400e 100%);
+  border-left-color: #fbbf24;
+  color: #fef3c7;
 }
 
 .modal-overlay {
@@ -188,12 +255,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 10000;
 }
 
 .modal-content {
   background-color: white;
-  border-radius: 12px;
+  border-radius: 16px;
   width: 90%;
   max-width: 600px;
   max-height: 90vh;
@@ -210,18 +277,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24px;
-  border-bottom: 1px solid #e5e7eb;
+  padding: 32px;
+  border-bottom: 2px solid #e5e7eb;
 }
 
 .dark-header {
-  border-bottom: 1px solid #374151 !important;
+  border-bottom: 2px solid #374151 !important;
 }
 
 .modal-header h3 {
   margin: 0;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 24px;
+  font-weight: 700;
 }
 
 .close-btn {
@@ -251,64 +318,73 @@
 
 .schedule-form,
 .feedback-form {
-  padding: 20px;
+  padding: 32px;
 }
 
 .form-group {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 4px;
-  font-weight: bold;
-  color: #333;
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: #1f2937;
+  font-size: 14px;
+}
+
+.dark-theme .form-group label {
+  color: #f3f4f6;
 }
 
 .form-input {
   width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
+  padding: 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
   font-size: 14px;
-  transition: all 0.2s;
+  transition: all 0.3s;
   background-color: white;
 }
 
 .form-input:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+  transform: translateY(-1px);
 }
 
 .form-input-dark {
   width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #4b5563;
-  border-radius: 8px;
+  padding: 16px;
+  border: 2px solid #4b5563;
+  border-radius: 12px;
   font-size: 14px;
-  transition: all 0.2s;
+  transition: all 0.3s;
   background-color: #374151;
   color: white;
 }
 
 .form-input-dark:focus {
   outline: none;
-  border-color: #1d4ed8;
-  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1);
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
+  transform: translateY(-1px);
 }
 
 .readonly-field {
-  background-color: #f3f4f6 !important;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%) !important;
   color: #6b7280 !important;
   cursor: not-allowed;
   display: flex;
   align-items: center;
+  border: 2px solid #d1d5db !important;
 }
 
 .dark-theme .readonly-field {
-  background-color: #374151 !important;
+  background: linear-gradient(135deg, #374151 0%, #4b5563 100%) !important;
   color: #9ca3af !important;
+  border: 2px solid #6b7280 !important;
 }
 
 .selected-datetime {
@@ -344,15 +420,16 @@
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
-  padding: 24px;
-  border-top: 1px solid #e5e7eb;
-  background-color: #f9fafb;
+  gap: 16px;
+  padding: 32px;
+  padding-top: 24px;
+  border-top: 2px solid #e5e7eb;
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
 }
 
 .dark-actions {
-  border-top: 1px solid #374151 !important;
-  background-color: #111827 !important;
+  border-top: 2px solid #374151 !important;
+  background: linear-gradient(135deg, #111827 0%, #1f2937 100%) !important;
 }
 
 /* PrimeNG DatePicker Styles */
@@ -394,4 +471,45 @@
 
 .dark-theme .datepicker-container ::ng-deep .p-datepicker .p-datepicker-calendar td.p-datepicker-today {
   background-color: #1d4ed8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .interview-management {
+    padding: 16px;
+  }
+  
+  .header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  
+  .header h3 {
+    font-size: 18px;
+  }
+  
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .interview-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .interview-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+  
+  .interview-actions button {
+    width: 100%;
+  }
+  
+  .modal-content {
+    width: 95%;
+    margin: 20px;
+  }
 }

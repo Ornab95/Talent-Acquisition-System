@@ -1,11 +1,11 @@
 <div [class]="isDarkMode 
-  ? 'min-h-screen bg-gray-900' 
-  : 'min-h-screen bg-gray-50'">
+  ? 'min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black' 
+  : 'min-h-screen bg-gradient-to-br from-pink-500 via-orange-400 to-purple-600'">
   <app-navbar></app-navbar>
 
   <!-- Modern Header Section -->
   <div
-    [class]="isDarkMode ? 'bg-gray-800 shadow-sm border-b border-gray-700 pt-16' : 'bg-white shadow-sm border-b border-gray-200 pt-16'">
+    [class]="isDarkMode ? 'bg-gray-800 shadow-sm border-b border-gray-700 pt-16' : 'bg-orange-100 shadow-sm border-b border-orange-200 pt-16'">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-4">
@@ -30,72 +30,84 @@
         <div class="hidden lg:flex items-center space-x-2 rounded-xl p-1" 
           [class]="isDarkMode ? 'bg-gray-700' : 'bg-gray-100'">
           <button (click)="switchView('dashboard')"
-            [class]="currentView === 'dashboard' ? (isDarkMode ? 'bg-gray-600 text-blue-400 shadow-sm' : 'bg-white text-blue-600 shadow-sm') : (isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900')"
+            [class]="currentView === 'dashboard' ? (isDarkMode ? 'bg-gray-600 text-blue-400 shadow-sm' : 'bg-white text-blue-600 shadow-sm') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-600' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200')"
             class="px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2">
             <i class="fas fa-chart-line text-sm"></i>
             <span>Overview</span>
           </button>
           <button (click)="switchView('users')"
-            [class]="currentView === 'users' ? (isDarkMode ? 'bg-gray-600 text-blue-400 shadow-sm' : 'bg-white text-blue-600 shadow-sm') : (isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900')"
+            [class]="currentView === 'users' ? (isDarkMode ? 'bg-gray-600 text-blue-400 shadow-sm' : 'bg-white text-blue-600 shadow-sm') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-600' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200')"
             class="px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2">
             <i class="fas fa-users text-sm"></i>
             <span>Users</span>
           </button>
           <button (click)="switchView('jobs')"
-            [class]="currentView === 'jobs' ? (isDarkMode ? 'bg-gray-600 text-blue-400 shadow-sm' : 'bg-white text-blue-600 shadow-sm') : (isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900')"
+            [class]="currentView === 'jobs' ? (isDarkMode ? 'bg-gray-600 text-blue-400 shadow-sm' : 'bg-white text-blue-600 shadow-sm') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-600' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200')"
             class="px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2">
             <i class="fas fa-briefcase text-sm"></i>
             <span>Jobs</span>
           </button>
           <button (click)="switchView('applications')"
-            [class]="currentView === 'applications' ? (isDarkMode ? 'bg-gray-600 text-blue-400 shadow-sm' : 'bg-white text-blue-600 shadow-sm') : (isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900')"
+            [class]="currentView === 'applications' ? (isDarkMode ? 'bg-gray-600 text-blue-400 shadow-sm' : 'bg-white text-blue-600 shadow-sm') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-600' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200')"
             class="px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2">
             <i class="fas fa-file-alt text-sm"></i>
             <span>Applications</span>
           </button>
           <button (click)="switchView('settings')"
-            [class]="currentView === 'settings' ? (isDarkMode ? 'bg-gray-600 text-blue-400 shadow-sm' : 'bg-white text-blue-600 shadow-sm') : (isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900')"
+            [class]="currentView === 'settings' ? (isDarkMode ? 'bg-gray-600 text-blue-400 shadow-sm' : 'bg-white text-blue-600 shadow-sm') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-600' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200')"
             class="px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2">
             <i [class]="currentView === 'settings' ? 'fas fa-cogs text-sm' : (isDarkMode ? 'fas fa-cogs text-sm text-gray-300' : 'fas fa-cogs text-sm text-gray-700')"></i>
             <span>Settings</span>
+          </button>
+          <button (click)="switchView('analytics')"
+            [class]="currentView === 'analytics' ? (isDarkMode ? 'bg-gray-600 text-blue-400 shadow-sm' : 'bg-white text-blue-600 shadow-sm') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-600' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200')"
+            class="px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2">
+            <i class="fas fa-chart-bar text-sm"></i>
+            <span>Analytics</span>
           </button>
         </div>
       </div>
     </div>
 
     <!-- Mobile Navigation Menu -->
-    <div *ngIf="showMobileMenu" class="lg:hidden" [class]="isDarkMode ? 'bg-gray-800 border-b border-gray-700' : 'bg-white border-b border-gray-200'">
+    <div *ngIf="showMobileMenu" class="lg:hidden" [class]="isDarkMode ? 'bg-gray-800 border-b border-gray-700' : 'bg-orange-100 border-b border-orange-200'">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div class="flex flex-col space-y-2">
           <button (click)="switchView('dashboard'); toggleMobileMenu()"
-            [class]="currentView === 'dashboard' ? (isDarkMode ? 'bg-gray-700 text-blue-400' : 'bg-gray-100 text-blue-600') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-700' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50')"
+            [class]="currentView === 'dashboard' ? (isDarkMode ? 'bg-gray-600 text-blue-400' : 'bg-gray-100 text-blue-600') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-600' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200')"
             class="w-full px-4 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-3 text-left">
             <i class="fas fa-chart-line text-sm"></i>
             <span>Overview</span>
           </button>
           <button (click)="switchView('users'); toggleMobileMenu()"
-            [class]="currentView === 'users' ? (isDarkMode ? 'bg-gray-700 text-blue-400' : 'bg-gray-100 text-blue-600') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-700' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50')"
+            [class]="currentView === 'users' ? (isDarkMode ? 'bg-gray-600 text-blue-400' : 'bg-gray-100 text-blue-600') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-600' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200')"
             class="w-full px-4 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-3 text-left">
             <i class="fas fa-users text-sm"></i>
             <span>Users</span>
           </button>
           <button (click)="switchView('jobs'); toggleMobileMenu()"
-            [class]="currentView === 'jobs' ? (isDarkMode ? 'bg-gray-700 text-blue-400' : 'bg-gray-100 text-blue-600') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-700' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50')"
+            [class]="currentView === 'jobs' ? (isDarkMode ? 'bg-gray-600 text-blue-400' : 'bg-gray-100 text-blue-600') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-600' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200')"
             class="w-full px-4 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-3 text-left">
             <i class="fas fa-briefcase text-sm"></i>
             <span>Jobs</span>
           </button>
           <button (click)="switchView('applications'); toggleMobileMenu()"
-            [class]="currentView === 'applications' ? (isDarkMode ? 'bg-gray-700 text-blue-400' : 'bg-gray-100 text-blue-600') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-700' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50')"
+            [class]="currentView === 'applications' ? (isDarkMode ? 'bg-gray-600 text-blue-400' : 'bg-gray-100 text-blue-600') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-600' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200')"
             class="w-full px-4 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-3 text-left">
             <i class="fas fa-file-alt text-sm"></i>
             <span>Applications</span>
           </button>
           <button (click)="switchView('settings'); toggleMobileMenu()"
-            [class]="currentView === 'settings' ? (isDarkMode ? 'bg-gray-700 text-blue-400' : 'bg-gray-100 text-blue-600') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-700' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50')"
+            [class]="currentView === 'settings' ? (isDarkMode ? 'bg-gray-600 text-blue-400' : 'bg-gray-100 text-blue-600') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-600' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200')"
             class="w-full px-4 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-3 text-left">
             <i [class]="currentView === 'settings' ? 'fas fa-cogs text-sm' : (isDarkMode ? 'fas fa-cogs text-sm text-gray-300' : 'fas fa-cogs text-sm text-gray-700')"></i>
             <span>Settings</span>
+          </button>
+          <button (click)="switchView('analytics'); toggleMobileMenu()"
+            [class]="currentView === 'analytics' ? (isDarkMode ? 'bg-gray-600 text-blue-400' : 'bg-gray-100 text-blue-600') : (isDarkMode ? 'text-gray-300 hover:text-white hover:bg-gray-600' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200')"
+            class="w-full px-4 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-3 text-left">
+            <i class="fas fa-chart-bar text-sm"></i>
+            <span>Analytics</span>
           </button>
         </div>
       </div>
@@ -103,14 +115,14 @@
   </div>
 
   <!-- Main Content -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
 
     <!-- Dashboard Overview -->
     <div *ngIf="currentView === 'dashboard'">
       <!-- Stats Cards -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div
-          [class]="isDarkMode ? 'bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-6 hover:shadow-md transition-all duration-200 cursor-pointer' : 'bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-200 cursor-pointer'"
+          [class]="isDarkMode ? 'bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-6 hover:shadow-md transition-all duration-200 cursor-pointer' : 'bg-orange-200 rounded-2xl shadow-sm border border-orange-300 p-6 hover:shadow-md transition-all duration-200 cursor-pointer'"
           (click)="switchView('users')">
           <div class="flex items-center justify-between">
             <div>
@@ -131,7 +143,7 @@
         </div>
 
         <div
-          [class]="isDarkMode ? 'bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-6 hover:shadow-md transition-all duration-200 cursor-pointer' : 'bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-200 cursor-pointer'"
+          [class]="isDarkMode ? 'bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-6 hover:shadow-md transition-all duration-200 cursor-pointer' : 'bg-orange-200 rounded-2xl shadow-sm border border-orange-300 p-6 hover:shadow-md transition-all duration-200 cursor-pointer'"
           (click)="switchView('jobs')">
           <div class="flex items-center justify-between">
             <div>
@@ -153,7 +165,7 @@
         </div>
 
         <div
-          [class]="isDarkMode ? 'bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-6 hover:shadow-md transition-all duration-200 cursor-pointer' : 'bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-200 cursor-pointer'"
+          [class]="isDarkMode ? 'bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-6 hover:shadow-md transition-all duration-200 cursor-pointer' : 'bg-orange-200 rounded-2xl shadow-sm border border-orange-300 p-6 hover:shadow-md transition-all duration-200 cursor-pointer'"
           (click)="switchView('applications')">
           <div class="flex items-center justify-between">
             <div>
@@ -175,7 +187,7 @@
         </div>
 
         <div
-          [class]="isDarkMode ? 'bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-6 hover:shadow-md transition-all duration-200' : 'bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-200'">
+          [class]="isDarkMode ? 'bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-6 hover:shadow-md transition-all duration-200' : 'bg-orange-200 rounded-2xl shadow-sm border border-orange-300 p-6 hover:shadow-md transition-all duration-200'">
           <div class="flex items-center justify-between">
             <div>
               <p [class]="isDarkMode ? 'text-sm font-medium text-gray-400' : 'text-sm font-medium text-gray-600'">New
@@ -198,7 +210,7 @@
 
       <!-- Quick Actions -->
       <div
-        [class]="isDarkMode ? 'bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-6' : 'bg-white rounded-2xl shadow-sm border border-gray-200 p-6'">
+        [class]="isDarkMode ? 'bg-gray-800 rounded-2xl shadow-sm border border-gray-700 p-6' : 'bg-orange-200 rounded-2xl shadow-sm border border-orange-300 p-6'">
         <h3 [class]="isDarkMode ? 'text-lg font-semibold text-white mb-4' : 'text-lg font-semibold text-gray-900 mb-4'">
           Quick Actions</h3>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -236,9 +248,9 @@
     <!-- Users Management -->
     <div *ngIf="currentView === 'users'">
       <div
-        [class]="isDarkMode ? 'bg-gray-800 rounded-2xl shadow-sm border border-gray-700' : 'bg-white rounded-2xl shadow-sm border border-gray-200'">
+        [class]="isDarkMode ? 'bg-gray-800 rounded-2xl shadow-sm border border-gray-700' : 'bg-orange-200 rounded-2xl shadow-sm border border-orange-300'">
         <div
-          [class]="isDarkMode ? 'flex justify-between items-center p-6 border-b border-gray-700' : 'flex justify-between items-center p-6 border-b border-gray-200'">
+          [class]="isDarkMode ? 'flex justify-between items-center p-6 border-b border-gray-700' : 'flex justify-between items-center p-6 border-b border-orange-300'">
           <div>
             <h3 [class]="isDarkMode ? 'text-xl font-semibold text-white' : 'text-xl font-semibold text-gray-900'">User
               Management</h3>
@@ -336,159 +348,195 @@
 
     <!-- Jobs Management -->
     <div *ngIf="currentView === 'jobs'">
-      <div class="flex justify-between items-center mb-6">
-        <h3 [class]="isDarkMode ? 'text-2xl font-bold text-white' : 'text-2xl font-bold text-orange-900'">Jobs
-          Management</h3>
-      </div>
+      <div
+        [class]="isDarkMode ? 'bg-gray-800 rounded-2xl shadow-sm border border-gray-700' : 'bg-orange-100 rounded-2xl shadow-sm border border-orange-300'">
+        <div
+          [class]="isDarkMode ? 'flex justify-between items-center p-6 border-b border-gray-700' : 'flex justify-between items-center p-6 border-b border-orange-300'">
+          <div>
+            <h3 [class]="isDarkMode ? 'text-xl font-semibold text-white' : 'text-xl font-semibold text-orange-900'">Job
+              Management</h3>
+            <p [class]="isDarkMode ? 'text-gray-400 text-sm mt-1' : 'text-orange-700 text-sm mt-1'">Manage job postings
+              and requirements</p>
+          </div>
+        </div>
 
-      <div class="overflow-x-auto">
-        <table class="w-full table-auto">
-          <thead>
-            <tr [class]="isDarkMode ? 'bg-gray-700' : 'bg-orange-200'">
-              <th
-                [class]="isDarkMode ? 'px-4 py-3 text-left text-white font-medium' : 'px-4 py-3 text-left text-orange-900 font-medium'">
-                Title</th>
-              <th
-                [class]="isDarkMode ? 'px-4 py-3 text-left text-white font-medium' : 'px-4 py-3 text-left text-orange-900 font-medium'">
-                Department</th>
-              <th
-                [class]="isDarkMode ? 'px-4 py-3 text-left text-white font-medium' : 'px-4 py-3 text-left text-orange-900 font-medium'">
-                Location</th>
-              <th
-                [class]="isDarkMode ? 'px-4 py-3 text-left text-white font-medium' : 'px-4 py-3 text-left text-orange-900 font-medium'">
-                Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngIf="jobs.length === 0">
-              <td colspan="4" [class]="isDarkMode ? 'px-4 py-8 text-center text-gray-400' : 'px-4 py-8 text-center text-orange-600'">
-                No jobs found
-              </td>
-            </tr>
-            <tr *ngFor="let job of jobs"
-              [class]="isDarkMode ? 'border-b border-gray-600 hover:bg-gray-700' : 'border-b border-orange-200 hover:bg-orange-50'">
-              <td [class]="isDarkMode ? 'px-4 py-3 text-white' : 'px-4 py-3 text-orange-900'">{{job.title}}</td>
-              <td [class]="isDarkMode ? 'px-4 py-3 text-gray-300' : 'px-4 py-3 text-orange-800'">{{job.department}}</td>
-              <td [class]="isDarkMode ? 'px-4 py-3 text-gray-300' : 'px-4 py-3 text-orange-800'">{{job.location}}</td>
-              <td [class]="isDarkMode ? 'px-4 py-3' : 'px-4 py-3'">
-                <span [class]="job.active ? 'text-green-500 font-medium' : 'text-red-500 font-medium'">{{job.active ?
-                  'Active' : 'Inactive'}}</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead [class]="isDarkMode ? 'bg-gray-700' : 'bg-orange-300'">
+              <tr>
+                <th
+                  [class]="isDarkMode ? 'px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider' : 'px-6 py-4 text-left text-xs font-medium text-orange-900 uppercase tracking-wider'">
+                  Title</th>
+                <th
+                  [class]="isDarkMode ? 'px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider' : 'px-6 py-4 text-left text-xs font-medium text-orange-900 uppercase tracking-wider'">
+                  Department</th>
+                <th
+                  [class]="isDarkMode ? 'px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider' : 'px-6 py-4 text-left text-xs font-medium text-orange-900 uppercase tracking-wider'">
+                  Location</th>
+                <th
+                  [class]="isDarkMode ? 'px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider' : 'px-6 py-4 text-left text-xs font-medium text-orange-900 uppercase tracking-wider'">
+                  Status</th>
+              </tr>
+            </thead>
+            <tbody [class]="isDarkMode ? 'divide-y divide-gray-700' : 'divide-y divide-orange-300'">
+              <tr *ngIf="jobs.length === 0">
+                <td colspan="4" [class]="isDarkMode ? 'px-6 py-8 text-center text-gray-400' : 'px-6 py-8 text-center text-orange-700'">
+                  No jobs found
+                </td>
+              </tr>
+              <tr *ngFor="let job of jobs"
+                [class]="isDarkMode ? 'hover:bg-gray-700 transition-colors duration-150' : 'hover:bg-orange-100 transition-colors duration-150'">
+                <td [class]="isDarkMode ? 'px-6 py-4 text-sm font-medium text-white' : 'px-6 py-4 text-sm font-medium text-orange-900'">{{job.title}}</td>
+                <td [class]="isDarkMode ? 'px-6 py-4 text-sm text-gray-300' : 'px-6 py-4 text-sm text-orange-800'">{{job.department}}</td>
+                <td [class]="isDarkMode ? 'px-6 py-4 text-sm text-gray-300' : 'px-6 py-4 text-sm text-orange-800'">{{job.location}}</td>
+                <td class="px-6 py-4">
+                  <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                    [class]="job.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
+                    {{job.active ? 'Active' : 'Inactive'}}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
     <!-- Applications Management -->
     <div *ngIf="currentView === 'applications'">
-      <div class="flex justify-between items-center mb-6">
-        <h3 [class]="isDarkMode ? 'text-2xl font-bold text-white' : 'text-2xl font-bold text-orange-900'">Applications
-          Management</h3>
-      </div>
+      <div
+        [class]="isDarkMode ? 'bg-gray-800 rounded-2xl shadow-sm border border-gray-700' : 'bg-orange-200 rounded-2xl shadow-sm border border-orange-300'">
+        <div
+          [class]="isDarkMode ? 'flex justify-between items-center p-6 border-b border-gray-700' : 'flex justify-between items-center p-6 border-b border-orange-300'">
+          <div>
+            <h3 [class]="isDarkMode ? 'text-xl font-semibold text-white' : 'text-xl font-semibold text-orange-900'">Application
+              Management</h3>
+            <p [class]="isDarkMode ? 'text-gray-400 text-sm mt-1' : 'text-orange-700 text-sm mt-1'">Track and manage job
+              applications</p>
+          </div>
+        </div>
 
-      <div class="overflow-x-auto">
-        <table class="w-full table-auto">
-          <thead>
-            <tr [class]="isDarkMode ? 'bg-gray-700' : 'bg-orange-200'">
-              <th
-                [class]="isDarkMode ? 'px-4 py-3 text-left text-white font-medium' : 'px-4 py-3 text-left text-orange-900 font-medium'">
-                Candidate</th>
-              <th
-                [class]="isDarkMode ? 'px-4 py-3 text-left text-white font-medium' : 'px-4 py-3 text-left text-orange-900 font-medium'">
-                Job Title</th>
-              <th
-                [class]="isDarkMode ? 'px-4 py-3 text-left text-white font-medium' : 'px-4 py-3 text-left text-orange-900 font-medium'">
-                Applied Date</th>
-              <th
-                [class]="isDarkMode ? 'px-4 py-3 text-left text-white font-medium' : 'px-4 py-3 text-left text-orange-900 font-medium'">
-                Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngIf="allApplications.length === 0">
-              <td colspan="4" [class]="isDarkMode ? 'px-4 py-8 text-center text-gray-400' : 'px-4 py-8 text-center text-orange-600'">
-                No applications found
-              </td>
-            </tr>
-            <tr *ngFor="let app of allApplications"
-              [class]="isDarkMode ? 'border-b border-gray-600 hover:bg-gray-700' : 'border-b border-orange-200 hover:bg-orange-50'">
-              <td [class]="isDarkMode ? 'px-4 py-3 text-white' : 'px-4 py-3 text-orange-900'">
-                {{app.candidate?.firstName}} {{app.candidate?.lastName}}</td>
-              <td [class]="isDarkMode ? 'px-4 py-3 text-gray-300' : 'px-4 py-3 text-orange-800'">{{app.job?.title}}</td>
-              <td [class]="isDarkMode ? 'px-4 py-3 text-gray-300' : 'px-4 py-3 text-orange-800'">{{app.appliedAt |
-                date:'short'}}</td>
-              <td [class]="isDarkMode ? 'px-4 py-3' : 'px-4 py-3'">
-                <span
-                  [class]="app.status === 'SHORTLISTED' ? 'text-green-500 font-medium' : app.status === 'REJECTED' ? 'text-red-500 font-medium' : 'text-yellow-500 font-medium'">{{app.status}}</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead [class]="isDarkMode ? 'bg-gray-700' : 'bg-orange-300'">
+              <tr>
+                <th
+                  [class]="isDarkMode ? 'px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider' : 'px-6 py-4 text-left text-xs font-medium text-orange-900 uppercase tracking-wider'">
+                  Candidate</th>
+                <th
+                  [class]="isDarkMode ? 'px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider' : 'px-6 py-4 text-left text-xs font-medium text-orange-900 uppercase tracking-wider'">
+                  Job Title</th>
+                <th
+                  [class]="isDarkMode ? 'px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider' : 'px-6 py-4 text-left text-xs font-medium text-orange-900 uppercase tracking-wider'">
+                  Applied Date</th>
+                <th
+                  [class]="isDarkMode ? 'px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider' : 'px-6 py-4 text-left text-xs font-medium text-orange-900 uppercase tracking-wider'">
+                  Status</th>
+              </tr>
+            </thead>
+            <tbody [class]="isDarkMode ? 'divide-y divide-gray-700' : 'divide-y divide-orange-300'">
+              <tr *ngIf="allApplications.length === 0">
+                <td colspan="4" [class]="isDarkMode ? 'px-6 py-8 text-center text-gray-400' : 'px-6 py-8 text-center text-orange-700'">
+                  No applications found
+                </td>
+              </tr>
+              <tr *ngFor="let app of allApplications"
+                [class]="isDarkMode ? 'hover:bg-gray-700 transition-colors duration-150' : 'hover:bg-orange-100 transition-colors duration-150'">
+                <td [class]="isDarkMode ? 'px-6 py-4 text-sm font-medium text-white' : 'px-6 py-4 text-sm font-medium text-orange-900'">
+                  {{app.candidate?.firstName}} {{app.candidate?.lastName}}</td>
+                <td [class]="isDarkMode ? 'px-6 py-4 text-sm text-gray-300' : 'px-6 py-4 text-sm text-orange-800'">{{app.job?.title}}</td>
+                <td [class]="isDarkMode ? 'px-6 py-4 text-sm text-gray-300' : 'px-6 py-4 text-sm text-orange-800'">{{app.appliedAt |
+                  date:'short'}}</td>
+                <td class="px-6 py-4">
+                  <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                    [class]="app.status === 'SHORTLISTED' ? 'bg-green-100 text-green-800' : app.status === 'REJECTED' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'">{{app.status}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
     <!-- Settings Management -->
     <div *ngIf="currentView === 'settings'">
-      <div class="flex justify-between items-center mb-6">
-        <h3 [class]="isDarkMode ? 'text-2xl font-bold text-white' : 'text-2xl font-bold text-orange-900'">Site Settings
-        </h3>
-        <button (click)="openSettingForm()"
-          class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-all">
-          + Add Setting
-        </button>
-      </div>
+      <div
+        [class]="isDarkMode ? 'bg-gray-800 rounded-2xl shadow-sm border border-gray-700' : 'bg-orange-200 rounded-2xl shadow-sm border border-orange-300'">
+        <div
+          [class]="isDarkMode ? 'flex justify-between items-center p-6 border-b border-gray-700' : 'flex justify-between items-center p-6 border-b border-orange-300'">
+          <div>
+            <h3 [class]="isDarkMode ? 'text-xl font-semibold text-white' : 'text-xl font-semibold text-orange-900'">System
+              Settings</h3>
+            <p [class]="isDarkMode ? 'text-gray-400 text-sm mt-1' : 'text-orange-700 text-sm mt-1'">Configure system
+              parameters and preferences</p>
+          </div>
+          <button (click)="openSettingForm()"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center space-x-2 shadow-sm hover:shadow-md">
+            <i class="fas fa-plus text-sm"></i>
+            <span>Add Setting</span>
+          </button>
+        </div>
 
-      <div class="overflow-x-auto">
-        <table class="w-full table-auto">
-          <thead>
-            <tr [class]="isDarkMode ? 'bg-gray-700' : 'bg-orange-200'">
-              <th
-                [class]="isDarkMode ? 'px-4 py-3 text-left text-white font-medium' : 'px-4 py-3 text-left text-orange-900 font-medium'">
-                Key</th>
-              <th
-                [class]="isDarkMode ? 'px-4 py-3 text-left text-white font-medium' : 'px-4 py-3 text-left text-orange-900 font-medium'">
-                Value</th>
-              <th
-                [class]="isDarkMode ? 'px-4 py-3 text-left text-white font-medium' : 'px-4 py-3 text-left text-orange-900 font-medium'">
-                Category</th>
-              <th
-                [class]="isDarkMode ? 'px-4 py-3 text-left text-white font-medium' : 'px-4 py-3 text-left text-orange-900 font-medium'">
-                Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let setting of settings"
-              [class]="isDarkMode ? 'border-b border-gray-600 hover:bg-gray-700' : 'border-b border-orange-200 hover:bg-orange-50'">
-              <td [class]="isDarkMode ? 'px-4 py-3 text-white' : 'px-4 py-3 text-orange-900'">{{setting.settingKey ||
-                setting.key}}</td>
-              <td [class]="isDarkMode ? 'px-4 py-3 text-gray-300' : 'px-4 py-3 text-orange-800'">{{setting.settingValue
-                || setting.value}}</td>
-              <td [class]="isDarkMode ? 'px-4 py-3 text-gray-300' : 'px-4 py-3 text-orange-800'">{{setting.category}}
-              </td>
-              <td class="px-4 py-3">
-                <button (click)="openSettingForm(setting)"
-                  class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm mr-2 transition-all">
-                  Edit
-                </button>
-                <button (click)="deleteSetting(setting.settingKey || setting.key)"
-                  class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm transition-all">
-                  Delete
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead [class]="isDarkMode ? 'bg-gray-700' : 'bg-orange-300'">
+              <tr>
+                <th
+                  [class]="isDarkMode ? 'px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider' : 'px-6 py-4 text-left text-xs font-medium text-orange-900 uppercase tracking-wider'">
+                  Key</th>
+                <th
+                  [class]="isDarkMode ? 'px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider' : 'px-6 py-4 text-left text-xs font-medium text-orange-900 uppercase tracking-wider'">
+                  Value</th>
+                <th
+                  [class]="isDarkMode ? 'px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider' : 'px-6 py-4 text-left text-xs font-medium text-orange-900 uppercase tracking-wider'">
+                  Category</th>
+                <th
+                  [class]="isDarkMode ? 'px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider' : 'px-6 py-4 text-left text-xs font-medium text-orange-900 uppercase tracking-wider'">
+                  Actions</th>
+              </tr>
+            </thead>
+            <tbody [class]="isDarkMode ? 'divide-y divide-gray-700' : 'divide-y divide-orange-300'">
+              <tr *ngFor="let setting of settings"
+                [class]="isDarkMode ? 'hover:bg-gray-700 transition-colors duration-150' : 'hover:bg-orange-100 transition-colors duration-150'">
+                <td [class]="isDarkMode ? 'px-6 py-4 text-sm font-medium text-white' : 'px-6 py-4 text-sm font-medium text-orange-900'">{{setting.settingKey ||
+                  setting.key}}</td>
+                <td [class]="isDarkMode ? 'px-6 py-4 text-sm text-gray-300' : 'px-6 py-4 text-sm text-orange-800'">{{setting.settingValue
+                  || setting.value}}</td>
+                <td [class]="isDarkMode ? 'px-6 py-4 text-sm text-gray-300' : 'px-6 py-4 text-sm text-orange-800'">{{setting.category}}
+                </td>
+                <td class="px-6 py-4 text-sm font-medium">
+                  <div class="flex items-center space-x-2">
+                    <button (click)="openSettingForm(setting)"
+                      [class]="isDarkMode ? 'text-blue-400 hover:text-blue-300 hover:bg-gray-700 p-2 rounded-lg transition-all duration-200' : 'text-blue-600 hover:text-blue-900 hover:bg-blue-50 p-2 rounded-lg transition-all duration-200'">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button (click)="deleteSetting(setting.settingKey || setting.key)"
+                      [class]="isDarkMode ? 'text-red-400 hover:text-red-300 hover:bg-gray-700 p-2 rounded-lg transition-all duration-200' : 'text-red-600 hover:text-red-900 hover:bg-red-50 p-2 rounded-lg transition-all duration-200'">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+    </div>
+
+    <!-- Analytics View -->
+    <div *ngIf="currentView === 'analytics'">
+      <app-analytics-dashboard></app-analytics-dashboard>
     </div>
 
     <!-- User Form Modal -->
     <div *ngIf="showUserForm"
-      class="fixed inset-0 bg-black bg-opacity-60 flex items-start justify-center z-[9999] p-4 pt-20">
+      class="fixed inset-0 backdrop-blur-sm flex items-start justify-center z-[60] p-4 pt-20 pb-12"
+      (click)="closeUserForm()">
       <div
         [class]="isDarkMode 
-          ? 'bg-gray-800 p-8 rounded-3xl w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-700' 
-          : 'bg-white p-8 rounded-3xl w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-200'">
+          ? 'bg-gray-800 p-8 rounded-3xl w-full max-w-3xl max-h-[85vh] overflow-y-auto shadow-2xl border border-gray-700 mb-8' 
+          : 'bg-orange-100 p-8 rounded-3xl w-full max-w-3xl max-h-[85vh] overflow-y-auto shadow-2xl border border-orange-300 mb-8'"
+        (click)="$event.stopPropagation()">
 
         <!-- Header -->
         <div class="flex items-center justify-between mb-8">
@@ -522,10 +570,11 @@
                 <i class="fas fa-user mr-2 text-blue-500"></i>
                 First Name
               </label>
-              <input [(ngModel)]="userForm.firstName" name="firstName" type="text" required placeholder="e.g. John"
+              <input [(ngModel)]="userForm.firstName" name="firstName" type="text" required placeholder="e.g. John" #firstName="ngModel"
                 [class]="isDarkMode 
                     ? 'w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all' 
-                    : 'w-full p-4 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all'">
+                    : 'w-full p-4 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all'">
+              <div *ngIf="firstName.invalid && firstName.touched" class="text-red-500 text-xs mt-1">First name is required</div>
             </div>
 
             <div class="relative">
@@ -535,10 +584,11 @@
                 <i class="fas fa-user mr-2 text-blue-500"></i>
                 Last Name
               </label>
-              <input [(ngModel)]="userForm.lastName" name="lastName" type="text" required placeholder="e.g. Doe"
+              <input [(ngModel)]="userForm.lastName" name="lastName" type="text" required placeholder="e.g. Doe" #lastName="ngModel"
                 [class]="isDarkMode 
                     ? 'w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all' 
-                    : 'w-full p-4 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all'">
+                    : 'w-full p-4 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all'">
+              <div *ngIf="lastName.invalid && lastName.touched" class="text-red-500 text-xs mt-1">Last name is required</div>
             </div>
           </div>
 
@@ -550,11 +600,43 @@
               <i class="fas fa-envelope mr-2 text-green-500"></i>
               Email Address
             </label>
-            <input [(ngModel)]="userForm.email" name="email" type="email" required
+            <input [(ngModel)]="userForm.email" name="email" type="email" required #email="ngModel"
               placeholder="e.g. john.doe@company.com"
               [class]="isDarkMode 
                   ? 'w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all' 
-                  : 'w-full p-4 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all'">
+                  : 'w-full p-4 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all'">
+            <div *ngIf="email.invalid && email.touched" class="text-red-500 text-xs mt-1">
+              <span *ngIf="email.errors?.['required']">Email is required</span>
+              <span *ngIf="email.errors?.['email']">Please enter a valid email address</span>
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div class="relative">
+            <label [class]="isDarkMode 
+                ? 'block text-sm font-semibold text-gray-300 mb-3 flex items-center' 
+                : 'block text-sm font-semibold text-gray-700 mb-3 flex items-center'">
+              <i class="fas fa-phone mr-2 text-orange-500"></i>
+              Phone Number
+            </label>
+            <input [(ngModel)]="userForm.phone" name="phone" type="tel" placeholder="e.g. +880 1234567890"
+              [class]="isDarkMode 
+                  ? 'w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all' 
+                  : 'w-full p-4 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all'">
+          </div>
+
+          <!-- Profile Picture -->
+          <div class="relative">
+            <label [class]="isDarkMode 
+                ? 'block text-sm font-semibold text-gray-300 mb-3 flex items-center' 
+                : 'block text-sm font-semibold text-gray-700 mb-3 flex items-center'">
+              <i class="fas fa-image mr-2 text-pink-500"></i>
+              Profile Picture (Optional)
+            </label>
+            <input type="file" accept="image/*" name="profilePicture"
+              [class]="isDarkMode 
+                  ? 'w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100' 
+                  : 'w-full p-4 bg-white border border-gray-300 rounded-lg text-gray-900 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100'">
           </div>
 
           <!-- Role & Department Row -->
@@ -566,16 +648,17 @@
                 <i class="fas fa-id-badge mr-2 text-purple-500"></i>
                 User Role
               </label>
-              <select [(ngModel)]="userForm.role" name="role" required
+              <select [(ngModel)]="userForm.role" name="role" required #role="ngModel"
                 [class]="isDarkMode 
                     ? 'w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all' 
-                    : 'w-full p-4 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all'">
+                    : 'w-full p-4 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all'">
                 <option value="CANDIDATE">Candidate</option>
                 <option value="HR_ADMIN">HR Admin</option>
                 <option value="RECRUITER">Recruiter</option>
                 <option value="HIRING_MANAGER">Hiring Manager</option>
                 <option value="SYSTEM_ADMIN">System Admin</option>
               </select>
+              <div *ngIf="role.invalid && role.touched" class="text-red-500 text-xs mt-1">Role is required</div>
             </div>
 
             <div class="relative">
@@ -589,23 +672,40 @@
                 placeholder="e.g. Engineering, HR, Marketing"
                 [class]="isDarkMode 
                     ? 'w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all' 
-                    : 'w-full p-4 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all'">
+                    : 'w-full p-4 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all'">
             </div>
           </div>
 
-          <!-- Password (only when editing) -->
-          <div class="relative" *ngIf="selectedUser">
+          <!-- Company Name (for HR/Recruiter roles) -->
+          <div *ngIf="userForm.role === 'HR_ADMIN' || userForm.role === 'RECRUITER' || userForm.role === 'HIRING_MANAGER'" class="relative">
+            <label [class]="isDarkMode 
+                ? 'block text-sm font-semibold text-gray-300 mb-3 flex items-center' 
+                : 'block text-sm font-semibold text-gray-700 mb-3 flex items-center'">
+              <i class="fas fa-building mr-2 text-teal-500"></i>
+              Company Name
+            </label>
+            <input [(ngModel)]="userForm.companyName" name="companyName" type="text" required #companyName="ngModel"
+              placeholder="e.g. Tech Solutions Inc."
+              [class]="isDarkMode 
+                  ? 'w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all' 
+                  : 'w-full p-4 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all'">
+            <div *ngIf="companyName.invalid && companyName.touched" class="text-red-500 text-xs mt-1">Company name is required for this role</div>
+          </div>
+
+          <!-- Password -->
+          <div class="relative">
             <label [class]="isDarkMode 
                 ? 'block text-sm font-semibold text-gray-300 mb-3 flex items-center' 
                 : 'block text-sm font-semibold text-gray-700 mb-3 flex items-center'">
               <i class="fas fa-lock mr-2 text-red-500"></i>
-              New Password (leave blank to keep current)
+              {{selectedUser ? 'New Password (leave blank to keep current)' : 'Password'}}
             </label>
-            <input [(ngModel)]="userForm.password" name="password" type="password"
-              placeholder="Enter new password or leave blank"
+            <input [(ngModel)]="userForm.password" name="password" type="password" #password="ngModel"
+              [required]="!selectedUser" [placeholder]="selectedUser ? 'Enter new password or leave blank' : 'Enter password'"
               [class]="isDarkMode 
                   ? 'w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all' 
-                  : 'w-full p-4 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all'">
+                  : 'w-full p-4 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all'">
+            <div *ngIf="password.invalid && password.touched && !selectedUser" class="text-red-500 text-xs mt-1">Password is required</div>
           </div>
 
           <!-- User Status -->
@@ -647,33 +747,56 @@
     </div>
 
     <!-- Setting Form Modal -->
-    <div *ngIf="showSettingForm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+    <div *ngIf="showSettingForm" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[9999] p-4">
       <div
-        [class]="isDarkMode ? 'bg-gray-800 p-8 rounded-2xl w-full max-w-md shadow-2xl' : 'bg-orange-50 p-8 rounded-2xl w-full max-w-md shadow-2xl'">
-        <h3 [class]="isDarkMode ? 'text-2xl font-bold text-white mb-6' : 'text-2xl font-bold text-orange-900 mb-6'">
-          {{settingForm.key ? 'Edit Setting' : 'Add Setting'}}
-        </h3>
+        [class]="isDarkMode ? 'bg-gray-800 p-8 rounded-3xl w-full max-w-md shadow-2xl border border-gray-700' : 'bg-orange-100 p-8 rounded-3xl w-full max-w-md shadow-2xl border border-orange-300'">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+          <div class="flex items-center space-x-3">
+            <div
+              [class]="isDarkMode ? 'w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center' : 'w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center'">
+              <i class="fas fa-cogs text-white text-xl"></i>
+            </div>
+            <h3 [class]="isDarkMode ? 'text-2xl font-bold text-white' : 'text-2xl font-bold text-orange-900'">
+              {{settingForm.key ? 'Edit Setting' : 'Add Setting'}}
+            </h3>
+          </div>
+          <button (click)="closeSettingForm()"
+            [class]="isDarkMode ? 'text-gray-400 hover:text-white text-2xl w-10 h-10 rounded-full hover:bg-gray-700 flex items-center justify-center transition-all' : 'text-orange-700 hover:text-orange-900 text-2xl w-10 h-10 rounded-full hover:bg-orange-200 flex items-center justify-center transition-all'">
+            &times;
+          </button>
+        </div>
 
-        <form (ngSubmit)="saveSetting()">
-          <div class="mb-4">
+        <form (ngSubmit)="saveSetting()" class="space-y-6">
+          <div class="relative">
             <label
-              [class]="isDarkMode ? 'block text-sm font-medium text-gray-300 mb-2' : 'block text-sm font-medium text-orange-800 mb-2'">Key</label>
-            <input [(ngModel)]="settingForm.key" name="key" type="text" required
-              [class]="isDarkMode ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-lg' : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-lg'">
+              [class]="isDarkMode ? 'block text-sm font-semibold text-gray-300 mb-3 flex items-center' : 'block text-sm font-semibold text-orange-800 mb-3 flex items-center'">
+              <i class="fas fa-key mr-2 text-blue-500"></i>
+              Key
+            </label>
+            <input [(ngModel)]="settingForm.key" name="key" type="text" required placeholder="e.g. site_name"
+              [class]="isDarkMode ? 'w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all' : 'w-full p-4 border border-orange-300 rounded-lg text-orange-900 placeholder-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all'">
           </div>
 
-          <div class="mb-4">
+          <div class="relative">
             <label
-              [class]="isDarkMode ? 'block text-sm font-medium text-gray-300 mb-2' : 'block text-sm font-medium text-orange-800 mb-2'">Value</label>
-            <input [(ngModel)]="settingForm.value" name="value" type="text" required
-              [class]="isDarkMode ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-lg' : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-lg'">
+              [class]="isDarkMode ? 'block text-sm font-semibold text-gray-300 mb-3 flex items-center' : 'block text-sm font-semibold text-orange-800 mb-3 flex items-center'">
+              <i class="fas fa-edit mr-2 text-green-500"></i>
+              Value
+            </label>
+            <input [(ngModel)]="settingForm.value" name="value" type="text" required placeholder="e.g. My Company"
+              [class]="isDarkMode ? 'w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all' : 'w-full p-4 border border-orange-300 rounded-lg text-orange-900 placeholder-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all'">
           </div>
 
-          <div class="mb-6">
+          <div class="relative">
             <label
-              [class]="isDarkMode ? 'block text-sm font-medium text-gray-300 mb-2' : 'block text-sm font-medium text-orange-800 mb-2'">Category</label>
+              [class]="isDarkMode ? 'block text-sm font-semibold text-gray-300 mb-3 flex items-center' : 'block text-sm font-semibold text-orange-800 mb-3 flex items-center'">
+              <i class="fas fa-folder mr-2 text-purple-500"></i>
+              Category
+            </label>
             <select [(ngModel)]="settingForm.category" name="category" required
-              [class]="isDarkMode ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-lg' : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-lg'">
+              [class]="isDarkMode ? 'w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all' : 'w-full p-4 border border-orange-300 rounded-lg text-orange-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all'">
               <option value="GENERAL">General</option>
               <option value="EMAIL">Email</option>
               <option value="SECURITY">Security</option>
@@ -681,14 +804,18 @@
             </select>
           </div>
 
-          <div class="flex justify-end space-x-3">
+          <!-- Action Buttons -->
+          <div class="flex justify-end space-x-4 pt-6 border-t"
+            [class]="isDarkMode ? 'border-gray-700' : 'border-orange-300'">
             <button type="button" (click)="closeSettingForm()"
-              [class]="isDarkMode ? 'px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-all' : 'px-6 py-3 bg-orange-300 hover:bg-orange-400 text-orange-900 rounded-lg transition-all'">
-              Cancel
+              [class]="isDarkMode ? 'px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition-all duration-200 flex items-center space-x-2' : 'px-6 py-3 bg-orange-300 hover:bg-orange-400 text-orange-900 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2'">
+              <i class="fas fa-times"></i>
+              <span>Cancel</span>
             </button>
             <button type="submit"
-              class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-all">
-              Save
+              class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all duration-200 flex items-center space-x-2 shadow-sm hover:shadow-md">
+              <i [class]="settingForm.key ? 'fas fa-save' : 'fas fa-plus'"></i>
+              <span>{{settingForm.key ? 'Update Setting' : 'Create Setting'}}</span>
             </button>
           </div>
         </form>
@@ -704,28 +831,28 @@
     
         <div [class]="isDarkMode 
           ? 'flex items-center justify-between p-6 border-b border-gray-700' 
-          : 'flex items-center justify-between p-6 border-b border-orange-200 bg-orange-50 rounded-t-2xl'">
+          : 'flex items-center justify-between p-6 border-b border-gray-200 bg-gray-50 rounded-t-2xl'">
           
-          <h3 [class]="isDarkMode ? 'text-xl font-bold text-white' : 'text-xl font-bold text-orange-900'">
+          <h3 [class]="isDarkMode ? 'text-xl font-bold text-white' : 'text-xl font-bold text-gray-900'">
             User Profile
           </h3>
           <button (click)="closeUserProfile()" 
             [class]="isDarkMode 
               ? 'text-gray-400 hover:text-white text-2xl w-10 h-10 rounded-full hover:bg-gray-700 flex items-center justify-center transition-all' 
-              : 'text-orange-600 hover:text-orange-900 text-2xl w-10 h-10 rounded-full hover:bg-orange-200 flex items-center justify-center transition-all'">&times;
+              : 'text-gray-600 hover:text-gray-900 text-2xl w-10 h-10 rounded-full hover:bg-gray-200 flex items-center justify-center transition-all'">&times;
           </button>
         </div>
         
         <div [class]="isDarkMode ? 'overflow-y-auto p-6 flex-1 space-y-6 bg-gray-800' : 'overflow-y-auto p-6 flex-1 space-y-6 bg-white'">
     
           <div class="flex flex-col items-center">
-            <div class="w-24 h-24 bg-orange-500 rounded-full flex items-center justify-center text-white text-4xl font-medium shadow-lg mb-4">
+            <div class="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-4xl font-medium shadow-lg mb-4">
               {{selectedUserProfile.firstName?.charAt(0)}}{{selectedUserProfile.lastName?.charAt(0)}}
             </div>
-            <h2 [class]="isDarkMode ? 'text-3xl font-bold text-white' : 'text-3xl font-bold text-orange-900'">
+            <h2 [class]="isDarkMode ? 'text-3xl font-bold text-white' : 'text-3xl font-bold text-gray-900'">
               {{selectedUserProfile.firstName}} {{selectedUserProfile.lastName}}
             </h2>
-            <p [class]="isDarkMode ? 'text-orange-300 font-medium text-lg' : 'text-orange-600 font-medium text-lg'">
+            <p [class]="isDarkMode ? 'text-blue-300 font-medium text-lg' : 'text-blue-600 font-medium text-lg'">
               {{selectedUserProfile.email}}
             </p>
             <span class="mt-2 inline-flex px-3 py-1 text-xs font-medium rounded-full" 
@@ -741,41 +868,41 @@
           <div [class]="isDarkMode ? 'border-b border-gray-700' : 'border-b border-orange-200'"></div>
 
           <div class="space-y-6">
-            <div [class]="isDarkMode ? 'bg-gray-700 rounded-xl' : 'bg-orange-50 rounded-xl border border-orange-200'">
-              <h4 [class]="isDarkMode ? 'font-semibold text-gray-300 text-sm p-4 border-b border-gray-600' : 'font-semibold text-orange-700 text-sm p-4 border-b border-orange-200'">ACCOUNT DETAILS</h4>
+            <div [class]="isDarkMode ? 'bg-gray-700 rounded-xl' : 'bg-gray-50 rounded-xl border border-gray-200'">
+              <h4 [class]="isDarkMode ? 'font-semibold text-gray-300 text-sm p-4 border-b border-gray-600' : 'font-semibold text-gray-700 text-sm p-4 border-b border-gray-200'">ACCOUNT DETAILS</h4>
               <div class="p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <span [class]="isDarkMode ? 'text-gray-400 text-xs' : 'text-orange-600 text-xs'">Department</span>
-                  <p [class]="isDarkMode ? 'text-white font-medium' : 'text-orange-900 font-medium'">{{selectedUserProfile.department || 'N/A'}}</p>
+                  <span [class]="isDarkMode ? 'text-gray-400 text-xs' : 'text-gray-600 text-xs'">Department</span>
+                  <p [class]="isDarkMode ? 'text-white font-medium' : 'text-gray-900 font-medium'">{{selectedUserProfile.department || 'N/A'}}</p>
                 </div>
                 <div>
-                  <span [class]="isDarkMode ? 'text-gray-400 text-xs' : 'text-orange-600 text-xs'">Status</span>
+                  <span [class]="isDarkMode ? 'text-gray-400 text-xs' : 'text-gray-600 text-xs'">Status</span>
                   <p class="font-medium" [class]="selectedUserProfile.active ? 'text-green-500' : 'text-red-500'">
                     {{selectedUserProfile.active ? 'Active' : 'Inactive'}}
                   </p>
                 </div>
                  <div>
-                  <span [class]="isDarkMode ? 'text-gray-400 text-xs' : 'text-orange-600 text-xs'">Joined</span>
-                  <p [class]="isDarkMode ? 'text-white font-medium' : 'text-orange-900 font-medium'">{{selectedUserProfile.createdAt | date:'mediumDate'}}</p>
+                  <span [class]="isDarkMode ? 'text-gray-400 text-xs' : 'text-gray-600 text-xs'">Joined</span>
+                  <p [class]="isDarkMode ? 'text-white font-medium' : 'text-gray-900 font-medium'">{{selectedUserProfile.createdAt | date:'mediumDate'}}</p>
                 </div>
               </div>
             </div>
 
-            <div [class]="isDarkMode ? 'bg-gray-700 rounded-xl' : 'bg-orange-50 rounded-xl border border-orange-200'">
-              <h4 [class]="isDarkMode ? 'font-semibold text-gray-300 text-sm p-4 border-b border-gray-600' : 'font-semibold text-orange-700 text-sm p-4 border-b border-orange-200'">CONTACT</h4>
+            <div [class]="isDarkMode ? 'bg-gray-700 rounded-xl' : 'bg-gray-50 rounded-xl border border-gray-200'">
+              <h4 [class]="isDarkMode ? 'font-semibold text-gray-300 text-sm p-4 border-b border-gray-600' : 'font-semibold text-gray-700 text-sm p-4 border-b border-gray-200'">CONTACT</h4>
               <div class="p-4">
                 <div>
-                  <span [class]="isDarkMode ? 'text-gray-400 text-xs' : 'text-orange-600 text-xs'">Phone</span>
-                  <p [class]="isDarkMode ? 'text-white font-medium' : 'text-orange-900 font-medium'">{{selectedUserProfile.phone || 'N/A'}}</p>
+                  <span [class]="isDarkMode ? 'text-gray-400 text-xs' : 'text-gray-600 text-xs'">Phone</span>
+                  <p [class]="isDarkMode ? 'text-white font-medium' : 'text-gray-900 font-medium'">{{selectedUserProfile.phone || 'N/A'}}</p>
                 </div>
               </div>
             </div>
           </div>
           
-          <div *ngIf="selectedUserProfile.role === 'CANDIDATE'" [class]="isDarkMode ? 'bg-gray-700 rounded-xl' : 'bg-orange-50 rounded-xl border border-orange-200'">
-            <h4 [class]="isDarkMode ? 'font-semibold text-gray-300 text-sm p-4 border-b border-gray-600' : 'font-semibold text-orange-700 text-sm p-4 border-b border-orange-200'">JOB APPLICATIONS</h4>
+          <div *ngIf="selectedUserProfile.role === 'CANDIDATE'" [class]="isDarkMode ? 'bg-gray-700 rounded-xl' : 'bg-gray-50 rounded-xl border border-gray-200'">
+            <h4 [class]="isDarkMode ? 'font-semibold text-gray-300 text-sm p-4 border-b border-gray-600' : 'font-semibold text-gray-700 text-sm p-4 border-b border-gray-200'">JOB APPLICATIONS</h4>
             
-            <div *ngIf="userApplications.length === 0" [class]="isDarkMode ? 'text-gray-400 text-center p-4' : 'text-orange-700 text-center p-4'">
+            <div *ngIf="userApplications.length === 0" [class]="isDarkMode ? 'text-gray-400 text-center p-4' : 'text-gray-700 text-center p-4'">
               No applications found
             </div>
             
@@ -783,15 +910,15 @@
               <table class="w-full table-auto">
                 <thead>
                   <tr [class]="isDarkMode ? '' : ''">
-                    <th [class]="isDarkMode ? 'px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase' : 'px-4 py-3 text-left text-xs font-medium text-orange-700 uppercase'">Job Title</th>
-                    <th [class]="isDarkMode ? 'px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase' : 'px-4 py-3 text-left text-xs font-medium text-orange-700 uppercase'">Applied Date</th>
-                    <th [class]="isDarkMode ? 'px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase' : 'px-4 py-3 text-left text-xs font-medium text-orange-700 uppercase'">Status</th>
+                    <th [class]="isDarkMode ? 'px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase' : 'px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase'">Job Title</th>
+                    <th [class]="isDarkMode ? 'px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase' : 'px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase'">Applied Date</th>
+                    <th [class]="isDarkMode ? 'px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase' : 'px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase'">Status</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let app of userApplications; let last = last" [class]="isDarkMode ? 'border-t border-gray-700' : 'border-t border-orange-200'">
-                    <td [class]="isDarkMode ? 'px-4 py-3 text-white font-medium' : 'px-4 py-3 text-orange-900 font-medium'">{{app.job?.title || 'N/A'}}</td>
-                    <td [class]="isDarkMode ? 'px-4 py-3 text-gray-300' : 'px-4 py-3 text-orange-800'">{{app.appliedAt | date:'short'}}</td>
+                  <tr *ngFor="let app of userApplications; let last = last" [class]="isDarkMode ? 'border-t border-gray-700' : 'border-t border-gray-200'">
+                    <td [class]="isDarkMode ? 'px-4 py-3 text-white font-medium' : 'px-4 py-3 text-gray-900 font-medium'">{{app.job?.title || 'N/A'}}</td>
+                    <td [class]="isDarkMode ? 'px-4 py-3 text-gray-300' : 'px-4 py-3 text-gray-800'">{{app.appliedAt | date:'short'}}</td>
                     <td class="px-4 py-3">
                       <span class="font-medium" [class]="app.status === 'SHORTLISTED' ? 'text-green-500' : app.status === 'REJECTED' ? 'text-red-500' : 'text-yellow-500'">{{app.status}}</span>
                     </td>
@@ -804,11 +931,11 @@
         
         <div [class]="isDarkMode 
           ? 'flex justify-end p-6 border-t border-gray-700 bg-gray-800 rounded-b-2xl' 
-          : 'flex justify-end p-6 border-t border-orange-200 bg-white rounded-b-2xl'">
+          : 'flex justify-end p-6 border-t border-gray-200 bg-white rounded-b-2xl'">
           <button (click)="closeUserProfile()" 
             [class]="isDarkMode 
               ? 'px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition-all duration-200' 
-              : 'px-6 py-3 bg-orange-300 hover:bg-orange-400 text-orange-900 rounded-lg font-medium transition-all duration-200'">
+              : 'px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg font-medium transition-all duration-200'">
             Close
           </button>
         </div>

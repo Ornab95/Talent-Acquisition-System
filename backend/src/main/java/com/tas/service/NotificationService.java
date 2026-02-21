@@ -1,7 +1,10 @@
 package com.tas.service;
 
 import com.tas.entity.Interview;
+import com.tas.entity.Notification;
+import com.tas.entity.User;
 import com.tas.event.InterviewScheduledEvent;
+import com.tas.repository.NotificationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,9 @@ public class NotificationService {
     
     @Autowired
     private TemplateEngine templateEngine;
+    
+    @Autowired
+    private NotificationRepository notificationRepository;
 
     @EventListener
     public void handleInterviewScheduled(InterviewScheduledEvent event) {
@@ -34,9 +40,43 @@ public class NotificationService {
         
         try {
             sendInterviewNotification(interview);
+            createInterviewNotifications(interview);
         } catch (Exception e) {
             logger.error("Failed to send interview notification: {}", e.getMessage());
         }
+    }
+    
+    private void createInterviewNotifications(Interview interview) {
+        Notification candidateNotif = new Notification();
+        candidateNotif.setUser(interview.getApplication().getCandidate());
+        candidateNotif.setTitle("Interview Scheduled");
+        candidateNotif.setMessage("Your interview for " + interview.getApplication().getJob().getTitle() + " has been scheduled");
+        candidateNotif.setType("INTERVIEW");
+        candidateNotif.setRelatedEntityType("INTERVIEW");
+        candidateNotif.setRelatedEntityId(interview.getId());
+        notificationRepository.save(candidateNotif);
+        
+        Notification interviewerNotif = new Notification();
+        interviewerNotif.setUser(interview.getInterviewer());
+        interviewerNotif.setTitle("Interview Assignment");
+        interviewerNotif.setMessage("You have been assigned to interview " + 
+            interview.getApplication().getCandidate().getFirstName() + " " + 
+            interview.getApplication().getCandidate().getLastName());
+        interviewerNotif.setType("INTERVIEW");
+        interviewerNotif.setRelatedEntityType("INTERVIEW");
+        interviewerNotif.setRelatedEntityId(interview.getId());
+        notificationRepository.save(interviewerNotif);
+    }
+    
+    public void createNotification(User user, String title, String message, String type, String entityType, Long entityId) {
+        Notification notification = new Notification();
+        notification.setUser(user);
+        notification.setTitle(title);
+        notification.setMessage(message);
+        notification.setType(type);
+        notification.setRelatedEntityType(entityType);
+        notification.setRelatedEntityId(entityId);
+        notificationRepository.save(notification);
     }
 
     private void sendInterviewNotification(Interview interview) throws MessagingException {

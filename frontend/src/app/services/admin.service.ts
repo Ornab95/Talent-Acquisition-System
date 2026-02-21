@@ -78,4 +78,8 @@ export class AdminService {
   getAnalytics(): Observable<any> {
     return this.http.get(`${this.baseUrl}/analytics`, { headers: this.getAuthHeaders() });
   }
+
+  getCompanies(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.adminUrl}/companies`, { headers: this.getAuthHeaders() });
+  }
 }

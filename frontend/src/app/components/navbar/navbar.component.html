@@ -1,23 +1,82 @@
 <nav [class]="isDarkMode 
   ? 'fixed top-0 left-0 right-0 z-[100] bg-gray-900 bg-opacity-90 backdrop-blur-sm' 
-  : 'fixed top-0 left-0 right-0 z-[100] bg-orange-100 bg-opacity-90 backdrop-blur-sm'">
+  : 'fixed top-0 left-0 right-0 z-[100] bg-orange-200 bg-opacity-90 backdrop-blur-sm'">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       <!-- Logo/Brand -->
       <div class="flex items-center">
         <button (click)="goHome()" [class]="isDarkMode 
-          ? 'flex items-center text-xl font-bold text-white hover:text-gray-300 transition-all cursor-pointer' 
-          : 'flex items-center text-xl font-bold text-orange-900 hover:text-orange-700 transition-all cursor-pointer'">
-          <img src="TAS.png" alt="TAS Logo" class="w-30 h-30 mr-4">
-          Talent Acquisition System
+          ? 'flex items-center text-lg sm:text-xl font-bold text-white hover:text-gray-300 transition-all cursor-pointer' 
+          : 'flex items-center text-lg sm:text-xl font-bold text-orange-900 hover:text-orange-700 transition-all cursor-pointer'">
+          <img src="TAS.png" alt="TAS Logo" class="w-30 h-30 mr-2 sm:mr-4">
+          <span class="hidden sm:inline">Talent Acquisition System</span>
+          <span class="sm:hidden">TAS</span>
         </button>
       </div>
 
       <!-- Right Side -->
       <div class="flex items-center space-x-4">
+        <!-- Notifications (for candidates only) -->
+        @if (isAuthenticated && unreadCount >= 0) {
+          <div class="relative notification-dropdown">
+            <button (click)="toggleNotifications()" 
+              [class]="isDarkMode 
+                ? 'relative p-2 rounded-md text-white hover:bg-gray-700 transition-all' 
+                : 'relative p-2 rounded-md text-orange-900 hover:bg-orange-200 transition-all'">
+              <i class="fas fa-bell text-lg"></i>
+              @if (unreadCount > 0) {
+                <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                  {{ unreadCount > 9 ? '9+' : unreadCount }}
+                </span>
+              }
+            </button>
+            
+            <!-- Notifications Dropdown -->
+            @if (showNotifications) {
+              <div [class]="isDarkMode 
+                ? 'absolute right-0 mt-2 w-80 bg-gray-800 rounded-lg shadow-2xl py-2 z-[110] max-h-96 overflow-y-auto' 
+                : 'absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-2xl py-2 z-[110] max-h-96 overflow-y-auto'">
+                <div class="flex justify-between items-center px-4 py-2 border-b" [class]="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
+                  <h3 [class]="isDarkMode ? 'font-bold text-white' : 'font-bold text-gray-900'">Notifications</h3>
+                  @if (unreadCount > 0) {
+                    <button (click)="markAllAsRead()" [class]="isDarkMode ? 'text-xs text-blue-400 hover:text-blue-300' : 'text-xs text-blue-600 hover:text-blue-700'">
+                      Mark all read
+                    </button>
+                  }
+                </div>
+                @if (notifications.length === 0) {
+                  <div class="px-4 py-8 text-center" [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'">
+                    <i class="fas fa-bell-slash text-3xl mb-2"></i>
+                    <p>No notifications</p>
+                  </div>
+                } @else {
+                  @for (notification of notifications; track notification.id) {
+                    <div (click)="markAsRead(notification)" 
+                      [class]="notification.read 
+                        ? (isDarkMode ? 'px-4 py-3 hover:bg-gray-700 cursor-pointer border-b border-gray-700' : 'px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100')
+                        : (isDarkMode ? 'px-4 py-3 bg-gray-700 hover:bg-gray-600 cursor-pointer border-b border-gray-700' : 'px-4 py-3 bg-blue-50 hover:bg-blue-100 cursor-pointer border-b border-gray-100')">
+                      <div class="flex items-start space-x-2">
+                        @if (!notification.read) {
+                          <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                        }
+                        <div class="flex-1">
+                          <p [class]="isDarkMode ? 'text-sm text-gray-200' : 'text-sm text-gray-800'">{{ notification.message }}</p>
+                          <p [class]="isDarkMode ? 'text-xs text-gray-400 mt-1' : 'text-xs text-gray-500 mt-1'">
+                            {{ notification.createdAt | date:'short' }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                }
+              </div>
+            }
+          </div>
+        }
+        
         <!-- User Profile (when authenticated) -->
         @if (isAuthenticated) {
-          <div class="relative">
+          <div class="relative profile-dropdown">
             <button (click)="toggleProfileMenu()" 
               [class]="isDarkMode 
                 ? 'flex items-center space-x-2 px-3 py-2 rounded-md text-white hover:bg-gray-700 transition-all' 
@@ -26,7 +85,7 @@
                 <img *ngIf="userProfilePicture" [src]="userProfilePicture" alt="Profile" class="w-full h-full object-cover">
                 <i *ngIf="!userProfilePicture" class="fas fa-user text-white text-sm"></i>
               </div>
-              <span class="text-sm font-medium">{{ userName }}</span>
+              <span class="hidden sm:inline text-sm font-medium">{{ userName }}</span>
               <i [class]="showProfileMenu ? 'fas fa-chevron-up text-xs' : 'fas fa-chevron-down text-xs'"></i>
             </button>
             

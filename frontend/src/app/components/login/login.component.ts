@@ -2,6 +2,7 @@ import { Component, AfterViewInit, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../services/auth.service';
 import { ThemeService } from '../../services/theme.service';
 import { NavbarComponent } from '../navbar/navbar.component';
@@ -29,7 +30,8 @@ export class LoginComponent implements AfterViewInit {
     private authService: AuthService,
     public router: Router,
     private themeService: ThemeService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private snackBar: MatSnackBar
   ) {
     this.themeService.isDarkMode$.subscribe(isDark => {
       this.isDarkMode = isDark;
@@ -37,8 +39,7 @@ export class LoginComponent implements AfterViewInit {
   }
 
   onSubmit(): void {
-    if (!this.credentials.email || !this.credentials.password) {
-      this.error = 'Email and password are required';
+    if (!this.isFormValid()) {
       return;
     }
 
@@ -48,6 +49,12 @@ export class LoginComponent implements AfterViewInit {
     this.authService.login(this.credentials).subscribe({
       next: (response) => {
         this.loading = false;
+        
+        // Show success message with user's name
+        this.snackBar.open(`Successfully logged in ${response.firstName} ${response.lastName}`, 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
         
         switch(response.role) {
           case 'CANDIDATE':
@@ -83,5 +90,30 @@ export class LoginComponent implements AfterViewInit {
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
+  }
+
+  isFormValid(): boolean {
+    if (!this.credentials.email?.trim()) {
+      this.error = 'Email is required';
+      return false;
+    }
+    if (!this.isValidEmail(this.credentials.email)) {
+      this.error = 'Please enter a valid email address';
+      return false;
+    }
+    if (!this.credentials.password?.trim()) {
+      this.error = 'Password is required';
+      return false;
+    }
+    if (this.credentials.password.length < 6) {
+      this.error = 'Password must be at least 6 characters long';
+      return false;
+    }
+    return true;
+  }
+
+  isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   }
 }

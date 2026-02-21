@@ -12,22 +12,15 @@ function authInterceptor(req: HttpRequest<any>, next: HttpHandlerFn): Observable
   const authService = inject(AuthService);
   const token = authService.getToken();
   
-  // Sanitize URL for logging
-  const sanitizedUrl = req.url.replace(/[\r\n\t]/g, '');
-  console.log('Auth Interceptor - URL:', sanitizedUrl);
-  console.log('Auth Interceptor - Token:', token ? 'Present' : 'Not found');
-  
   if (token) {
     const authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
       }
     });
-    console.log('Auth Interceptor - Added Authorization header');
     return next(authReq);
   }
   
-  console.log('Auth Interceptor - No token, proceeding without Authorization header');
   return next(req);
 }
 

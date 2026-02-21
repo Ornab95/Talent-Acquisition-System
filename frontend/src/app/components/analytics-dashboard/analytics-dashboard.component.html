@@ -1,105 +1,217 @@
-<div class="analytics-dashboard">
-  <div class="dashboard-header">
-    <h2 class="text-2xl font-bold text-gray-800 mb-2">Analytics Dashboard</h2>
-    <p class="text-gray-600">Hiring metrics and key performance indicators</p>
-  </div>
+<div>
 
-  <div *ngIf="loading" class="loading-state">
-    <div class="flex items-center justify-center py-12">
-      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-      <span class="ml-3 text-gray-600">Loading analytics...</span>
+  <div *ngIf="loading" class="flex items-center justify-center py-20">
+    <div class="text-center">
+      <div [class]="isDarkMode 
+        ? 'animate-spin rounded-full h-16 w-16 border-b-4 border-blue-400 mx-auto mb-4' 
+        : 'animate-spin rounded-full h-16 w-16 border-b-4 border-orange-600 mx-auto mb-4'"></div>
+      <p [class]="isDarkMode ? 'text-lg text-white font-medium' : 'text-lg text-white font-medium'">Loading analytics data...</p>
+      <p [class]="isDarkMode ? 'text-sm text-gray-300 mt-2' : 'text-sm text-orange-100 mt-2'">Please wait while we gather your insights</p>
     </div>
   </div>
 
-  <div *ngIf="error" class="error-state">
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
-      {{ error }}
+  <div *ngIf="error" [class]="isDarkMode 
+    ? 'bg-red-900 border-l-4 border-red-500 p-6 mb-8 rounded-lg' 
+    : 'bg-red-50 border-l-4 border-red-400 p-6 mb-8 rounded-lg'">
+    <div class="flex items-center">
+      <div class="flex-shrink-0">
+        <i [class]="isDarkMode ? 'fas fa-exclamation-triangle text-red-400 text-xl' : 'fas fa-exclamation-triangle text-red-500 text-xl'"></i>
+      </div>
+      <div class="ml-3">
+        <h3 [class]="isDarkMode ? 'text-lg font-medium text-red-200' : 'text-lg font-medium text-red-800'">Unable to load analytics</h3>
+        <p [class]="isDarkMode ? 'text-red-300 mt-1' : 'text-red-700 mt-1'">{{ error }}</p>
+        <button (click)="loadAnalytics()" [class]="isDarkMode 
+          ? 'mt-3 bg-red-600 text-white px-4 py-2 rounded-md text-sm hover:bg-red-700 transition-colors' 
+          : 'mt-3 bg-red-600 text-white px-4 py-2 rounded-md text-sm hover:bg-red-700 transition-colors'">
+          <i class="fas fa-redo mr-2"></i>Try Again
+        </button>
+      </div>
     </div>
   </div>
 
-  <div *ngIf="analytics && !loading" class="analytics-content">
+  <div *ngIf="analytics && !loading" [class]="isDarkMode 
+    ? 'bg-gray-800 shadow-2xl rounded-2xl p-4 sm:p-8 relative overflow-hidden' 
+    : 'bg-orange-100 shadow-2xl rounded-2xl p-4 sm:p-8 relative overflow-hidden'">
     
-    <!-- Key Metrics Cards -->
-    <div class="metrics-grid">
-      <div class="metric-card">
-        <div class="metric-icon bg-blue-100">
-          <i class="fas fa-briefcase text-blue-600"></i>
-        </div>
-        <div class="metric-content">
-          <h3 class="metric-value">{{ analytics.totalJobs }}</h3>
-          <p class="metric-label">Total Jobs</p>
-          <span class="metric-sublabel">{{ analytics.activeJobs }} active</span>
-        </div>
-      </div>
-
-      <div class="metric-card">
-        <div class="metric-icon bg-green-100">
-          <i class="fas fa-file-alt text-green-600"></i>
-        </div>
-        <div class="metric-content">
-          <h3 class="metric-value">{{ analytics.totalApplications }}</h3>
-          <p class="metric-label">Applications</p>
-          <span class="metric-sublabel">All time</span>
-        </div>
-      </div>
-
-      <div class="metric-card">
-        <div class="metric-icon bg-purple-100">
-          <i class="fas fa-users text-purple-600"></i>
-        </div>
-        <div class="metric-content">
-          <h3 class="metric-value">{{ analytics.totalCandidates }}</h3>
-          <p class="metric-label">Candidates</p>
-          <span class="metric-sublabel">Registered</span>
-        </div>
-      </div>
-
-      <div class="metric-card">
-        <div class="metric-icon bg-orange-100">
-          <i class="fas fa-clock text-orange-600"></i>
-        </div>
-        <div class="metric-content">
-          <h3 class="metric-value">{{ analytics.averageTimeToFill }}d</h3>
-          <p class="metric-label">Avg. Time to Fill</p>
-          <span class="metric-sublabel">Days</span>
-        </div>
-      </div>
+    <!-- Decorative background shapes -->
+    <div [class]="isDarkMode 
+      ? 'absolute top-0 left-0 w-40 sm:w-60 h-40 sm:h-60 bg-gradient-to-br from-blue-600 to-purple-400 rounded-full blur-3xl opacity-20 -translate-x-10 sm:-translate-x-20 -translate-y-10 sm:-translate-y-20' 
+      : 'absolute top-0 left-0 w-40 sm:w-60 h-40 sm:h-60 bg-gradient-to-br from-orange-400 to-pink-400 rounded-full blur-3xl opacity-30 -translate-x-10 sm:-translate-x-20 -translate-y-10 sm:-translate-y-20'">
+    </div>
+    <div [class]="isDarkMode 
+      ? 'absolute bottom-0 right-0 w-40 sm:w-60 h-40 sm:h-60 bg-gradient-to-tr from-purple-600 to-blue-400 rounded-full blur-3xl opacity-20 translate-x-10 sm:translate-x-20 translate-y-10 sm:translate-y-20' 
+      : 'absolute bottom-0 right-0 w-40 sm:w-60 h-40 sm:h-60 bg-gradient-to-tr from-orange-500 to-red-400 rounded-full blur-3xl opacity-30 translate-x-10 sm:translate-x-20 translate-y-10 sm:translate-y-20'">
     </div>
 
-    <!-- Charts Section -->
-    <div class="charts-grid">
+    <div class="relative z-10">
+      <!-- Header Stats -->
+      <div class="mb-8">
+        <h2 [class]="isDarkMode ? 'text-2xl font-bold text-white mb-2' : 'text-2xl font-bold text-orange-900 mb-2'">
+          {{ isAdminView ? 'System Analytics Dashboard' : 'HR Analytics Dashboard' }}
+        </h2>
+        <p [class]="isDarkMode ? 'text-gray-300' : 'text-orange-700'">
+          {{ isAdminView ? 'System-wide hiring metrics and performance overview' : 'Company hiring metrics and performance overview' }}
+        </p>
+      </div>
       
-      <!-- Application Status Chart -->
-      <div class="chart-card">
-        <h3 class="chart-title">Applications by Status</h3>
-        <div class="chart-content">
-          <div *ngFor="let status of getObjectKeys(analytics.applicationsByStatus)" class="status-bar">
-            <div class="status-info">
-              <span class="status-label">{{ status }}</span>
-              <span class="status-value">{{ analytics.applicationsByStatus[status] }}</span>
-            </div>
-            <div class="progress-bar-container">
-              <div class="progress-bar" 
-                   [class]="getStatusColor(status)"
-                   [style.width.%]="getPercentage(analytics.applicationsByStatus[status], getMaxValue(analytics.applicationsByStatus))">
+      <!-- Key Metrics Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div [class]="isDarkMode 
+          ? 'bg-gray-700 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-600' 
+          : 'bg-orange-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-orange-300'">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="flex items-center mb-2">
+                <div [class]="isDarkMode 
+                  ? 'w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center' 
+                  : 'w-12 h-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center'">
+                  <i class="fas fa-briefcase text-white text-lg"></i>
+                </div>
+                <div class="ml-3">
+                  <p [class]="isDarkMode ? 'text-sm font-medium text-gray-300' : 'text-sm font-medium text-orange-800'">Total Jobs</p>
+                  <h3 [class]="isDarkMode ? 'text-3xl font-bold text-white' : 'text-3xl font-bold text-orange-900'">{{ analytics.totalJobs }}</h3>
+                </div>
+              </div>
+              <div class="flex items-center text-sm">
+                <span [class]="isDarkMode 
+                  ? 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-800 text-green-200' 
+                  : 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800'">
+                  <i class="fas fa-check-circle mr-1"></i>
+                  {{ analytics.activeJobs }} active
+                </span>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Department Distribution -->
-      <div class="chart-card">
-        <h3 class="chart-title">Applications by Department</h3>
-        <div class="chart-content">
-          <div *ngFor="let dept of getObjectKeys(analytics.applicationsByDepartment)" class="dept-bar">
-            <div class="dept-info">
-              <span class="dept-label">{{ dept }}</span>
-              <span class="dept-value">{{ analytics.applicationsByDepartment[dept] }}</span>
+        <div [class]="isDarkMode 
+          ? 'bg-gray-700 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-600' 
+          : 'bg-orange-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-orange-300'">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="flex items-center mb-2">
+                <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                  <i class="fas fa-file-alt text-white text-lg"></i>
+                </div>
+                <div class="ml-3">
+                  <p [class]="isDarkMode ? 'text-sm font-medium text-gray-300' : 'text-sm font-medium text-orange-800'">Applications</p>
+                  <h3 [class]="isDarkMode ? 'text-3xl font-bold text-white' : 'text-3xl font-bold text-orange-900'">{{ analytics.totalApplications }}</h3>
+                </div>
+              </div>
+              <div class="flex items-center text-sm">
+                <span [class]="isDarkMode ? 'text-gray-400' : 'text-orange-700'">All time submissions</span>
+              </div>
             </div>
-            <div class="progress-bar-container">
-              <div class="progress-bar bg-indigo-500"
-                   [style.width.%]="getPercentage(analytics.applicationsByDepartment[dept], getMaxValue(analytics.applicationsByDepartment))">
+          </div>
+        </div>
+
+        <div [class]="isDarkMode 
+          ? 'bg-gray-700 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-600' 
+          : 'bg-orange-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-orange-300'">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="flex items-center mb-2">
+                <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                  <i class="fas fa-users text-white text-lg"></i>
+                </div>
+                <div class="ml-3">
+                  <p [class]="isDarkMode ? 'text-sm font-medium text-gray-300' : 'text-sm font-medium text-orange-800'">Candidates</p>
+                  <h3 [class]="isDarkMode ? 'text-3xl font-bold text-white' : 'text-3xl font-bold text-orange-900'">{{ analytics.totalCandidates }}</h3>
+                </div>
+              </div>
+              <div class="flex items-center text-sm">
+                <span [class]="isDarkMode ? 'text-gray-400' : 'text-orange-700'">Registered users</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div [class]="isDarkMode 
+          ? 'bg-gray-700 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-600' 
+          : 'bg-orange-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-orange-300'">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="flex items-center mb-2">
+                <div [class]="isDarkMode 
+                  ? 'w-12 h-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center' 
+                  : 'w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center'">
+                  <i class="fas fa-clock text-white text-lg"></i>
+                </div>
+                <div class="ml-3">
+                  <p [class]="isDarkMode ? 'text-sm font-medium text-gray-300' : 'text-sm font-medium text-orange-800'">Avg. Time to Fill</p>
+                  <h3 [class]="isDarkMode ? 'text-3xl font-bold text-white' : 'text-3xl font-bold text-orange-900'">{{ analytics.averageTimeToFill }}<span [class]="isDarkMode ? 'text-lg text-gray-400' : 'text-lg text-orange-700'">d</span></h3>
+                </div>
+              </div>
+              <div class="flex items-center text-sm">
+                <span [class]="isDarkMode ? 'text-gray-400' : 'text-orange-700'">Days to hire</span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+      <!-- Charts Section -->
+      <div class="mb-8">
+        <h2 [class]="isDarkMode ? 'text-2xl font-bold text-white mb-6' : 'text-2xl font-bold text-orange-900 mb-6'">Detailed Analytics</h2>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+      
+        <!-- Application Status Chart -->
+        <div [class]="isDarkMode 
+          ? 'bg-gray-700 rounded-2xl p-6 shadow-sm border border-gray-600' 
+          : 'bg-orange-200 rounded-2xl p-6 shadow-sm border border-orange-300'">
+          <div class="flex items-center justify-between mb-6">
+            <h3 [class]="isDarkMode ? 'text-lg font-semibold text-white' : 'text-lg font-semibold text-orange-900'">Applications by Status</h3>
+            <div [class]="isDarkMode 
+              ? 'w-8 h-8 bg-blue-800 rounded-lg flex items-center justify-center' 
+              : 'w-8 h-8 bg-orange-300 rounded-lg flex items-center justify-center'">
+              <i [class]="isDarkMode ? 'fas fa-chart-pie text-blue-300 text-sm' : 'fas fa-chart-pie text-orange-800 text-sm'"></i>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div *ngFor="let status of getObjectKeys(analytics.applicationsByStatus)" class="flex items-center justify-between py-3">
+              <div class="flex items-center space-x-3">
+                <div class="w-3 h-3 rounded-full" [class]="getStatusColor(status)"></div>
+                <span [class]="isDarkMode ? 'text-sm font-medium text-gray-300' : 'text-sm font-medium text-orange-800'">{{ status }}</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div [class]="isDarkMode ? 'w-24 bg-gray-600 rounded-full h-2' : 'w-24 bg-orange-300 rounded-full h-2'">
+                  <div class="h-2 rounded-full transition-all duration-300" 
+                       [class]="getStatusColor(status)"
+                       [style.width.%]="getPercentage(analytics.applicationsByStatus[status], getMaxValue(analytics.applicationsByStatus))">
+                  </div>
+                </div>
+                <span [class]="isDarkMode ? 'text-sm font-semibold text-white w-8 text-right' : 'text-sm font-semibold text-orange-900 w-8 text-right'">{{ analytics.applicationsByStatus[status] }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Department Distribution -->
+        <div [class]="isDarkMode 
+          ? 'bg-gray-700 rounded-2xl p-6 shadow-sm border border-gray-600' 
+          : 'bg-orange-200 rounded-2xl p-6 shadow-sm border border-orange-300'">
+          <div class="flex items-center justify-between mb-6">
+            <h3 [class]="isDarkMode ? 'text-lg font-semibold text-white' : 'text-lg font-semibold text-orange-900'">Applications by Department</h3>
+            <div [class]="isDarkMode 
+              ? 'w-8 h-8 bg-green-800 rounded-lg flex items-center justify-center' 
+              : 'w-8 h-8 bg-green-200 rounded-lg flex items-center justify-center'">
+              <i [class]="isDarkMode ? 'fas fa-building text-green-300 text-sm' : 'fas fa-building text-green-700 text-sm'"></i>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div *ngFor="let dept of getObjectKeys(analytics.applicationsByDepartment)" class="flex items-center justify-between py-3">
+              <div class="flex items-center space-x-3">
+                <div class="w-3 h-3 rounded-full bg-indigo-500"></div>
+                <span [class]="isDarkMode ? 'text-sm font-medium text-gray-300' : 'text-sm font-medium text-orange-800'">{{ dept }}</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div [class]="isDarkMode ? 'w-24 bg-gray-600 rounded-full h-2' : 'w-24 bg-orange-300 rounded-full h-2'">
+                  <div class="bg-indigo-500 h-2 rounded-full transition-all duration-300"
+                       [style.width.%]="getPercentage(analytics.applicationsByDepartment[dept], getMaxValue(analytics.applicationsByDepartment))">
+                  </div>
+                </div>
+                <span [class]="isDarkMode ? 'text-sm font-semibold text-white w-8 text-right' : 'text-sm font-semibold text-orange-900 w-8 text-right'">{{ analytics.applicationsByDepartment[dept] }}</span>
               </div>
             </div>
           </div>
@@ -107,70 +219,103 @@
       </div>
 
       <!-- Monthly Trend -->
-      <div class="chart-card">
-        <h3 class="chart-title">Applications by Month</h3>
-        <div class="chart-content">
-          <div class="month-chart">
-            <div *ngFor="let month of getObjectKeys(analytics.applicationsByMonth)" class="month-bar">
-              <div class="month-value">{{ analytics.applicationsByMonth[month] }}</div>
-              <div class="bar-container">
-                <div class="bar bg-gradient-to-t from-blue-400 to-blue-600"
-                     [style.height.%]="getPercentage(analytics.applicationsByMonth[month], getMaxValue(analytics.applicationsByMonth))">
-                </div>
+      <div [class]="isDarkMode 
+        ? 'bg-gray-700 rounded-2xl p-6 shadow-sm border border-gray-600 mb-8' 
+        : 'bg-orange-200 rounded-2xl p-6 shadow-sm border border-orange-300 mb-8'">
+        <div class="flex items-center justify-between mb-6">
+          <h3 [class]="isDarkMode ? 'text-lg font-semibold text-white' : 'text-lg font-semibold text-orange-900'">Applications by Month</h3>
+          <div [class]="isDarkMode 
+            ? 'w-8 h-8 bg-blue-800 rounded-lg flex items-center justify-center' 
+            : 'w-8 h-8 bg-orange-300 rounded-lg flex items-center justify-center'">
+            <i [class]="isDarkMode ? 'fas fa-chart-line text-blue-300 text-sm' : 'fas fa-chart-line text-orange-800 text-sm'"></i>
+          </div>
+        </div>
+        <div class="flex items-end justify-between space-x-2 h-40">
+          <div *ngFor="let month of getObjectKeys(analytics.applicationsByMonth)" class="flex-1 flex flex-col items-center">
+            <div [class]="isDarkMode ? 'text-xs font-medium text-gray-300 mb-2' : 'text-xs font-medium text-orange-800 mb-2'">{{ analytics.applicationsByMonth[month] }}</div>
+            <div class="w-full flex justify-center">
+              <div class="w-8 bg-gradient-to-t from-blue-400 to-blue-600 rounded-t-md transition-all duration-300"
+                   [style.height.px]="(getPercentage(analytics.applicationsByMonth[month], getMaxValue(analytics.applicationsByMonth)) * 120) / 100">
               </div>
-              <div class="month-label">{{ month }}</div>
             </div>
+            <div [class]="isDarkMode ? 'text-xs text-gray-400 mt-2' : 'text-xs text-orange-700 mt-2'">{{ month }}</div>
           </div>
         </div>
       </div>
 
       <!-- Source Channels -->
-      <div class="chart-card">
-        <h3 class="chart-title">Top Source Channels</h3>
-        <div class="chart-content">
-          <div *ngFor="let source of getObjectKeys(analytics.topSourceChannels)" class="source-item">
-            <div class="source-info">
-              <div class="source-icon">
-                <i class="fas fa-external-link-alt text-gray-500"></i>
-              </div>
-              <div class="source-details">
-                <span class="source-name">{{ source }}</span>
-                <div class="source-progress">
-                  <div class="progress-bar-container">
-                    <div class="progress-bar bg-teal-500"
-                         [style.width.%]="getPercentage(analytics.topSourceChannels[source], getMaxValue(analytics.topSourceChannels))">
-                    </div>
-                  </div>
+      <div [class]="isDarkMode 
+        ? 'bg-gray-700 rounded-2xl p-6 shadow-sm border border-gray-600 mb-8' 
+        : 'bg-orange-200 rounded-2xl p-6 shadow-sm border border-orange-300 mb-8'">
+        <div class="flex items-center justify-between mb-6">
+          <h3 [class]="isDarkMode ? 'text-lg font-semibold text-white' : 'text-lg font-semibold text-orange-900'">Top Source Channels</h3>
+          <div [class]="isDarkMode 
+            ? 'w-8 h-8 bg-teal-800 rounded-lg flex items-center justify-center' 
+            : 'w-8 h-8 bg-teal-200 rounded-lg flex items-center justify-center'">
+            <i [class]="isDarkMode ? 'fas fa-external-link-alt text-teal-300 text-sm' : 'fas fa-external-link-alt text-teal-700 text-sm'"></i>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div *ngFor="let source of getObjectKeys(analytics.topSourceChannels)" class="flex items-center justify-between py-3">
+            <div class="flex items-center space-x-3">
+              <div class="w-3 h-3 rounded-full bg-teal-500"></div>
+              <span [class]="isDarkMode ? 'text-sm font-medium text-gray-300' : 'text-sm font-medium text-orange-800'">{{ source }}</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <div [class]="isDarkMode ? 'w-24 bg-gray-600 rounded-full h-2' : 'w-24 bg-orange-300 rounded-full h-2'">
+                <div class="bg-teal-500 h-2 rounded-full transition-all duration-300"
+                     [style.width.%]="getPercentage(analytics.topSourceChannels[source], getMaxValue(analytics.topSourceChannels))">
                 </div>
               </div>
-              <span class="source-count">{{ analytics.topSourceChannels[source] }}</span>
+              <span [class]="isDarkMode ? 'text-sm font-semibold text-white w-8 text-right' : 'text-sm font-semibold text-orange-900 w-8 text-right'">{{ analytics.topSourceChannels[source] }}</span>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Summary Stats -->
-    <div class="summary-section">
-      <div class="summary-card">
-        <h3 class="summary-title">Hiring Funnel</h3>
-        <div class="funnel-stats">
-          <div class="funnel-stage">
-            <span class="funnel-label">Applied</span>
-            <span class="funnel-value">{{ analytics.applicationsByStatus['APPLIED'] || 0 }}</span>
+      <!-- Hiring Funnel -->
+      <div [class]="isDarkMode 
+        ? 'bg-gray-700 rounded-2xl p-8 shadow-sm border border-gray-600' 
+        : 'bg-orange-200 rounded-2xl p-8 shadow-sm border border-orange-300'">
+        <div class="text-center mb-8">
+          <h3 [class]="isDarkMode ? 'text-xl font-bold text-white mb-2' : 'text-xl font-bold text-orange-900 mb-2'">Hiring Funnel</h3>
+          <p [class]="isDarkMode ? 'text-gray-300' : 'text-orange-700'">Track candidates through your hiring process</p>
+        </div>
+        <div class="flex items-center justify-center space-x-8">
+          <div class="text-center">
+            <div [class]="isDarkMode 
+              ? 'w-20 h-20 bg-blue-800 rounded-full flex items-center justify-center mb-3' 
+              : 'w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-3'">
+              <i [class]="isDarkMode ? 'fas fa-file-alt text-blue-300 text-2xl' : 'fas fa-file-alt text-blue-600 text-2xl'"></i>
+            </div>
+            <div [class]="isDarkMode ? 'text-2xl font-bold text-white' : 'text-2xl font-bold text-orange-900'">{{ analytics.applicationsByStatus['APPLIED'] || 0 }}</div>
+            <div [class]="isDarkMode ? 'text-sm text-gray-300 font-medium' : 'text-sm text-orange-700 font-medium'">Applied</div>
           </div>
-          <div class="funnel-arrow">→</div>
-          <div class="funnel-stage">
-            <span class="funnel-label">Reviewed</span>
-            <span class="funnel-value">{{ analytics.applicationsByStatus['REVIEWED'] || 0 }}</span>
+          <div [class]="isDarkMode ? 'text-gray-500' : 'text-orange-600'">
+            <i class="fas fa-arrow-right text-xl"></i>
           </div>
-          <div class="funnel-arrow">→</div>
-          <div class="funnel-stage">
-            <span class="funnel-label">Shortlisted</span>
-            <span class="funnel-value">{{ analytics.applicationsByStatus['SHORTLISTED'] || 0 }}</span>
+          <div class="text-center">
+            <div [class]="isDarkMode 
+              ? 'w-20 h-20 bg-yellow-800 rounded-full flex items-center justify-center mb-3' 
+              : 'w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mb-3'">
+              <i [class]="isDarkMode ? 'fas fa-eye text-yellow-300 text-2xl' : 'fas fa-eye text-yellow-600 text-2xl'"></i>
+            </div>
+            <div [class]="isDarkMode ? 'text-2xl font-bold text-white' : 'text-2xl font-bold text-orange-900'">{{ analytics.applicationsByStatus['REVIEWED'] || 0 }}</div>
+            <div [class]="isDarkMode ? 'text-sm text-gray-300 font-medium' : 'text-sm text-orange-700 font-medium'">Reviewed</div>
+          </div>
+          <div [class]="isDarkMode ? 'text-gray-500' : 'text-orange-600'">
+            <i class="fas fa-arrow-right text-xl"></i>
+          </div>
+          <div class="text-center">
+            <div [class]="isDarkMode 
+              ? 'w-20 h-20 bg-green-800 rounded-full flex items-center justify-center mb-3' 
+              : 'w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-3'">
+              <i [class]="isDarkMode ? 'fas fa-star text-green-300 text-2xl' : 'fas fa-star text-green-600 text-2xl'"></i>
+            </div>
+            <div [class]="isDarkMode ? 'text-2xl font-bold text-white' : 'text-2xl font-bold text-orange-900'">{{ analytics.applicationsByStatus['SHORTLISTED'] || 0 }}</div>
+            <div [class]="isDarkMode ? 'text-sm text-gray-300 font-medium' : 'text-sm text-orange-700 font-medium'">Shortlisted</div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </div>

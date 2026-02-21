@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { AnalyticsService, AnalyticsData } from '../../services/analytics.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-analytics-dashboard',
@@ -13,10 +15,21 @@ export class AnalyticsDashboardComponent implements OnInit {
   analytics: AnalyticsData | null = null;
   loading = false;
   error = '';
+  isDarkMode = false;
+  isAdminView = false;
 
-  constructor(private analyticsService: AnalyticsService) {}
+  constructor(
+    private analyticsService: AnalyticsService,
+    private themeService: ThemeService,
+    private router: Router
+  ) {
+    this.themeService.isDarkMode$.subscribe(isDark => {
+      this.isDarkMode = isDark;
+    });
+  }
 
   ngOnInit() {
+    this.isAdminView = this.router.url.includes('system-admin-dashboard');
     this.loadAnalytics();
   }
 
@@ -37,7 +50,7 @@ export class AnalyticsDashboardComponent implements OnInit {
   getStatusColor(status: string): string {
     const colors: { [key: string]: string } = {
       'APPLIED': 'bg-blue-500',
-      'REVIEWED': 'bg-yellow-500',
+      'REVIEWED': 'bg-yellow-500', 
       'SHORTLISTED': 'bg-green-500',
       'REJECTED': 'bg-red-500'
     };

@@ -7,9 +7,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/users")
@@ -35,9 +41,7 @@ public class UserController {
             if (updates.containsKey("lastName")) {
                 user.setLastName(updates.get("lastName"));
             }
-            if (updates.containsKey("email")) {
-                user.setEmail(updates.get("email"));
-            }
+            // Email updates disabled for security reasons
             if (updates.containsKey("phone")) {
                 user.setPhone(updates.get("phone"));
             }
@@ -45,10 +49,10 @@ public class UserController {
                 user.setDepartment(updates.get("department"));
             }
             
-            User updatedUser = userRepository.save(user);
-            updatedUser.setPassword(null); // Don't return password
+            userRepository.save(user);
             
-            return ResponseEntity.ok(updatedUser);
+            String successMessage = "Profile updated successfully " + user.getFirstName() + " " + user.getLastName();
+            return ResponseEntity.ok(Map.of("message", successMessage));
         } catch (Exception e) {
             logger.error("Error updating user", e);
             return ResponseEntity.status(500).body("Error updating user");
@@ -76,10 +80,53 @@ public class UserController {
             user.setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user);
             
-            return ResponseEntity.ok().body("Password changed successfully");
+            String successMessage = "Password changed successfully " + user.getFirstName() + " " + user.getLastName();
+            return ResponseEntity.ok(Map.of("message", successMessage));
         } catch (Exception e) {
             logger.error("Error changing password", e);
             return ResponseEntity.status(500).body("Error changing password");
+        }
+    }
+    
+    @PostMapping("/{userId}/profile-picture")
+    public ResponseEntity<?> uploadProfilePicture(@PathVariable Long userId, @RequestParam("profilePicture") MultipartFile file, Authentication authentication) {
+        try {
+            User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+            
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Please select a file"));
+            }
+            
+            // Validate file type
+            String contentType = file.getContentType();
+            if (contentType == null || !contentType.startsWith("image/")) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Only image files are allowed"));
+            }
+            
+            String fileName = UUID.randomUUID().toString() + ".png";
+            String uploadDir = "uploads/profile-pictures/";
+            
+            // Create directory if it doesn't exist
+            File directory = new File(uploadDir);
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+            
+            Path filePath = Paths.get(uploadDir + fileName);
+            Files.write(filePath, file.getBytes());
+            
+            user.setProfilePictureFileName(fileName);
+            user.setProfilePictureFilePath(uploadDir + fileName);
+            userRepository.save(user);
+            
+            String successMessage = "Profile picture uploaded successfully " + user.getFirstName() + " " + user.getLastName();
+            return ResponseEntity.ok(Map.of(
+                "message", successMessage,
+                "profilePictureUrl", "/api/files/profile-pictures/" + fileName
+            ));
+        } catch (Exception e) {
+            logger.error("Error uploading profile picture", e);
+            return ResponseEntity.status(500).body(Map.of("error", "Error uploading profile picture"));
         }
     }
 }

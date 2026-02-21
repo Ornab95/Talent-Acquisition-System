@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Offer, OfferService, OfferRequest } from '../../services/offer.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-offer-management',
@@ -30,8 +31,16 @@ export class OfferManagementComponent implements OnInit {
   
   loading = false;
   error = '';
+  isDarkMode = false;
 
-  constructor(private offerService: OfferService) {}
+  constructor(
+    private offerService: OfferService,
+    private themeService: ThemeService
+  ) {
+    this.themeService.isDarkMode$.subscribe(isDark => {
+      this.isDarkMode = isDark;
+    });
+  }
 
   ngOnInit() {
     this.loadOffers();

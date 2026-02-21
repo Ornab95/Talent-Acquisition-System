@@ -5,11 +5,11 @@
   <app-navbar></app-navbar>
 
   <!-- Main Content -->
-  <div class="container mx-auto p-6 pt-20">
+  <div class="container mx-auto p-4 sm:p-6 pt-20">
     <!-- Job Management Section -->
     <div [class]="isDarkMode 
-      ? 'bg-gray-800 shadow-2xl rounded-2xl p-8 relative overflow-hidden' 
-      : 'bg-orange-100 shadow-2xl rounded-2xl p-8 relative overflow-hidden'">
+      ? 'bg-gray-800 shadow-2xl rounded-2xl p-4 sm:p-8 relative overflow-hidden' 
+      : 'bg-orange-100 shadow-2xl rounded-2xl p-4 sm:p-8 relative overflow-hidden'">
       
       <!-- Decorative background shapes -->
       <div [class]="isDarkMode 
@@ -22,25 +22,26 @@
       </div>
 
       <div class="relative z-10">
-        <div class="flex justify-between items-center mb-8">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
           <h2 [class]="isDarkMode 
-            ? 'text-3xl font-bold text-white' 
-            : 'text-3xl font-bold text-orange-900'">
+            ? 'text-2xl sm:text-3xl font-bold text-white' 
+            : 'text-2xl sm:text-3xl font-bold text-orange-900'">
             {{isHR() ? 'Job Management' : 'Available Job Opportunities'}}
           </h2>
           <button *ngIf="isHR()" (click)="openJobForm()" 
             [class]="isDarkMode 
-              ? 'bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-all' 
-              : 'bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg font-medium transition-all'">
-            + Add New Job
+              ? 'bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all text-sm sm:text-base' 
+              : 'bg-orange-600 hover:bg-orange-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all text-sm sm:text-base'">
+            <span class="sm:hidden">+ Job</span>
+            <span class="hidden sm:inline">+ Add New Job</span>
           </button>
         </div>
 
         <!-- Job Form Modal (HR Only) -->
-        <div *ngIf="showJobForm && isHR()" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div *ngIf="showJobForm && isHR()" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div [class]="isDarkMode 
-            ? 'bg-gray-800 p-8 rounded-2xl w-full max-w-2xl shadow-2xl' 
-            : 'bg-orange-50 p-8 rounded-2xl w-full max-w-2xl shadow-2xl'">
+            ? 'bg-gray-800 p-6 sm:p-8 rounded-2xl w-full max-w-2xl shadow-2xl max-h-[90vh] overflow-y-auto' 
+            : 'bg-orange-50 p-6 sm:p-8 rounded-2xl w-full max-w-2xl shadow-2xl max-h-[90vh] overflow-y-auto'">
             <h3 [class]="isDarkMode 
               ? 'text-2xl font-bold text-white mb-6' 
               : 'text-2xl font-bold text-orange-900 mb-6'">
@@ -158,10 +159,12 @@
 
         <!-- Job Details Modal (Applicant) -->
         <div *ngIf="showJobDetails && selectedJob && !isHR() && !showApplicationForm"
-          class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50 p-4"
+          (click)="closeJobDetails()">
           <div [class]="isDarkMode 
-            ? 'bg-gray-800 p-8 rounded-2xl w-full max-w-5xl max-h-[80vh] overflow-y-auto shadow-2xl' 
-            : 'bg-orange-50 p-8 rounded-2xl w-full max-w-5xl max-h-[80vh] overflow-y-auto shadow-2xl'">
+            ? 'bg-gray-800 p-6 sm:p-8 rounded-2xl w-full max-w-5xl max-h-[80vh] overflow-y-auto shadow-2xl' 
+            : 'bg-orange-50 p-6 sm:p-8 rounded-2xl w-full max-w-5xl max-h-[80vh] overflow-y-auto shadow-2xl'"
+            (click)="$event.stopPropagation()">
             <div class="flex justify-between items-start mb-6">
               <h3 [class]="isDarkMode 
                 ? 'text-3xl font-bold text-white' 
@@ -216,15 +219,15 @@
               </div>
             </div>
 
-            <div class="flex justify-end space-x-3 mt-8">
+            <div class="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 mt-6 sm:mt-8">
               <button (click)="closeJobDetails()" 
                 [class]="isDarkMode 
-                  ? 'px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-all' 
-                  : 'px-6 py-3 bg-orange-300 hover:bg-orange-400 text-orange-900 rounded-lg transition-all'">
+                  ? 'px-4 sm:px-6 py-2 sm:py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-all text-sm sm:text-base' 
+                  : 'px-4 sm:px-6 py-2 sm:py-3 bg-orange-300 hover:bg-orange-400 text-orange-900 rounded-lg transition-all text-sm sm:text-base'">
                 Close
               </button>
               <button (click)="applyForJob(selectedJob.id)"
-                class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-all">
+                class="px-4 sm:px-6 py-2 sm:py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-all text-sm sm:text-base">
                 Apply Now
               </button>
             </div>
@@ -233,10 +236,12 @@
 
         <!-- Application Form Modal -->
         <div *ngIf="showApplicationForm && selectedJob"
-          class="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50 p-4 pt-20">
+          class="fixed inset-0 bg-black bg-opacity-30 flex items-start justify-center z-50 p-4 pt-20"
+          (click)="closeApplicationForm()">
           <div [class]="isDarkMode 
-            ? 'bg-gray-800 p-8 rounded-2xl w-full max-w-2xl max-h-[80vh] overflow-y-auto shadow-2xl' 
-            : 'bg-orange-50 p-8 rounded-2xl w-full max-w-2xl max-h-[80vh] overflow-y-auto shadow-2xl'">
+            ? 'bg-gray-800 p-6 sm:p-8 rounded-2xl w-full max-w-2xl max-h-[80vh] overflow-y-auto shadow-2xl' 
+            : 'bg-orange-50 p-6 sm:p-8 rounded-2xl w-full max-w-2xl max-h-[80vh] overflow-y-auto shadow-2xl'"
+            (click)="$event.stopPropagation()">
             <div class="flex justify-between items-start mb-6">
               <h3 [class]="isDarkMode 
                 ? 'text-2xl font-bold text-white' 
@@ -270,15 +275,15 @@
                 <p class="text-sm text-gray-500 mt-1">Please upload your resume in PDF format (max 10MB)</p>
               </div>
 
-              <div class="flex justify-end space-x-3">
+              <div class="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3">
                 <button type="button" (click)="closeApplicationForm()" 
                   [class]="isDarkMode 
-                    ? 'px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-all' 
-                    : 'px-6 py-3 bg-orange-300 hover:bg-orange-400 text-orange-900 rounded-lg transition-all'">
+                    ? 'px-4 sm:px-6 py-2 sm:py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-all text-sm sm:text-base' 
+                    : 'px-4 sm:px-6 py-2 sm:py-3 bg-orange-300 hover:bg-orange-400 text-orange-900 rounded-lg transition-all text-sm sm:text-base'">
                   Cancel
                 </button>
                 <button type="submit" 
-                  class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-all">
+                  class="px-4 sm:px-6 py-2 sm:py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-all text-sm sm:text-base">
                   Submit Application
                 </button>
               </div>
@@ -339,6 +344,7 @@
 
         <!-- HR Table View -->
         <div *ngIf="isHR() && currentView === 'jobs'" class="overflow-x-auto">
+          <div class="min-w-[800px]">
           <table class="w-full table-auto">
             <thead>
               <tr [class]="isDarkMode ? 'bg-gray-700' : 'bg-orange-200'">
@@ -391,48 +397,53 @@
                   </span>
                 </td>
                 <td class="px-4 py-3">
-                  <button (click)="viewApplications(job.id)" 
-                    class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm mr-2 transition-all">
-                    Applications ({{job.applicationCount || 0}})
-                  </button>
-                  <button (click)="editJob(job)" 
-                    [class]="isDarkMode 
-                      ? 'bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm mr-2 transition-all' 
-                      : 'bg-orange-600 hover:bg-orange-700 text-white px-3 py-2 rounded-lg text-sm mr-2 transition-all'">
-                    Edit
-                  </button>
-                  <button (click)="deleteJob(job.id)" class="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm transition-all">
-                    Delete
-                  </button>
+                  <div class="flex flex-col sm:flex-row gap-1 sm:gap-2">
+                    <button (click)="viewApplications(job.id)" 
+                      class="bg-green-600 hover:bg-green-700 text-white px-2 sm:px-3 py-1 sm:py-2 rounded text-xs sm:text-sm transition-all">
+                      <span class="hidden sm:inline">Applications ({{job.applicationCount || 0}})</span>
+                      <span class="sm:hidden">Apps ({{job.applicationCount || 0}})</span>
+                    </button>
+                    <button (click)="editJob(job)" 
+                      [class]="isDarkMode 
+                        ? 'bg-blue-600 hover:bg-blue-700 text-white px-2 sm:px-3 py-1 sm:py-2 rounded text-xs sm:text-sm transition-all' 
+                        : 'bg-orange-600 hover:bg-orange-700 text-white px-2 sm:px-3 py-1 sm:py-2 rounded text-xs sm:text-sm transition-all'">
+                      Edit
+                    </button>
+                    <button (click)="deleteJob(job.id)" class="bg-red-600 hover:bg-red-700 text-white px-2 sm:px-3 py-1 sm:py-2 rounded text-xs sm:text-sm transition-all">
+                      <span class="hidden sm:inline">Delete</span>
+                      <span class="sm:hidden">Del</span>
+                    </button>
+                  </div>
                 </td>
               </tr>
             </tbody>
           </table>
+          </div>
         </div>
 
         <!-- Applicant Grid View -->
-        <div *ngIf="!isHR() && currentView === 'jobs'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div *ngIf="!isHR() && currentView === 'jobs'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           <div *ngFor="let job of jobs"
             [class]="isDarkMode 
-              ? 'bg-gray-700 border border-gray-600 rounded-2xl p-6 hover:shadow-2xl transition-all cursor-pointer flex flex-col' 
-              : 'bg-orange-50 border border-orange-200 rounded-2xl p-6 hover:shadow-2xl transition-all cursor-pointer flex flex-col'"
+              ? 'bg-gray-700 border border-gray-600 rounded-2xl p-4 sm:p-6 hover:shadow-2xl transition-all cursor-pointer flex flex-col' 
+              : 'bg-orange-50 border border-orange-200 rounded-2xl p-4 sm:p-6 hover:shadow-2xl transition-all cursor-pointer flex flex-col'"
             (click)="viewJobDetails(job)">
 
             <div>
               <h3 [class]="isDarkMode 
-                ? 'text-xl font-bold text-white mb-3' 
-                : 'text-xl font-bold text-orange-900 mb-3'">{{job.title}}</h3>
+                ? 'text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3' 
+                : 'text-lg sm:text-xl font-bold text-orange-900 mb-2 sm:mb-3'">{{job.title}}</h3>
               <p [class]="isDarkMode 
-                ? 'text-gray-300 mb-2' 
-                : 'text-orange-700 mb-2'">{{job.department}}</p>
+                ? 'text-gray-300 mb-2 text-sm sm:text-base' 
+                : 'text-orange-700 mb-2 text-sm sm:text-base'">{{job.department}}</p>
               <p [class]="isDarkMode 
-                ? 'text-gray-300 mb-2' 
-                : 'text-orange-700 mb-2'">📍 {{job.location}}</p>
-              <p class="text-green-600 font-bold mb-2">৳{{job.minSalary}} - ৳{{job.maxSalary}}</p>
-              <p *ngIf="job.deadline" class="text-red-500 text-sm mb-3 font-medium">⏰ Deadline: {{job.deadline}}</p>
+                ? 'text-gray-300 mb-2 text-sm sm:text-base' 
+                : 'text-orange-700 mb-2 text-sm sm:text-base'">📍 {{job.location}}</p>
+              <p class="text-green-600 font-bold mb-2 text-sm sm:text-base">৳{{job.minSalary}} - ৳{{job.maxSalary}}</p>
+              <p *ngIf="job.deadline" class="text-red-500 text-xs sm:text-sm mb-2 sm:mb-3 font-medium">⏰ Deadline: {{job.deadline}}</p>
               <p [class]="isDarkMode 
-                ? 'text-gray-400 text-sm line-clamp-3' 
-                : 'text-orange-600 text-sm line-clamp-3'">{{job.description}}</p>
+                ? 'text-gray-400 text-xs sm:text-sm line-clamp-3' 
+                : 'text-orange-600 text-xs sm:text-sm line-clamp-3'">{{job.description}}</p>
             </div>
 
             <div class="mt-auto pt-4">

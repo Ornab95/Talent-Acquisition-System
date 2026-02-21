@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterOutlet } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AdminService } from '../services/admin.service';
 import { ThemeService } from '../services/theme.service';
 import { NavbarComponent } from '../components/navbar/navbar.component';
+import { AnalyticsDashboardComponent } from '../components/analytics-dashboard/analytics-dashboard.component';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent],
+  imports: [CommonModule, FormsModule, NavbarComponent, AnalyticsDashboardComponent],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.css'
 })
@@ -34,16 +35,19 @@ export class AdminDashboardComponent implements OnInit {
   
   // Users management
   users: any[] = [];
+  companies: any[] = [];
   selectedUser: any = null;
   showUserForm = false;
   userForm = {
     firstName: '',
     lastName: '',
     email: '',
+    password: '',
+    phone: '',
     role: 'CANDIDATE',
     department: '',
-    password: '',
-    active: true
+    active: true,
+    companyName: ''
   };
   
   // Site settings
@@ -69,6 +73,7 @@ export class AdminDashboardComponent implements OnInit {
   
   ngOnInit() {
     this.loadDashboardStats();
+    this.loadCompanies();
     // Set up global function for navbar profile access
     (window as any).adminShowProfile = (user: any) => {
       this.viewUserProfile(user);
@@ -88,6 +93,8 @@ export class AdminDashboardComponent implements OnInit {
     } else if (currentUrl.includes('/setting')) {
       this.currentView = 'settings';
       this.loadSettings();
+    } else if (currentUrl.includes('/analytics')) {
+      this.currentView = 'analytics';
     } else {
       // Default to dashboard view
       this.currentView = 'dashboard';
@@ -114,6 +121,13 @@ export class AdminDashboardComponent implements OnInit {
       error: (error) => console.error('Error loading settings:', error)
     });
   }
+
+  loadCompanies() {
+    this.adminService.getCompanies().subscribe({
+      next: (companies) => this.companies = companies,
+      error: (error) => console.error('Error loading companies:', error)
+    });
+  }
   
   switchView(view: string) {
     this.currentView = view;
@@ -133,9 +147,12 @@ export class AdminDashboardComponent implements OnInit {
       case 'settings':
         this.router.navigate(['/system-admin-dashboard/setting'], { replaceUrl: true });
         break;
+      case 'analytics':
+        this.router.navigate(['/system-admin-dashboard/analytics'], { replaceUrl: true });
+        break;
     }
   }
-
+  
   loadJobs() {
     this.adminService.getJobs().subscribe({
       next: (jobs) => {
@@ -188,10 +205,12 @@ export class AdminDashboardComponent implements OnInit {
         firstName: '',
         lastName: '',
         email: '',
+        password: '',
+        phone: '',
         role: 'CANDIDATE',
         department: '',
-        password: '',
-        active: true
+        active: true,
+        companyName: ''
       };
     }
   }

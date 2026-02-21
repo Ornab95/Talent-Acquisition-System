@@ -2,10 +2,10 @@
 
 <div
   [class]="isDarkMode 
-  ? 'flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black pt-20' 
-  : 'flex items-center justify-center min-h-screen bg-gradient-to-br from-pink-500 via-orange-400 to-purple-600 pt-18'">
+  ? 'flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black pt-20 px-4' 
+  : 'flex items-center justify-center min-h-screen bg-gradient-to-br from-pink-500 via-orange-400 to-purple-600 pt-18 px-4'">
 
-  <div class="max-w-6xl mx-auto px-4 w-full">
+  <div class="max-w-6xl mx-auto w-full">
     <!-- Toggle Buttons -->
     <div class="flex justify-center mb-2">
       <div [class]="isDarkMode ? 'bg-gray-800 rounded-full p-2 shadow-lg' : 'bg-orange-200 rounded-full p-2 shadow-lg'">
@@ -30,14 +30,14 @@
     <div [class]="isDarkMode 
       ? 'bg-gray-800 shadow-2xl rounded-2xl overflow-hidden mb-4' 
       : 'bg-orange-100 shadow-2xl rounded-2xl overflow-hidden mb-4'">
-      <div class="grid grid-cols-1 lg:grid-cols-2 min-h-[600px] content-transition">
+      <div class="flex flex-col lg:flex-row min-h-[600px]">
 
         <!-- Applicant: Description Left, Form Right -->
         @if (registrationType === 'applicant') {
         <!-- Description Side -->
         <div [class]="isDarkMode 
-            ? 'p-8 flex flex-col justify-center bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 animate-slide-left' 
-            : 'p-8 flex flex-col justify-center bg-orange-200 animate-slide-left'">
+            ? 'hidden lg:flex lg:w-1/2 p-6 sm:p-8 flex-col justify-center bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 animate-slide-left' 
+            : 'hidden lg:flex lg:w-1/2 p-6 sm:p-8 flex-col justify-center bg-orange-200 animate-slide-left'">
 
           <div [class]="isDarkMode ? 'text-white text-center' : 'text-black text-center'">
             <i class="fas fa-user-graduate text-5xl mb-4"></i>
@@ -67,7 +67,7 @@
         </div>
 
         <!-- Form Side -->
-        <div class="p-8 flex flex-col justify-center animate-slide-right">
+        <div class="lg:w-1/2 p-6 sm:p-8 flex flex-col justify-center animate-slide-right">
           <div class="max-w-md mx-auto w-full">
             <h3 [class]="isDarkMode ? 'text-2xl font-bold text-white mb-6' : 'text-2xl font-bold text-orange-900 mb-6'">
               Create Account
@@ -81,7 +81,7 @@
                     [class]="isDarkMode 
                         ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
                         : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
-                  @if (firstName.invalid && firstName.touched) {
+                  @if (user.firstName && !user.firstName.trim()) {
                     <div class="text-red-500 text-xs mt-1">First name is required</div>
                   }
                 </div>
@@ -91,7 +91,7 @@
                     [class]="isDarkMode 
                         ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
                         : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
-                  @if (lastName.invalid && lastName.touched) {
+                  @if (user.lastName && !user.lastName.trim()) {
                     <div class="text-red-500 text-xs mt-1">Last name is required</div>
                   }
                 </div>
@@ -103,11 +103,8 @@
                   [class]="isDarkMode 
                       ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
                       : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
-                @if (email.invalid && email.touched) {
-                  <div class="text-red-500 text-xs mt-1">
-                    @if (email.errors?.['required']) { Email is required }
-                    @if (email.errors?.['email']) { Please enter a valid email }
-                  </div>
+                @if (user.email && !isValidEmail(user.email)) {
+                  <div class="text-red-500 text-xs mt-1">Please enter a valid email address</div>
                 }
               </div>
 
@@ -117,8 +114,8 @@
                   [class]="isDarkMode 
                       ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
                       : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
-                @if (phone.invalid && phone.touched) {
-                  <div class="text-red-500 text-xs mt-1">Phone number is required</div>
+                @if (user.phone && !isValidPhone(user.phone)) {
+                  <div class="text-red-500 text-xs mt-1">Please enter a valid Bangladesh phone number</div>
                 }
               </div>
 
@@ -135,7 +132,7 @@
                   <option value="Finance">Finance</option>
                   <option value="Operations">Operations</option>
                 </select>
-                @if (department.invalid && department.touched) {
+                @if (user.department === '') {
                   <div class="text-red-500 text-xs mt-1">Please select a department</div>
                 }
               </div>
@@ -154,11 +151,8 @@
                     <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
                   </button>
                 </div>
-                @if (passwordField.invalid && passwordField.touched) {
-                  <div class="text-red-500 text-xs mt-1">
-                    @if (passwordField.errors?.['required']) { Password is required }
-                    @if (passwordField.errors?.['minlength']) { Password must be at least 6 characters }
-                  </div>
+                @if (password && password.length < 6) {
+                  <div class="text-red-500 text-xs mt-1">Password must be at least 6 characters long</div>
                 }
               </div>
 
@@ -198,7 +192,7 @@
         <!-- Recruiter: Form Left, Description Right -->
         @if (registrationType === 'recruiter') {
         <!-- Form Side -->
-        <div class="p-8 flex flex-col justify-center animate-slide-left">
+        <div class="lg:w-1/2 p-6 sm:p-8 flex flex-col justify-center animate-slide-left overflow-y-auto lg:order-1">
           <div class="max-w-md mx-auto w-full">
             <h3 [class]="isDarkMode ? 'text-2xl font-bold text-white mb-6' : 'text-2xl font-bold text-orange-900 mb-6'">
               Recruiter Registration
@@ -215,7 +209,7 @@
                   [class]="isDarkMode 
                       ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
                       : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
-                @if (companyName.invalid && companyName.touched) {
+                @if (companyData.companyName && !companyData.companyName.trim()) {
                   <div class="text-red-500 text-xs mt-1">Company name is required</div>
                 }
               </div>
@@ -227,11 +221,8 @@
                     [class]="isDarkMode 
                         ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
                         : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
-                  @if (companyEmail.invalid && companyEmail.touched) {
-                    <div class="text-red-500 text-xs mt-1">
-                      @if (companyEmail.errors?.['required']) { Email is required }
-                      @if (companyEmail.errors?.['email']) { Invalid email format }
-                    </div>
+                  @if (companyData.companyEmail && !isValidEmail(companyData.companyEmail)) {
+                    <div class="text-red-500 text-xs mt-1">Please enter a valid company email</div>
                   }
                 </div>
                 <div>
@@ -240,7 +231,7 @@
                     [class]="isDarkMode 
                         ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
                         : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
-                  @if (location.invalid && location.touched) {
+                  @if (companyData.location && !companyData.location.trim()) {
                     <div class="text-red-500 text-xs mt-1">Location is required</div>
                   }
                 </div>
@@ -263,7 +254,7 @@
                     <option value="Education">Education</option>
                     <option value="Other">Other</option>
                   </select>
-                  @if (industry.invalid && industry.touched) {
+                  @if (companyData.industry === '') {
                     <div class="text-red-500 text-xs mt-1">Please select an industry</div>
                   }
                 </div>
@@ -280,8 +271,8 @@
                     [class]="isDarkMode 
                         ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
                         : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
-                  @if (adminFirstName.invalid && adminFirstName.touched) {
-                    <div class="text-red-500 text-xs mt-1">First name is required</div>
+                  @if (companyData.adminFirstName && !companyData.adminFirstName.trim()) {
+                    <div class="text-red-500 text-xs mt-1">Admin first name is required</div>
                   }
                 </div>
                 <div>
@@ -290,8 +281,8 @@
                     [class]="isDarkMode 
                         ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
                         : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
-                  @if (adminLastName.invalid && adminLastName.touched) {
-                    <div class="text-red-500 text-xs mt-1">Last name is required</div>
+                  @if (companyData.adminLastName && !companyData.adminLastName.trim()) {
+                    <div class="text-red-500 text-xs mt-1">Admin last name is required</div>
                   }
                 </div>
               </div>
@@ -302,11 +293,8 @@
                   [class]="isDarkMode 
                       ? 'w-full p-3 border border-gray-600 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' 
                       : 'w-full p-3 border border-orange-300 bg-orange-100 text-orange-900 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500'" />
-                @if (adminEmail.invalid && adminEmail.touched) {
-                  <div class="text-red-500 text-xs mt-1">
-                    @if (adminEmail.errors?.['required']) { Admin email is required }
-                    @if (adminEmail.errors?.['email']) { Invalid email format }
-                  </div>
+                @if (companyData.adminEmail && !isValidEmail(companyData.adminEmail)) {
+                  <div class="text-red-500 text-xs mt-1">Please enter a valid admin email</div>
                 }
               </div>
 
@@ -324,11 +312,8 @@
                     <i [class]="showAdminPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
                   </button>
                 </div>
-                @if (adminPassword.invalid && adminPassword.touched) {
-                  <div class="text-red-500 text-xs mt-1">
-                    @if (adminPassword.errors?.['required']) { Password is required }
-                    @if (adminPassword.errors?.['minlength']) { Password must be at least 6 characters }
-                  </div>
+                @if (companyData.adminPassword && companyData.adminPassword.length < 6) {
+                  <div class="text-red-500 text-xs mt-1">Admin password must be at least 6 characters long</div>
                 }
               </div>
 
@@ -366,8 +351,8 @@
 
         <!-- Description Side -->
         <div [class]="isDarkMode 
-            ? 'p-8 flex flex-col justify-center bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 animate-slide-right' 
-            : 'p-8 flex flex-col justify-center bg-orange-200 animate-slide-right'">
+            ? 'hidden lg:flex lg:w-1/2 p-6 sm:p-8 flex-col justify-center bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 animate-slide-right lg:order-2' 
+            : 'hidden lg:flex lg:w-1/2 p-6 sm:p-8 flex-col justify-center bg-orange-200 animate-slide-right lg:order-2'">
 
           <div [class]="isDarkMode ? 'text-white text-center' : 'text-black text-center'">
             <i class="fas fa-building text-5xl mb-4"></i>
@@ -391,7 +376,6 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
         }

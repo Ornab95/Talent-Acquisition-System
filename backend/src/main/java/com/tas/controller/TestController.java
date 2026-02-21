@@ -22,4 +22,14 @@ public class TestController {
     public ResponseEntity<?> getUserCount() {
         return ResponseEntity.ok("User count: " + userRepository.count());
     }
+    
+    @GetMapping("/auth-test")
+    public ResponseEntity<?> testAuth() {
+        return ResponseEntity.ok("Authentication test endpoint - public access");
+    }
+    
+    @GetMapping("/protected-test")
+    public ResponseEntity<?> testProtected() {
+        return ResponseEntity.ok("This endpoint requires authentication");
+    }
 }

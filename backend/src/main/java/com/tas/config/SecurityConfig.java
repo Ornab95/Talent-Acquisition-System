@@ -40,9 +40,9 @@ public class SecurityConfig {
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .formLogin(formLogin -> formLogin.disable())
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/auth/**", "/api/jobs/public", "/api/test/**", "/api/password-reset/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/api/jobs/public", "/api/test/**", "/api/password-reset/**", "/api/company/register").permitAll()
                         .requestMatchers("/api/files/**").permitAll()
-                        .requestMatchers("/api/applications/**").authenticated()
+                        .requestMatchers("/api/applications/**", "/api/hr/**").authenticated()
                         .anyRequest().authenticated())
                 .addFilterBefore(rateLimitingFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

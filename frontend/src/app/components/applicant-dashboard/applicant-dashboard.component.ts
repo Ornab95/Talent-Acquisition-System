@@ -33,6 +33,8 @@ export class ApplicantDashboardComponent implements OnInit {
   showMyApplications = false;
   myApplications: any[] = [];
   editMode = false;
+  showMobileFilters = false;
+  sortBy = 'newest';
   editForm = {
     firstName: '',
     lastName: '',
@@ -119,6 +121,11 @@ export class ApplicantDashboardComponent implements OnInit {
   }
 
   saveProfile() {
+    // Validate form
+    if (!this.isFormValid()) {
+      return;
+    }
+    
     // Update user details
     this.userDetails.firstName = this.editForm.firstName;
     this.userDetails.lastName = this.editForm.lastName;
@@ -136,6 +143,36 @@ export class ApplicantDashboardComponent implements OnInit {
     });
     
     this.editMode = false;
+  }
+
+  isFormValid(): boolean {
+    if (!this.editForm.firstName?.trim()) {
+      this.snackBar.open('First name is required', 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+      return false;
+    }
+    if (!this.editForm.lastName?.trim()) {
+      this.snackBar.open('Last name is required', 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+      return false;
+    }
+    if (this.editForm.phone && !this.isValidPhone(this.editForm.phone)) {
+      this.snackBar.open('Please enter a valid phone number', 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+      return false;
+    }
+    return true;
+  }
+
+  isValidPhone(phone: string): boolean {
+    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+    return phoneRegex.test(phone.replace(/[\s\-\(\)]/g, ''));
   }
 
   loadJobs() {
@@ -232,6 +269,31 @@ export class ApplicantDashboardComponent implements OnInit {
     this.filteredJobs = [...this.jobs];
   }
 
+  toggleMobileFilters() {
+    this.showMobileFilters = !this.showMobileFilters;
+  }
+
+  sortJobs(sortBy: string) {
+    this.sortBy = sortBy;
+    switch (sortBy) {
+      case 'newest':
+        this.filteredJobs.sort((a, b) => new Date(b.postedAt || b.createdAt || 0).getTime() - new Date(a.postedAt || a.createdAt || 0).getTime());
+        break;
+      case 'oldest':
+        this.filteredJobs.sort((a, b) => new Date(a.postedAt || a.createdAt || 0).getTime() - new Date(b.postedAt || b.createdAt || 0).getTime());
+        break;
+      case 'salary-high':
+        this.filteredJobs.sort((a, b) => (b.maxSalary || 0) - (a.maxSalary || 0));
+        break;
+      case 'salary-low':
+        this.filteredJobs.sort((a, b) => (a.minSalary || 0) - (b.minSalary || 0));
+        break;
+      case 'title':
+        this.filteredJobs.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+    }
+  }
+
   viewJobDetails(job: any) {
     this.selectedJob = job;
     this.showJobDetails = true;
@@ -251,11 +313,7 @@ export class ApplicantDashboardComponent implements OnInit {
   }
 
   submitApplication() {
-    if (!this.selectedFile || !this.applicationForm.coverLetter) {
-      this.snackBar.open('Please fill all fields and select a resume', 'Close', {
-        duration: 3000,
-        panelClass: ['error-snackbar']
-      });
+    if (!this.isApplicationFormValid()) {
       return;
     }
 
@@ -266,11 +324,12 @@ export class ApplicantDashboardComponent implements OnInit {
       this.selectedJob.id,
       candidateId,
       this.applicationForm.coverLetter,
-      this.selectedFile
+      this.selectedFile!
     ).subscribe({
-      next: (response) => {
+      next: (response: any) => {
         console.log('Application response:', response);
-        this.snackBar.open('Application submitted successfully!', 'Close', {
+        const message = response.message || 'Application submitted successfully!';
+        this.snackBar.open(message, 'Close', {
           duration: 3000,
           panelClass: ['success-snackbar']
         });
@@ -279,21 +338,11 @@ export class ApplicantDashboardComponent implements OnInit {
       },
       error: (error) => {
         console.error('Application error:', error);
-        console.error('Error details:', error.error);
-        if (error.status === 200 || error.status === 201) {
-          this.snackBar.open('Application submitted successfully!', 'Close', {
-            duration: 3000,
-            panelClass: ['success-snackbar']
-          });
-          this.closeApplicationForm();
-          this.closeJobDetails();
-        } else {
-          const errorMsg = error.error?.message || error.error || error.message || 'Unknown error';
-          this.snackBar.open('Error: ' + errorMsg, 'Close', {
-            duration: 5000,
-            panelClass: ['error-snackbar']
-          });
-        }
+        const errorMsg = error.error?.error || error.error?.message || error.message || 'Application submission failed';
+        this.snackBar.open(errorMsg, 'Close', {
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        });
       }
     });
   }
@@ -302,6 +351,43 @@ export class ApplicantDashboardComponent implements OnInit {
     this.showApplicationForm = false;
     this.selectedFile = null;
     this.applicationForm.coverLetter = '';
+  }
+
+  getCoverLetterWordCount(): number {
+    return this.applicationForm.coverLetter.trim().split(/\s+/).filter(word => word.length > 0).length;
+  }
+
+  isApplicationFormValid(): boolean {
+    if (!this.selectedFile) {
+      this.snackBar.open('Please select a resume file', 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+      return false;
+    }
+    if (!this.applicationForm.coverLetter?.trim()) {
+      this.snackBar.open('Cover letter is required', 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+      return false;
+    }
+    const wordCount = this.getCoverLetterWordCount();
+    if (wordCount < 100) {
+      this.snackBar.open('Cover letter must be at least 100 words', 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+      return false;
+    }
+    if (wordCount > 450) {
+      this.snackBar.open('Cover letter cannot exceed 450 words', 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+      return false;
+    }
+    return true;
   }
 
   showMyApplicationsView() {

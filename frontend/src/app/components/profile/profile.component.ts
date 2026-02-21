@@ -163,6 +163,27 @@ export class ProfileComponent implements OnInit {
     };
   }
 
+  isFormValid(): boolean {
+    if (!this.editForm.firstName?.trim()) {
+      alert('First name is required');
+      return false;
+    }
+    if (!this.editForm.lastName?.trim()) {
+      alert('Last name is required');
+      return false;
+    }
+    if (this.editForm.phone && !this.isValidPhone(this.editForm.phone)) {
+      alert('Please enter a valid phone number');
+      return false;
+    }
+    return true;
+  }
+
+  isValidPhone(phone: string): boolean {
+    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+    return phoneRegex.test(phone.replace(/[\s\-\(\)]/g, ''));
+  }
+
   cancelEdit() {
     this.editMode = false;
     this.editForm = {
@@ -208,11 +229,15 @@ export class ProfileComponent implements OnInit {
   }
 
   saveProfile() {
+    // Validate form before saving
+    if (!this.isFormValid()) {
+      return;
+    }
+    
     const token = this.authService.getToken();
     const updateData = {
       firstName: this.editForm.firstName,
       lastName: this.editForm.lastName,
-      email: this.editForm.email,
       phone: this.editForm.phone,
       department: this.editForm.department
     };
@@ -224,7 +249,6 @@ export class ProfileComponent implements OnInit {
         // Update user details
         this.userDetails.firstName = this.editForm.firstName;
         this.userDetails.lastName = this.editForm.lastName;
-        this.userDetails.email = this.editForm.email;
         this.userDetails.phone = this.editForm.phone;
         this.userDetails.department = this.editForm.department;
         
@@ -232,14 +256,13 @@ export class ProfileComponent implements OnInit {
         localStorage.setItem('user', JSON.stringify(this.userDetails));
         
         this.editMode = false;
-        console.log('Profile updated successfully');
+        console.log(response.message || 'Profile updated successfully');
       },
       error: (error) => {
         console.error('Error updating profile:', error);
         // Fallback to local update
         this.userDetails.firstName = this.editForm.firstName;
         this.userDetails.lastName = this.editForm.lastName;
-        this.userDetails.email = this.editForm.email;
         this.userDetails.phone = this.editForm.phone;
         this.userDetails.department = this.editForm.department;
         localStorage.setItem('user', JSON.stringify(this.userDetails));

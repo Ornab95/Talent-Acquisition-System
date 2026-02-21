@@ -1,8 +1,8 @@
-<div class="offer-management">
+<div [class]="isDarkMode ? 'offer-management dark-theme' : 'offer-management'">
   <div class="header">
     <h3>Job Offers</h3>
-    <button (click)="openCreateForm()" class="btn btn-primary">
-      <i class="fas fa-plus"></i> Create Offer
+    <button (click)="openCreateForm()" [class]="isDarkMode ? 'btn btn-primary-dark' : 'btn btn-primary'">
+      <i class="fas fa-plus-circle"></i> Create Offer
     </button>
   </div>
 
@@ -18,102 +18,191 @@
     <div *ngFor="let offer of offers" class="offer-card">
       <div class="offer-header">
         <div class="offer-info">
-          <h4>{{ offer.positionTitle }}</h4>
-          <span class="offer-salary">{{ formatCurrency(offer.salary) }}</span>
-          <span class="offer-status" [class]="getStatusColor(offer.status)">
-            {{ offer.status }}
-          </span>
+          <h4>🎯 {{ offer.positionTitle }}</h4>
+          <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+            <span class="offer-salary">💵 {{ formatCurrency(offer.salary) }}/year</span>
+            <span class="offer-status" [class]="getStatusColor(offer.status)">
+              {{ offer.status === 'PENDING' ? '⏳' : offer.status === 'ACCEPTED' ? '✅' : offer.status === 'REJECTED' ? '❌' : '⏰' }} {{ offer.status }}
+            </span>
+          </div>
         </div>
         <div class="offer-actions" *ngIf="offer.status === 'PENDING'">
           <button (click)="deleteOffer(offer.id!)" class="btn btn-sm btn-danger">
-            Delete
+            <i class="fas fa-trash-alt"></i> Delete
           </button>
         </div>
       </div>
       
       <div class="offer-details">
         <div class="detail-row">
-          <span class="label">Start Date:</span>
+          <span class="label">📅 Start Date</span>
           <span class="value">{{ formatDate(offer.startDate) }}</span>
         </div>
         <div class="detail-row">
-          <span class="label">Offer Expires:</span>
+          <span class="label">⏰ Offer Expires</span>
           <span class="value">{{ formatDate(offer.offerExpiryDate) }}</span>
         </div>
         <div class="detail-row" *ngIf="offer.benefits">
-          <span class="label">Benefits:</span>
+          <span class="label">🎁 Benefits</span>
           <span class="value">{{ offer.benefits }}</span>
         </div>
         <div class="detail-row" *ngIf="offer.terms">
-          <span class="label">Terms:</span>
+          <span class="label">📝 Terms</span>
           <span class="value">{{ offer.terms }}</span>
         </div>
         <div class="detail-row" *ngIf="offer.respondedAt">
-          <span class="label">Responded:</span>
+          <span class="label">✔️ Responded</span>
           <span class="value">{{ formatDate(offer.respondedAt) }}</span>
         </div>
       </div>
 
       <!-- Status Actions for HR -->
       <div class="status-actions" *ngIf="offer.status === 'PENDING'">
-        <button (click)="updateOfferStatus(offer, 'EXPIRED')" class="btn btn-sm btn-secondary">
-          Mark Expired
+        <button (click)="updateOfferStatus(offer, 'EXPIRED')" 
+                [class]="isDarkMode ? 'btn btn-sm btn-secondary' : 'btn btn-sm btn-secondary'"
+                style="background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%); color: white;">
+          <i class="fas fa-clock"></i> Mark Expired
         </button>
       </div>
     </div>
   </div>
 
   <!-- Create Offer Modal -->
-  <div *ngIf="showCreateForm" class="modal-overlay" (click)="closeCreateForm()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <h3>Create Job Offer</h3>
-        <button (click)="closeCreateForm()" class="close-btn">&times;</button>
-      </div>
+  <div *ngIf="showCreateForm" class="fixed inset-0 backdrop-blur-sm flex items-start justify-center z-[10000] p-4 pt-20 pb-12"
+       (click)="closeCreateForm()">
+    <div [class]="isDarkMode 
+      ? 'bg-gray-800 p-8 rounded-3xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl border border-gray-700 mb-8' 
+      : 'bg-orange-50 p-8 rounded-3xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl border border-orange-300 mb-8'"
+         (click)="$event.stopPropagation()">
       
-      <form (ngSubmit)="createOffer()" class="offer-form">
-        <div class="candidate-info">
-          <p><strong>Candidate:</strong> {{ candidateName }}</p>
-          <p><strong>Position:</strong> {{ jobTitle }}</p>
-        </div>
-
-        <div class="form-group">
-          <label>Position Title *</label>
-          <input type="text" [(ngModel)]="offerForm.positionTitle" name="positionTitle" required>
-        </div>
-
-        <div class="form-group">
-          <label>Annual Salary (USD) *</label>
-          <input type="number" [(ngModel)]="offerForm.salary" name="salary" required min="0" step="1000">
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>Start Date *</label>
-            <input type="date" [(ngModel)]="offerForm.startDate" name="startDate" required>
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center space-x-3">
+          <div [class]="isDarkMode 
+            ? 'w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center' 
+            : 'w-12 h-12 bg-gradient-to-r from-orange-500 to-pink-500 rounded-xl flex items-center justify-center'">
+            <i class="fas fa-file-contract text-white text-xl"></i>
           </div>
-          <div class="form-group">
-            <label>Offer Expires *</label>
-            <input type="date" [(ngModel)]="offerForm.offerExpiryDate" name="offerExpiryDate" required>
+          <h3 [class]="isDarkMode 
+            ? 'text-3xl font-bold text-white' 
+            : 'text-3xl font-bold text-orange-900'">Create Job Offer</h3>
+        </div>
+        <button (click)="closeCreateForm()" 
+          [class]="isDarkMode 
+            ? 'text-gray-400 hover:text-white text-2xl w-10 h-10 rounded-full hover:bg-gray-700 flex items-center justify-center transition-all' 
+            : 'text-gray-500 hover:text-gray-700 text-2xl w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-all'">
+          &times;
+        </button>
+      </div>
+
+      <form (ngSubmit)="createOffer()" class="space-y-6">
+        <!-- Candidate Info -->
+        <div [class]="isDarkMode 
+          ? 'p-4 bg-gray-700 rounded-xl border-2 border-gray-600' 
+          : 'p-4 bg-blue-50 rounded-xl border-2 border-blue-200'">
+          <p class="mb-2"><strong>👤 Candidate:</strong> {{ candidateName }}</p>
+          <p><strong>💼 Position:</strong> {{ jobTitle }}</p>
+        </div>
+
+        <!-- Position Title -->
+        <div class="relative">
+          <label [class]="isDarkMode 
+            ? 'block text-sm font-semibold text-gray-300 mb-3 flex items-center' 
+            : 'block text-sm font-semibold text-gray-700 mb-3 flex items-center'">
+            <i class="fas fa-tag mr-2 text-blue-500"></i>
+            Position Title *
+          </label>
+          <input type="text" [(ngModel)]="offerForm.positionTitle" name="positionTitle" required placeholder="e.g. Senior Software Engineer"
+            [class]="isDarkMode 
+              ? 'w-full p-4 bg-gray-700 border-2 border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all' 
+              : 'w-full p-4 bg-white border-2 border-orange-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all'">
+        </div>
+
+        <!-- Annual Salary -->
+        <div class="relative">
+          <label [class]="isDarkMode 
+            ? 'block text-sm font-semibold text-gray-300 mb-3 flex items-center' 
+            : 'block text-sm font-semibold text-gray-700 mb-3 flex items-center'">
+            <i class="fas fa-money-bill-wave mr-2 text-green-500"></i>
+            Annual Salary (USD) *
+          </label>
+          <input type="number" [(ngModel)]="offerForm.salary" name="salary" required min="0" step="1000" placeholder="e.g. 80000"
+            [class]="isDarkMode 
+              ? 'w-full p-4 bg-gray-700 border-2 border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all' 
+              : 'w-full p-4 bg-white border-2 border-orange-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all'">
+        </div>
+
+        <!-- Start Date & Expiry Date -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="relative">
+            <label [class]="isDarkMode 
+              ? 'block text-sm font-semibold text-gray-300 mb-3 flex items-center' 
+              : 'block text-sm font-semibold text-gray-700 mb-3 flex items-center'">
+              <i class="fas fa-calendar-alt mr-2 text-orange-500"></i>
+              Start Date *
+            </label>
+            <input #startDateInput type="date" [(ngModel)]="offerForm.startDate" name="startDate" required (click)="startDateInput.showPicker()"
+              [class]="isDarkMode 
+                ? 'w-full p-4 bg-gray-700 border-2 border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all cursor-pointer' 
+                : 'w-full p-4 bg-white border-2 border-orange-300 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all cursor-pointer'">
+          </div>
+          <div class="relative">
+            <label [class]="isDarkMode 
+              ? 'block text-sm font-semibold text-gray-300 mb-3 flex items-center' 
+              : 'block text-sm font-semibold text-gray-700 mb-3 flex items-center'">
+              <i class="fas fa-calendar-times mr-2 text-red-500"></i>
+              Offer Expires *
+            </label>
+            <input #expiryDateInput type="date" [(ngModel)]="offerForm.offerExpiryDate" name="offerExpiryDate" required (click)="expiryDateInput.showPicker()"
+              [class]="isDarkMode 
+                ? 'w-full p-4 bg-gray-700 border-2 border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all cursor-pointer' 
+                : 'w-full p-4 bg-white border-2 border-orange-300 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all cursor-pointer'">
           </div>
         </div>
 
-        <div class="form-group">
-          <label>Benefits Package</label>
+        <!-- Benefits Package -->
+        <div class="relative">
+          <label [class]="isDarkMode 
+            ? 'block text-sm font-semibold text-gray-300 mb-3 flex items-center' 
+            : 'block text-sm font-semibold text-gray-700 mb-3 flex items-center'">
+            <i class="fas fa-gift mr-2 text-purple-500"></i>
+            Benefits Package
+          </label>
           <textarea [(ngModel)]="offerForm.benefits" name="benefits" rows="3" 
-                    placeholder="Health insurance, 401k, vacation days, etc."></textarea>
+                    placeholder="e.g. Health insurance, 401k matching, 20 days PTO, remote work options..."
+                    [class]="isDarkMode 
+                      ? 'w-full p-4 bg-gray-700 border-2 border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all resize-none' 
+                      : 'w-full p-4 bg-white border-2 border-orange-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all resize-none'"></textarea>
         </div>
 
-        <div class="form-group">
-          <label>Terms & Conditions</label>
+        <!-- Terms & Conditions -->
+        <div class="relative">
+          <label [class]="isDarkMode 
+            ? 'block text-sm font-semibold text-gray-300 mb-3 flex items-center' 
+            : 'block text-sm font-semibold text-gray-700 mb-3 flex items-center'">
+            <i class="fas fa-file-alt mr-2 text-indigo-500"></i>
+            Terms & Conditions
+          </label>
           <textarea [(ngModel)]="offerForm.terms" name="terms" rows="4" 
-                    placeholder="Employment terms, conditions, and other details..."></textarea>
+                    placeholder="e.g. Full-time employment, 90-day probation period, standard company policies apply..."
+                    [class]="isDarkMode 
+                      ? 'w-full p-4 bg-gray-700 border-2 border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all resize-none' 
+                      : 'w-full p-4 bg-white border-2 border-orange-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all resize-none'"></textarea>
         </div>
 
-        <div class="modal-actions">
-          <button type="button" (click)="closeCreateForm()" class="btn btn-secondary">Cancel</button>
-          <button type="submit" [disabled]="loading" class="btn btn-primary">
-            {{ loading ? 'Creating...' : 'Create Offer' }}
+        <!-- Action Buttons -->
+        <div class="flex justify-end space-x-4 pt-6 border-t" [class]="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
+          <button type="button" (click)="closeCreateForm()" 
+            [class]="isDarkMode 
+              ? 'px-8 py-4 bg-gray-600 hover:bg-gray-700 text-white rounded-xl font-semibold transition-all duration-200 flex items-center space-x-2' 
+              : 'px-8 py-4 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl font-semibold transition-all duration-200 flex items-center space-x-2'">
+            <i class="fas fa-times"></i>
+            <span>Cancel</span>
+          </button>
+          <button type="submit" [disabled]="loading"
+            class="px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-bold transition-all duration-300 flex items-center space-x-2 shadow-xl hover:shadow-2xl transform hover:scale-105 hover:-translate-y-1">
+            <i [class]="loading ? 'fas fa-spinner fa-spin text-lg' : 'fas fa-paper-plane text-lg'"></i>
+            <span>{{ loading ? 'Creating...' : 'Create Offer' }}</span>
           </button>
         </div>
       </form>

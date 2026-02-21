@@ -1,23 +1,18 @@
-import { Component, Input, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DatePicker } from 'primeng/datepicker';
 import { FormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { Interview, InterviewService, InterviewRequest } from '../../services/interview.service';
 import { UserService } from '../../services/user.service';
 import { ThemeService } from '../../services/theme.service';
 
-
-declare var Datepicker: any;
-
 @Component({
   selector: 'app-interview-management',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePicker],
+  imports: [CommonModule, FormsModule],
   templateUrl: './interview-management.component.html',
   styleUrl: './interview-management.component.css'
 })
-export class InterviewManagementComponent implements OnInit, AfterViewInit, OnDestroy {
+export class InterviewManagementComponent implements OnInit {
   @Input() applicationId!: number;
   
   interviews: Interview[] = [];
@@ -26,8 +21,6 @@ export class InterviewManagementComponent implements OnInit, AfterViewInit, OnDe
   showFeedbackModal = false;
   selectedInterview: Interview | null = null;
   isDarkMode = false;
-  rangeDates: Date[] = [];
-  minDate: Date = new Date();
   
   scheduleForm: InterviewRequest = {
     applicationId: 0,
@@ -55,13 +48,7 @@ export class InterviewManagementComponent implements OnInit, AfterViewInit, OnDe
     this.setCurrentUserAsInterviewer();
   }
 
-  ngOnDestroy() {
-    // Cleanup if needed
-  }
 
-  ngAfterViewInit() {
-    // PrimeNG DatePicker handles initialization
-  }
 
   loadInterviews() {
     this.interviewService.getInterviewsByApplication(this.applicationId).subscribe({
@@ -103,12 +90,10 @@ export class InterviewManagementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   scheduleInterview() {
-    if (!this.scheduleForm.interviewerId || !this.rangeDates || this.rangeDates.length === 0) {
+    if (!this.scheduleForm.interviewerId || !this.scheduleForm.scheduledAt) {
       this.error = 'Please fill all required fields';
       return;
     }
-
-    this.scheduleForm.scheduledAt = this.rangeDates[0].toISOString();
 
     this.loading = true;
     this.interviewService.scheduleInterview(this.scheduleForm).subscribe({
@@ -181,7 +166,6 @@ export class InterviewManagementComponent implements OnInit, AfterViewInit, OnDe
       interviewType: 'VIDEO',
       meetingLink: ''
     };
-    this.rangeDates = [];
     this.setCurrentUserAsInterviewer();
     this.error = '';
   }
@@ -204,70 +188,5 @@ export class InterviewManagementComponent implements OnInit, AfterViewInit, OnDe
     return now.toISOString().slice(0, 16);
   }
 
-  focusDateInput() {
-    const dateInput = document.querySelector('input[type="datetime-local"]') as HTMLInputElement;
-    if (dateInput) {
-      dateInput.focus();
-      dateInput.showPicker?.();
-    }
-  }
 
-  onDateTimeInput(event: any) {
-    const value = event.target.value;
-    const parsedDate = this.parseCustomDateFormat(value);
-    if (parsedDate) {
-      this.scheduleForm.scheduledAt = parsedDate;
-    }
-  }
-
-  onDateFocus() {
-    // Add focus styling or behavior if needed
-  }
-
-  onDateBlur() {
-    // Validate the selected date/time
-    if (this.scheduleForm.scheduledAt) {
-      const selectedDate = new Date(this.scheduleForm.scheduledAt);
-      const now = new Date();
-      
-      if (selectedDate <= now) {
-        this.error = 'Please select a future date and time for the interview';
-      } else {
-        this.error = '';
-      }
-    }
-  }
-
-  formatSelectedDateTime(): string {
-    if (this.rangeDates && this.rangeDates.length > 0) {
-      return this.rangeDates[0].toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-    }
-    return '';
-  }
-
-  private parseCustomDateFormat(input: string): string | null {
-    // Handle formats like "19-10-2025" or "19-10-2025 14:30"
-    const dateTimeRegex = /^(\d{1,2})-(\d{1,2})-(\d{4})(?:\s+(\d{1,2}):(\d{2}))?$/;
-    const match = input.match(dateTimeRegex);
-    
-    if (match) {
-      const [, day, month, year, hour = '09', minute = '00'] = match;
-      const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day), parseInt(hour), parseInt(minute));
-      
-      if (!isNaN(date.getTime())) {
-        // Convert to datetime-local format
-        const isoString = date.toISOString();
-        return isoString.slice(0, 16); // YYYY-MM-DDTHH:MM
-      }
-    }
-    
-    return null;
-  }
 }

@@ -57,9 +57,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 var authToken = new UsernamePasswordAuthenticationToken(email, null, authorities);
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-                logger.debug("Authentication successful for user with role: {}", user.get().getRole());
+                logger.debug("Authentication successful for user: {} with role: {}", email, user.get().getRole());
             } else {
-                logger.warn("Token validation failed");
+                logger.warn("Token validation failed for user: {} - User present: {}", email, user.isPresent());
+                if (user.isPresent()) {
+                    logger.warn("Token validation result: {}", jwtUtil.validateToken(token, email));
+                }
             }
         }
 

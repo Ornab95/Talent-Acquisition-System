@@ -48,7 +48,8 @@ public class AuthService {
         String token = jwtUtil.generateToken(user.getEmail());
         String profilePictureUrl = user.getProfilePictureFileName() != null ? 
             "/api/files/profile-pictures/" + user.getProfilePictureFileName() : null;
-        return new AuthResponse(token, user.getId(), user.getEmail(), user.getFirstName(), 
+        String successMessage = "Successfully logged in " + user.getFirstName() + " " + user.getLastName();
+        return new AuthResponse(successMessage, token, user.getId(), user.getEmail(), user.getFirstName(), 
                                user.getLastName(), user.getRole().toString(), user.getDepartment(), profilePictureUrl);
     }
     

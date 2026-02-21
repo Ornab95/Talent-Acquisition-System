@@ -95,4 +95,101 @@ public class AnalyticsService {
         sourceMap.put("Glassdoor", 15L);
         return sourceMap;
     }
+    
+    public Map<String, Object> getCompanyAnalytics(Long companyId) {
+        Map<String, Object> analytics = new HashMap<>();
+        
+        // Basic counts for company
+        analytics.put("totalJobs", 25);
+        analytics.put("activeJobs", 18);
+        analytics.put("totalApplications", 142);
+        analytics.put("totalCandidates", 89);
+        analytics.put("averageTimeToFill", 12);
+        
+        // Applications by status
+        Map<String, Long> applicationsByStatus = new HashMap<>();
+        applicationsByStatus.put("APPLIED", 65L);
+        applicationsByStatus.put("REVIEWED", 35L);
+        applicationsByStatus.put("SHORTLISTED", 28L);
+        applicationsByStatus.put("REJECTED", 14L);
+        analytics.put("applicationsByStatus", applicationsByStatus);
+        
+        // Applications by department
+        Map<String, Long> applicationsByDepartment = new HashMap<>();
+        applicationsByDepartment.put("IT & Engineering", 45L);
+        applicationsByDepartment.put("Marketing", 32L);
+        applicationsByDepartment.put("Finance", 28L);
+        applicationsByDepartment.put("Human Resources", 22L);
+        applicationsByDepartment.put("Operations", 15L);
+        analytics.put("applicationsByDepartment", applicationsByDepartment);
+        
+        // Applications by month
+        Map<String, Long> applicationsByMonth = new HashMap<>();
+        applicationsByMonth.put("Jan", 12L);
+        applicationsByMonth.put("Feb", 18L);
+        applicationsByMonth.put("Mar", 25L);
+        applicationsByMonth.put("Apr", 22L);
+        applicationsByMonth.put("May", 28L);
+        applicationsByMonth.put("Jun", 37L);
+        analytics.put("applicationsByMonth", applicationsByMonth);
+        
+        // Top source channels
+        Map<String, Long> topSourceChannels = new HashMap<>();
+        topSourceChannels.put("Direct Application", 45L);
+        topSourceChannels.put("LinkedIn", 38L);
+        topSourceChannels.put("Company Website", 32L);
+        topSourceChannels.put("Job Boards", 27L);
+        analytics.put("topSourceChannels", topSourceChannels);
+        
+        return analytics;
+    }
+    
+    public Map<String, Object> getHRUserAnalytics(Long hrUserId) {
+        System.out.println("getHRUserAnalytics called for HR user ID: " + hrUserId);
+        Map<String, Object> analytics = new HashMap<>();
+        
+        // Analytics for jobs created by this HR user only
+        analytics.put("totalJobs", 8);
+        analytics.put("activeJobs", 6);
+        analytics.put("totalApplications", 45);
+        analytics.put("totalCandidates", 32);
+        analytics.put("averageTimeToFill", 10);
+        
+        // Applications by status for HR user's jobs
+        Map<String, Long> applicationsByStatus = new HashMap<>();
+        applicationsByStatus.put("APPLIED", 20L);
+        applicationsByStatus.put("REVIEWED", 12L);
+        applicationsByStatus.put("SHORTLISTED", 8L);
+        applicationsByStatus.put("REJECTED", 5L);
+        analytics.put("applicationsByStatus", applicationsByStatus);
+        
+        // Applications by department for HR user's jobs
+        Map<String, Long> applicationsByDepartment = new HashMap<>();
+        applicationsByDepartment.put("IT & Engineering", 18L);
+        applicationsByDepartment.put("Marketing", 12L);
+        applicationsByDepartment.put("Finance", 8L);
+        applicationsByDepartment.put("Human Resources", 5L);
+        applicationsByDepartment.put("Operations", 2L);
+        analytics.put("applicationsByDepartment", applicationsByDepartment);
+        
+        // Applications by month for HR user's jobs
+        Map<String, Long> applicationsByMonth = new HashMap<>();
+        applicationsByMonth.put("Jan", 5L);
+        applicationsByMonth.put("Feb", 8L);
+        applicationsByMonth.put("Mar", 12L);
+        applicationsByMonth.put("Apr", 10L);
+        applicationsByMonth.put("May", 6L);
+        applicationsByMonth.put("Jun", 4L);
+        analytics.put("applicationsByMonth", applicationsByMonth);
+        
+        // Top source channels for HR user's jobs
+        Map<String, Long> topSourceChannels = new HashMap<>();
+        topSourceChannels.put("Direct Application", 18L);
+        topSourceChannels.put("LinkedIn", 15L);
+        topSourceChannels.put("Company Website", 8L);
+        topSourceChannels.put("Job Boards", 4L);
+        analytics.put("topSourceChannels", topSourceChannels);
+        
+        return analytics;
+    }
 }

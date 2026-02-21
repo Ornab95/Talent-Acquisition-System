@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -29,10 +30,10 @@ public class AuthController {
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             logger.warn("Login failed: {}", e.getMessage());
-            return ResponseEntity.status(401).body("Invalid credentials");
+            return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
         } catch (Exception e) {
             logger.error("Server error during login", e);
-            return ResponseEntity.status(500).body("Server error");
+            return ResponseEntity.status(500).body(Map.of("error", "Server error"));
         }
     }
     
@@ -40,15 +41,15 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody User user) {
         try {
             logger.info("Registration request received for email: {}", user.getEmail());
-            User savedUser = authService.register(user);
-            savedUser.setPassword(null); // Don't return password
-            return ResponseEntity.ok(savedUser);
+            User registeredUser = authService.register(user);
+            String successMessage = "Registration successful " + registeredUser.getFirstName() + " " + registeredUser.getLastName();
+            return ResponseEntity.ok(Map.of("message", successMessage));
         } catch (RuntimeException e) {
             logger.warn("Registration failed: {}", e.getMessage());
-            return ResponseEntity.status(400).body("Registration failed");
+            return ResponseEntity.status(400).body(Map.of("error", "Registration failed: " + e.getMessage()));
         } catch (Exception e) {
             logger.error("Server error during registration", e);
-            return ResponseEntity.status(500).body("Server error");
+            return ResponseEntity.status(500).body(Map.of("error", "Server error"));
         }
     }
 }

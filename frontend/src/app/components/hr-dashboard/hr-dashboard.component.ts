@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterOutlet } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -15,6 +15,7 @@ import { InterviewManagementComponent } from '../interview-management/interview-
 import { ApplicationPipelineComponent } from '../application-pipeline/application-pipeline.component';
 import { AnalyticsDashboardComponent } from '../analytics-dashboard/analytics-dashboard.component';
 import { OfferManagementComponent } from '../offer-management/offer-management.component';
+
 
 @Component({
   selector: 'app-hr-dashboard',
@@ -36,7 +37,6 @@ export class HrDashboardComponent implements OnInit {
   selectedJobTitle = '';
   selectedJobId: number = 0;
   showPipeline = false;
-  showAnalytics = false;
   showCoverLetter = false;
   selectedApplication: any = null;
   showEmailModal = false;
@@ -68,7 +68,8 @@ export class HrDashboardComponent implements OnInit {
     private applicationService: ApplicationService,
     private snackBar: MatSnackBar,
     private http: HttpClient,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private cdr: ChangeDetectorRef
   ) {
     this.themeService.isDarkMode$.subscribe(isDark => {
       this.isDarkMode = isDark;
@@ -90,12 +91,15 @@ export class HrDashboardComponent implements OnInit {
         case 'jobs':
           this.currentView = 'jobs';
           break;
+        case 'add-job':
+          this.currentView = 'jobs';
+          this.openJobForm();
+          break;
         case 'applications':
           this.currentView = 'applications';
           break;
         case 'analytics':
           this.currentView = 'analytics';
-          this.showAnalytics = true;
           break;
         case 'interviews':
           this.currentView = 'interviews';
@@ -137,6 +141,10 @@ export class HrDashboardComponent implements OnInit {
     this.showJobForm = true;
     this.editingJob = null;
     this.resetForm();
+  }
+
+  navigateToAddJob() {
+    this.router.navigate(['/hr-dashboard/add-job']);
   }
 
   editJob(job: any) {
@@ -221,16 +229,19 @@ export class HrDashboardComponent implements OnInit {
   }
 
   viewApplications(job: any) {
+    this.selectedJobTitle = job.title;
+    this.selectedJobId = job.id;
+    this.currentView = 'applications';
+    this.showPipeline = false;
+    
     this.applicationService.getApplicationsByJob(job.id).subscribe({
       next: (applications) => {
         this.applications = applications;
-        this.selectedJobTitle = job.title;
-        this.selectedJobId = job.id;
-        this.currentView = 'applications';
-        this.showPipeline = false;
-        this.router.navigate(['/hr-dashboard/applications']);
       },
-      error: (error) => console.error('Error loading applications:', error)
+      error: (error) => {
+        console.error('Error loading applications:', error);
+        this.applications = [];
+      }
     });
   }
 
@@ -238,12 +249,25 @@ export class HrDashboardComponent implements OnInit {
     this.showPipeline = !this.showPipeline;
   }
 
-  toggleAnalytics() {
-    this.showAnalytics = !this.showAnalytics;
-    if (this.showAnalytics) {
-      this.router.navigate(['/hr-dashboard/analytics']);
-    } else {
-      this.router.navigate(['/hr-dashboard/jobs']);
+  switchView(view: string) {
+    this.currentView = view;
+    switch (view) {
+      case 'jobs':
+        this.router.navigate(['/hr-dashboard/jobs'], { replaceUrl: true });
+        break;
+      case 'analytics':
+        this.router.navigate(['/hr-dashboard/analytics'], { replaceUrl: true });
+        break;
+      case 'applications':
+        this.router.navigate(['/hr-dashboard/applications'], { replaceUrl: true });
+        break;
+      case 'interviews':
+        this.router.navigate(['/hr-dashboard/interviews'], { replaceUrl: true });
+        break;
+      case 'offers':
+        this.router.navigate(['/hr-dashboard/offers'], { replaceUrl: true });
+        break;
+
     }
   }
 
@@ -384,10 +408,27 @@ export class HrDashboardComponent implements OnInit {
     });
   }
 
-  downloadResume(filename: string) {
+  downloadResume(applicationId: number) {
     const token = this.authService.getToken();
-    const url = `http://localhost:8080/api/files/resume/${filename}?Authorization=Bearer ${token}`;
-    window.open(url, '_blank');
+    const url = `http://localhost:8080/api/files/resume/${applicationId}`;
+    
+    fetch(url, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(response => response.blob())
+    .then(blob => {
+      const blobUrl = window.URL.createObjectURL(blob);
+      window.open(blobUrl, '_blank');
+    })
+    .catch(error => {
+      console.error('Error downloading resume:', error);
+      this.snackBar.open('Failed to open resume', 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+    });
   }
 
   logout() {

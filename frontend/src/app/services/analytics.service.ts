@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 export interface AnalyticsData {
   totalJobs: number;
@@ -18,9 +19,12 @@ export interface AnalyticsData {
   providedIn: 'root'
 })
 export class AnalyticsService {
-  private apiUrl = 'http://localhost:8080/api/admin';
+  private apiUrl = 'http://localhost:8080/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
@@ -31,6 +35,11 @@ export class AnalyticsService {
   }
 
   getAnalytics(): Observable<AnalyticsData> {
-    return this.http.get<AnalyticsData>(`${this.apiUrl}/analytics`, { headers: this.getHeaders() });
+    const currentUrl = window.location.pathname;
+    const endpoint = (currentUrl.includes('admin-analytics') || currentUrl.includes('system-admin-dashboard'))
+      ? `${this.apiUrl}/admin/analytics`
+      : `${this.apiUrl}/hr/analytics`;
+    
+    return this.http.get<AnalyticsData>(endpoint, { headers: this.getHeaders() });
   }
 }
